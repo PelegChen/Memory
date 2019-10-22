@@ -1,0 +1,174 @@
+@font-face {
+	font-family: 'Noot';
+	font-weight: 400;
+	font-style: normal;
+	src: url('GUIimage/noot.woff') format('woff');
+}
+
+body {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	display: table;
+	width: 100%;
+	background-position: center top;
+	background-size: 100%;
+	//background-repeat: no-repeat;
+}
+
+.button {
+	background-color: #4CAF50;
+	/* Green */
+	border: 30px;
+	color: white;
+	margin: 00px 10px;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	font-family: "noot", Times, serif;
+	color: white;
+}
+
+.button:hover {
+	background-color: #4C5F50;
+}
+
+#gameConsole {
+	background-color: #875f2e;
+	background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 56%, #2c2c2c 85%, #2b0c0c 93%, #131313 100%);
+	position: fixed;
+	top: 0.5%;
+	left: 10%;
+	right: 10%;
+	border: solid black 2px;
+	border-radius: 15px;
+	font-family: "noot", Times, serif;
+	color: white;
+	font-size: 200%;
+	padding: 5px 5px;
+}
+
+#wheel_hover {}
+
+#wrapper01 {
+	background-color: black;
+	position: fixed;
+	top: 10%;
+	left: 11%;
+	bottom: : 10%;
+	border: ridge black 1px;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px rgba(0, 30, 0, 0.5);
+	max-width: 90%;
+	max-height: 90%;
+}
+
+.pressobjclass {}
+
+.pressobjclass2 {}
+
+.cardWrappStyle {
+	float: left;
+	perspective: 600px;
+	position: fixed // overflow: hidden;
+}
+
+.flip-container {
+	width: 145px;
+	height: 110px;
+	/*
+width: 145px;
+height: 110px;
+*/
+	border: solid #4d4d4d 2px;
+	border-radius: 6px;
+	margin: 1px;
+	transform-style: preserve-3d;
+	transition: 0.5s;
+	box-shadow: 5px 5px 5px rgba(0, 30, 0, 0.3);
+	z-index: 1;
+}
+
+.front,
+.back {
+	width: 100.5%;
+	height: 100%;
+	position: absolute;
+	border-radius: inherit;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.front {
+	opacity: 0.99;
+	background-color: gold;
+	transform: rotateY(0deg);
+	z-index: 1;
+	overflow: hidden //transform-style: preserve-2d;
+}
+
+.back {
+	background-image: filter: brightness(0.8);
+	transform: rotateY(180deg);
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 200%;
+}
+
+.flipped {
+	transform: rotateY(180deg);
+}
+
+.flash-button {
+	animation-name: flash;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	margin: 10px 10px;
+	//Firefox 1+
+	-webkit-animation-name: flash;
+	-webkit-animation-duration: 1.3s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	//Safari 3-4
+	-moz-animation-name: flash;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+}
+
+@keyframes flash {
+	0% {
+		opacity: 1.0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1.0;
+	}
+}
+
+.blink_me {
+	animation: blinker 0.7s linear infinite;
+	color: yellow;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0.2;
+	}
+}
+
+::selection {
+	background: rgba(201, 76, 76, 0.001);
+	/* WebKit/Blink Browsers */
+}

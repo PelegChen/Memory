@@ -321,6 +321,13 @@ function cardPictureBuilder() {
     }
 }
 function HeaderBuilder() {
+    function settingsConsoleButtonPress() {
+        if (G.consoleIsopen == true) {
+            DeleteConsole()
+        } else {
+            ConsoleBoard();
+        }
+    }
 
     // BUILDING THE TEXT OF HEADER
     G.HeaderText = ""
@@ -409,7 +416,58 @@ function HeaderBuilder() {
 
 
 function turnCard(cardnum) {
-    // אם המצב שווה ללא נכון, אז מבצעים את הפעילויות האלו
+    function wonTurn() {
+        G.wins++
+
+        G.card[G.statuS.card1].cardWone = true;
+        G.card[G.statuS.card2].cardWone = true;
+        G.statuS.card1 = 0;
+        G.statuS.card2 = 0;
+        G.statuS.turn = false;
+        G.statuS.endingTurn = false;
+
+        if (G.wins == (G.NumOfcard / 2)) {
+            ConsoleBoard(true)
+        }
+
+        if (G.soundIson == true) {
+            window.setTimeout(G.woncardSound.play(), 200);
+        }
+    }
+    function endTurn() {
+        //conWrite ("endturnd starts");
+        if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
+        } else {
+            G.card[G.statuS.card1].Cobject.classList.remove("flipped");
+            G.card[G.statuS.card2].Cobject.classList.remove("flipped");;
+            G.statuS.card1 = 0;
+            G.statuS.card2 = 0;
+            G.statuS.turn = false;
+            G.statuS.endingTurn = false;
+            //conWrite ("endturnd finished");
+        }
+    }
+    function AddtoFlipCount(cardnumberforaudio) {
+        playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
+        G.NumOflips++;
+        var flipNodeTexT = 0
+        if (G.gamelevel == 2) {
+            G.NumOfRemainigFlips = G.NumOfChalangeFlips -
+                G.NumOflips;
+            flipNodeTexT = G.NumOfRemainigFlips;
+        } else {
+            flipNodeTexT = G.NumOflips
+        }
+        if (G.NumOfRemainigFlips < 1) {
+            G.ChallangeLost = true;
+            ConsoleBoard(false, true)
+        } //loset the game
+
+        //G.HeaderCountObject.innerHTML = flipNodeTexT;
+        flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
+        G.HeaderCountND.innerHTML = flipNodeText;
+
+    }
     if (G.consoleIsopen == true) {
         return
     };
@@ -448,81 +506,13 @@ function turnCard(cardnum) {
     }
     //conWrite ("turncard");
 }
-function AddtoFlipCount(cardnumberforaudio) {
-    playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
-    G.NumOflips++;
-    var flipNodeTexT = 0
-    if (G.gamelevel == 2) {
-        G.NumOfRemainigFlips = G.NumOfChalangeFlips -
-            G.NumOflips;
-        flipNodeTexT = G.NumOfRemainigFlips;
-    } else {
-        flipNodeTexT = G.NumOflips
-    }
-    if (G.NumOfRemainigFlips < 1) {
-        G.ChallangeLost = true;
-        ConsoleBoard(false, true)
-    } //loset the game
-
-    //G.HeaderCountObject.innerHTML = flipNodeTexT;
-    flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
-    G.HeaderCountND.innerHTML = flipNodeText;
-
-}
-function wonTurn() {
-    G.wins++
-
-    G.card[G.statuS.card1].cardWone = true;
-    G.card[G.statuS.card2].cardWone = true;
-    G.statuS.card1 = 0;
-    G.statuS.card2 = 0;
-    G.statuS.turn = false;
-    G.statuS.endingTurn = false;
-
-    if (G.wins == (G.NumOfcard / 2)) {
-        ConsoleBoard(true)
-    }
-
-    if (G.soundIson == true) {
-        window.setTimeout(G.woncardSound.play(), 200);
-    }
-}
-function endTurn() {
-    //conWrite ("endturnd starts");
-    if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
-    } else {
-        G.card[G.statuS.card1].Cobject.classList.remove("flipped");
-        G.card[G.statuS.card2].Cobject.classList.remove("flipped");;
-        G.statuS.card1 = 0;
-        G.statuS.card2 = 0;
-        G.statuS.turn = false;
-        G.statuS.endingTurn = false;
-        //conWrite ("endturnd finished");
-    }
-}
 
 
 
-function settingsConsoleButtonPress() {
-    if (G.consoleIsopen == true) {
-        DeleteConsole()
-    } else {
-        ConsoleBoard();
-    }
-}
-function soundToggle() {
 
-    if (G.soundIson == true) {
-        G.sound_img.src = 'GUIimage/soundOff.png';
-        G.soundIson = false;
-    } else if (G.soundIson == false) {
-        G.sound_img.src = 'GUIimage/soundOn.png';
-        G.soundIson = true;
-    }
-    var bool = G.soundIson
-    localStorage.StorageSoundIsOn = bool.toString()
 
-}
+
+
 function stopWatch() {
     function monospaceHtml(htm) {
         let arr = htm.split('');
@@ -849,10 +839,17 @@ function test () {
 G.developeMode = true;
 return "develope mode: on"
 }
-function GetvaluesfromConfigFile() {
-    //G.developeMode = true;
-    G.NumOfChalangeFlips = 0;
-    G.NumOfChalangeSeconds = 0;
+function soundToggle() {
+
+    if (G.soundIson == true) {
+        G.sound_img.src = 'GUIimage/soundOff.png';
+        G.soundIson = false;
+    } else if (G.soundIson == false) {
+        G.sound_img.src = 'GUIimage/soundOn.png';
+        G.soundIson = true;
+    }
+    var bool = G.soundIson
+    localStorage.StorageSoundIsOn = bool.toString()
 
 }
 document.onkeydown = function(evt) {

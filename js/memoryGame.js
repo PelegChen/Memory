@@ -1,57 +1,53 @@
 
-var global_Data = {
-    CardsTorandomize: [1, 2, 3],
-    cardFromFile: [1, 2, 3],
-}
-
-var modeAndLevel = gameModeStatus();
-/*default variables*/
-global_Data.window_width = window.innerWidth;
-global_Data.window_height = window.innerHeight;
+var G = G || {} /*global*/
+G.CardsTorandomize = [1, 2, 3];
+G.cardFromFile = [1, 2, 3];
+G.window_width = window.innerWidth;
+G.window_height = window.innerHeight;
 setCardsize()
-global_Data.audiofolderPath = "CardSound/"
-global_Data.developeMode = false // do you have to win games or you can press esc to win them
-global_Data.gameTrophy = modeAndLevel[0]; //witch type of game the player can play if he wants to   (A B C) + D
-global_Data.gamelevel = modeAndLevel[1]; //witch type of level the player chooses to play (1 2 3)
-global_Data.wasTheGamewone = false
-global_Data.NumOfChalangeFlips = 99; //number of flips do the flip challange
-global_Data.NumOfChalangeSeconds = 100;
+G.audiofolderPath = "CardSound/";
+G.developeMode = false // do you have to win games or you can press esc to win them
+G.gameTrophy = gameModeStatus()[0]; //witch type of game the player can play if he wants to   (A B C) + D
+G.gamelevel = gameModeStatus()[1]; //witch type of level the player chooses to play (1 2 3)
+G.wasTheGamewone = false;
+G.NumOfChalangeFlips = 99; //number of flips do the flip challange
+G.NumOfChalangeSeconds = 100;
 //number of seconds to do the time challange
-global_Data.NumOfRemainigFlips = global_Data.NumOfChalangeFlips;
-global_Data.ChallangeLost = false;
+G.NumOfRemainigFlips = G.NumOfChalangeFlips;
+G.ChallangeLost = false;
 
 if (localStorage.StorageSoundIsOn == "false") {
-    global_Data.soundIson = false
+    G.soundIson = false
 } else {
-    global_Data.soundIson = true
+    G.soundIson = true
 }
 
 
-global_Data.cutedImage = "Defaultimage/frontOfcards.png";
-global_Data.back_image = "Defaultimage/back_Groundimage.jpg";
-global_Data.stopWatchTIME = new Date();
-global_Data.numColsToCut = 6;
-global_Data.ThegameHeadline = "משחק הזיכרון"
+G.cutedImage = "Defaultimage/frontOfcards.png";
+G.back_image = "Defaultimage/back_Groundimage.jpg";
+G.stopWatchTIME = new Date();
+G.numColsToCut = 6;
+G.ThegameHeadline = "משחק הזיכרון"
 
 /*changing the header*/
-global_Data.consoleIsopen = false; // if the console is open
-global_Data.NumOflips = 0;
-global_Data.errorString = "Error no data"
-global_Data.numRowsToCut = 4;
+G.consoleIsopen = false; // if the console is open
+G.NumOflips = 0;
+G.errorString = "Error no data"
+G.numRowsToCut = 4;
 /*
-global_Data.cardWidth = "160px";
-global_Data.cardHeight = "110px";
-global_Data.window_width = window.innerWidth;
-global_Data.window_height = window.innerHeight;
+G.cardWidth = "160px";
+G.cardHeight = "110px";
+G.window_width = window.innerWidth;
+G.window_height = window.innerHeight;
 
-global_Data.cardWidth = "160px";
-global_Data.cardHeight = window.innerHeight/5 + "px";*/
-global_Data.cardFromFile.lenth = 100;
+G.cardWidth = "160px";
+G.cardHeight = window.innerHeight/5 + "px";*/
+G.cardFromFile.lenth = 100;
 
-global_Data.wins = 0;
-global_Data.woncardSound = new Audio('Sounds/Woncardsound.mp3');
-global_Data.wonboardSound = new Audio('Sounds/Victory.mp3');
-global_Data.popboardSound = new Audio('Sounds/BubblePop.mp3');
+G.wins = 0;
+G.woncardSound = new Audio('Sounds/Woncardsound.mp3');
+G.wonboardSound = new Audio('Sounds/Victory.mp3');
+G.popboardSound = new Audio('Sounds/BubblePop.mp3');
 
 function monospaceHtml(htm) {
     let arr = htm.split('');
@@ -67,21 +63,21 @@ function monospaceHtml(htm) {
     }
     return finString + '</tr></table>'
 }
-var timeoutId = new Object();
-var NumOfcard = 24;
+G.timeoutId = new Object();
+G.NumOfcard = 24;
 var card = [];
 
 
-for (i = 1; i < (NumOfcard / 2) + 2; i++) {
-    global_Data.cardFromFile[i] = {
+for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
+    G.cardFromFile[i] = {
         "valueOfcard": i,
         "Apart": "a",
         "Apart": "b ",
         "cardWone": false
     };
 }
-for (i = 1; i < (NumOfcard) + 5; i++) {
-    global_Data.CardsTorandomize[i] = {
+for (i = 1; i < (G.NumOfcard) + 5; i++) {
+    G.CardsTorandomize[i] = {
         "valueOfcard": i,
         "color": "white",
         "cardBack": "InTheCard",
@@ -92,8 +88,8 @@ for (i = 1; i < (NumOfcard) + 5; i++) {
 unResize = function() {
     var viewport = window.visualViewport;
 
-    //  alert (global_Data.window_width + "  X " + global_Data.window_height + " VP " + Math.round(viewport.height));
-    //window.resizeTo(global_Data.window_width,global_Data.window_height)
+    //  alert (G.window_width + "  X " + G.window_height + " VP " + Math.round(viewport.height));
+    //window.resizeTo(G.window_width,G.window_height)
 }
 
 window.onresize = unResize;
@@ -101,41 +97,41 @@ window.onresize = unResize;
 
 buildCards()
 for (i = 1; i < 10; i++) {
-    global_Data.cardFromFile[i].Apart = "Card0" + i + "A";
-    global_Data.cardFromFile[i].Bpart = "Card0" + i + "B";
+    G.cardFromFile[i].Apart = "Card0" + i + "A";
+    G.cardFromFile[i].Bpart = "Card0" + i + "B";
 }
 for (i = 10; i < 13; i++) {
-    global_Data.cardFromFile[i].Apart = "Card" + i + "A";
-    global_Data.cardFromFile[i].Bpart = "Card" + i + "B";
+    G.cardFromFile[i].Apart = "Card" + i + "A";
+    G.cardFromFile[i].Bpart = "Card" + i + "B";
 }
-for (i = 1; i <= (NumOfcard); i++) {
-    if (i <= (NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
-        global_Data.CardsTorandomize[i].valueOfcard = global_Data.cardFromFile[i].valueOfcard;
-        global_Data.CardsTorandomize[i].InTheCard = global_Data.cardFromFile[i].Apart;
+for (i = 1; i <= (G.NumOfcard); i++) {
+    if (i <= (G.NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
+        G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i].valueOfcard;
+        G.CardsTorandomize[i].InTheCard = G.cardFromFile[i].Apart;
     } else {
-        global_Data.CardsTorandomize[i].valueOfcard = global_Data.cardFromFile[i - (NumOfcard / 2)].valueOfcard;
-        global_Data.CardsTorandomize[i].InTheCard = global_Data.cardFromFile[i - (NumOfcard / 2)].Bpart;
+        G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i - (G.NumOfcard / 2)].valueOfcard;
+        G.CardsTorandomize[i].InTheCard = G.cardFromFile[i - (G.NumOfcard / 2)].Bpart;
     }
 }
 for (i = 1; i < 27; i++) {
-    card[i].contentOfcard = global_Data.errorString;
-    global_Data.CardsTorandomize[i].writtenTocard = false
+    card[i].contentOfcard = G.errorString;
+    G.CardsTorandomize[i].writtenTocard = false
 }
 var n = 1
-while (n < (NumOfcard + 1)) {
+while (n < (G.NumOfcard + 1)) {
     var i = 0;
     var rnd = Math.floor((Math.random() * 24) + 1);
-    if (global_Data.CardsTorandomize[rnd].writtenTocard == false) {
-        card[n].contentOfcard = global_Data.CardsTorandomize[rnd].InTheCard;
-        global_Data.CardsTorandomize[rnd].writtenTocard = true;
+    if (G.CardsTorandomize[rnd].writtenTocard == false) {
+        card[n].contentOfcard = G.CardsTorandomize[rnd].InTheCard;
+        G.CardsTorandomize[rnd].writtenTocard = true;
         n++;
     }
 }
-for (i = 1; i < NumOfcard + 1; i++) {
+for (i = 1; i < G.NumOfcard + 1; i++) {
     card[i].picture = card[i].contentOfcard
 }
 // הפיכת המשתנה, תוכן הקלף למשתנה ללא האותיות A B
-for (i = 1; i < NumOfcard + 1; i++) {
+for (i = 1; i < G.NumOfcard + 1; i++) {
     var str = card[i].contentOfcard
     var lnth = str.length;
     var strWithoutAB = str.substring(0, lnth - 1)
@@ -152,23 +148,20 @@ statuS.card2 = 0;
 statuS.endingTurn = false;
 var StWrite = new Object();
 StWrite.Pobject = "p";
-
-global_Data.cutedImageSize = function() // this function creats an element with the image that needs to be cut
-{
+G.cutedImageSize = function() {
     var DroneImage = document.createElement("img");
-    DroneImage.src = global_Data.cutedImage; // the whole picture to be cut
+    DroneImage.src = G.cutedImage; // the whole picture to be cut
     DroneImage.style.position = "fixed";
     DroneImage.style.left = "-20000px";
     document.body.appendChild(DroneImage);
     DroneImage.onload = function() {
-        global_Data.SplicedImage_height = DroneImage.height;
-        global_Data.SplicedImage_width = DroneImage.width;
+        G.SplicedImage_height = DroneImage.height;
+        G.SplicedImage_width = DroneImage.width;
     }
 }
-
 function buildCards() {
     var foo = 1;
-    for (i = 0; i < NumOfcard + 40; i++) {
+    for (i = 0; i < G.NumOfcard + 40; i++) {
         card[i] = {
             "number": i,
             "color": "white",
@@ -181,52 +174,52 @@ function buildCards() {
     };
 }
 function cutImageUp() {
-    global_Data.cutedImageSize();
+    G.cutedImageSize();
     var theCSS_height = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("height");
     theCSS_height = parseInt(theCSS_height)
     var theCSS_width = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("width");
-    global_Data.widthOfcard = theCSS_width;
-    global_Data.heightOfcard = theCSS_height;
+    G.widthOfcard = theCSS_width;
+    G.heightOfcard = theCSS_height;
     theCSS_width = parseInt(theCSS_height);
 
     // משום מה אסור למחוק את זה לא מבין למה
     var ImageObject123 = document.createElement("IMG");
-    ImageObject123.src = global_Data.cutedImage;
+    ImageObject123.src = G.cutedImage;
     window.onload = function() {
-        for (i = 1; i < NumOfcard + 1; i++) {
+        for (i = 1; i < G.NumOfcard + 1; i++) {
             var z = i;
             card[i].partiatImage = document.createElement("IMG");
-            card[i].partiatImage.src = global_Data.cutedImage;
+            card[i].partiatImage.src = G.cutedImage;
 
             card[i].Frontcanvas = document.createElement("canvas");
             card[i].Frontcanvas.style.position = "absolute";
             card[i].Cobject.style.zIndex = "1";
             card[i].FrontObject.appendChild(card[i].Frontcanvas);
             var ctx = card[i].Frontcanvas.getContext("2d");
-            global_Data.numRowsToCut = 4;
-            global_Data.numColsToCut = 6;
-            var x_numTocut = Math.ceil(i / global_Data.numColsToCut);
-            var y_numTocut = Math.ceil(i / global_Data.numRowsToCut);
+            G.numRowsToCut = 4;
+            G.numColsToCut = 6;
+            var x_numTocut = Math.ceil(i / G.numColsToCut);
+            var y_numTocut = Math.ceil(i / G.numRowsToCut);
             var overallResize1 = 1;
             var overallResize2 = 1;
-            var stretchX = global_Data.SplicedImage_width; //equals original width
-            var stretchY = global_Data.SplicedImage_height; //equals original height
+            var stretchX = G.SplicedImage_width; //equals original width
+            var stretchY = G.SplicedImage_height; //equals original height
             // אם הגודל של התמונה קטן מהתוצאה הסופית, מגדילים את התמונה
 
             var Magic_number1 = 1.3 //original 1.3
             var Magic_number2 = 1.6 //original 1.5
-            if (global_Data.SplicedImage_width < theCSS_width * global_Data.numColsToCut * Magic_number1) {
-                overallResize1 = ((theCSS_width * global_Data.numColsToCut * Magic_number1) + global_Data.SplicedImage_width) / (global_Data.SplicedImage_width)
+            if (G.SplicedImage_width < theCSS_width * G.numColsToCut * Magic_number1) {
+                overallResize1 = ((theCSS_width * G.numColsToCut * Magic_number1) + G.SplicedImage_width) / (G.SplicedImage_width)
             };
-            stretchX = global_Data.SplicedImage_width * overallResize1;
-            stretchY = global_Data.SplicedImage_height * overallResize1;
+            stretchX = G.SplicedImage_width * overallResize1;
+            stretchY = G.SplicedImage_height * overallResize1;
             // כנל לגבי הגובה של התמונה
-            if (stretchY < theCSS_height * global_Data.numRowsToCut * Magic_number1) {
-                overallResize2 = ((theCSS_height * global_Data.numRowsToCut * Magic_number1) + stretchY) / (stretchY)
+            if (stretchY < theCSS_height * G.numRowsToCut * Magic_number1) {
+                overallResize2 = ((theCSS_height * G.numRowsToCut * Magic_number1) + stretchY) / (stretchY)
             };
-            stretchX = global_Data.SplicedImage_width * overallResize1 * overallResize2;
-            stretchY = global_Data.SplicedImage_height * overallResize1 * overallResize2;
-            var x_Position_of_image = i - ((x_numTocut - 1) * global_Data.numColsToCut);
+            stretchX = G.SplicedImage_width * overallResize1 * overallResize2;
+            stretchY = G.SplicedImage_height * overallResize1 * overallResize2;
+            var x_Position_of_image = i - ((x_numTocut - 1) * G.numColsToCut);
             var y_Position_of_image = x_numTocut - 1;
 
             var drawx = (theCSS_width * -1 * (x_Position_of_image - 1) * Magic_number2);
@@ -248,7 +241,7 @@ function cutImageUp() {
 }
 function turnCard(cardnum) {
     // אם המצב שווה ללא נכון, אז מבצעים את הפעילויות האלו
-    if (global_Data.consoleIsopen == true) {
+    if (G.consoleIsopen == true) {
         return
     };
 
@@ -279,8 +272,8 @@ function turnCard(cardnum) {
             wonTurn()
         } else {
             //conWrite ("endturnd timer");
-            window.clearTimeout(timeoutId);
-            timeoutId = setTimeout(endTurn, 4000);
+            window.clearTimeout(G.timeoutId);
+            G.timeoutId = setTimeout(endTurn, 4000);
         }
         //conWrite (cardnum);
     }
@@ -288,27 +281,27 @@ function turnCard(cardnum) {
 }
 function AddtoFlipCount(cardnumberforaudio) {
     playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
-    global_Data.NumOflips++;
+    G.NumOflips++;
     var flipNodeTexT = 0
-    if (global_Data.gamelevel == 2) {
-        global_Data.NumOfRemainigFlips = global_Data.NumOfChalangeFlips -
-            global_Data.NumOflips;
-        flipNodeTexT = global_Data.NumOfRemainigFlips;
+    if (G.gamelevel == 2) {
+        G.NumOfRemainigFlips = G.NumOfChalangeFlips -
+            G.NumOflips;
+        flipNodeTexT = G.NumOfRemainigFlips;
     } else {
-        flipNodeTexT = global_Data.NumOflips
+        flipNodeTexT = G.NumOflips
     }
-    if (global_Data.NumOfRemainigFlips < 1) {
-        global_Data.ChallangeLost = true;
+    if (G.NumOfRemainigFlips < 1) {
+        G.ChallangeLost = true;
         ConsoleBoard(false, true)
     } //loset the game
 
-    //global_Data.HeaderCountObject.innerHTML = flipNodeTexT;
+    //G.HeaderCountObject.innerHTML = flipNodeTexT;
     flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
-    global_Data.HeaderCountND.innerHTML = flipNodeText;
+    G.HeaderCountND.innerHTML = flipNodeText;
 
 }
 function wonTurn() {
-    global_Data.wins++
+    G.wins++
 
     card[statuS.card1].cardWone = true;
     card[statuS.card2].cardWone = true;
@@ -317,12 +310,12 @@ function wonTurn() {
     statuS.turn = false;
     statuS.endingTurn = false;
 
-    if (global_Data.wins == (NumOfcard / 2)) {
+    if (G.wins == (G.NumOfcard / 2)) {
         ConsoleBoard(true)
     }
 
-    if (global_Data.soundIson == true) {
-        window.setTimeout(global_Data.woncardSound.play(), 200);
+    if (G.soundIson == true) {
+        window.setTimeout(G.woncardSound.play(), 200);
     }
 }
 function endTurn() {
@@ -341,14 +334,14 @@ function endTurn() {
 function boardBuilder() {
 
 
-    for (i = 1; i < NumOfcard + 1; i++) {
+    for (i = 1; i < G.NumOfcard + 1; i++) {
         /*FRAME*/
         var card01 = document.createElement("div");
         window.card[i].Cobject = card01;
         card[i].Cobject.class = i;
         card[i].Cobject.classList.add("flip-container");
-        card[i].Cobject.style.height = global_Data.cardHeight;
-        card[i].Cobject.style.width = global_Data.cardWidth;
+        card[i].Cobject.style.height = G.cardHeight;
+        card[i].Cobject.style.width = G.cardWidth;
         card[i].Cobject.number = i;
         card[i].number = "numbers " + i;
         card[i].Cardwrapper = document.createElement("div");
@@ -371,8 +364,8 @@ function boardBuilder() {
 
 
 
-        global_Data.widthOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("width");
-        global_Data.heightOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("height");
+        G.widthOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("width");
+        G.heightOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("height");
 
         card[i].press = function() {
             turnCard(event.target.number);
@@ -381,7 +374,7 @@ function boardBuilder() {
 
 
         var y = i - 1 // new line every 4 rows
-        if (Math.ceil(y / global_Data.numColsToCut) == (y / global_Data.numColsToCut)) {
+        if (Math.ceil(y / G.numColsToCut) == (y / G.numColsToCut)) {
             card[i].Cardwrapper.style.clear = "left"
         }
         document.getElementById("wrapper01").appendChild(card[i].Cardwrapper);
@@ -393,7 +386,7 @@ function boardBuilder() {
 
 }
 function cardPictureBuilder() { // if you dont need this the erase the function
-    for (i = 1; i < NumOfcard + 1; i++) {
+    for (i = 1; i < G.NumOfcard + 1; i++) {
 
         if (i > 0) {
 
@@ -408,8 +401,8 @@ function cardPictureBuilder() { // if you dont need this the erase the function
             card[i].DivForPictureInCard.appendChild(PictureInCard);
 
             card[i].BackObject.style.backgroundImage = "url(" + PictureInCard.scr + ")";
-            card[i].BackObject.style.height = "100%" // global_Data.heightOfcard;
-            card[i].BackObject.style.width = "100%" // global_Data.widthOfcard;
+            card[i].BackObject.style.height = "100%" // G.heightOfcard;
+            card[i].BackObject.style.width = "100%" // G.widthOfcard;
             card[i].BackObject.style.backgroundSize = "100% 100%";
             card[i].BackObject.style.backfaceVisibility = "hidden";
             card[i].BackObject.style.zIndex = "-1";
@@ -434,91 +427,91 @@ function cardPictureBuilder() { // if you dont need this the erase the function
 function HeaderBuilder() {
 
     // BUILDING THE TEXT OF HEADER
-    global_Data.HeaderText = ""
-    if (global_Data.gameTrophy == "B") {
-        global_Data.HeaderText += " ⭐️ "
+    G.HeaderText = ""
+    if (G.gameTrophy == "B") {
+        G.HeaderText += " ⭐️ "
     }
-    if (global_Data.gameTrophy == "C") {
-        global_Data.HeaderText += " ⭐️⭐️ "
+    if (G.gameTrophy == "C") {
+        G.HeaderText += " ⭐️⭐️ "
     }
-    if (global_Data.gameTrophy == "D") {
-        global_Data.HeaderText += " ⭐️⭐️⭐️"
+    if (G.gameTrophy == "D") {
+        G.HeaderText += " ⭐️⭐️⭐️"
     }
-    global_Data.HeaderText += global_Data.ThegameHeadline;
-    if (global_Data.gamelevel > 1) {
-        global_Data.HeaderText = global_Data.HeaderText + "" //  "  אתגר  "
+    G.HeaderText += G.ThegameHeadline;
+    if (G.gamelevel > 1) {
+        G.HeaderText = G.HeaderText + "" //  "  אתגר  "
     };
 
 
-    global_Data.bodyObject = document.getElementsByTagName("BODY")[0];
-    global_Data.bodyObject.style.backgroundColor = "#666666";
-    global_Data.bodyObject.style.backgroundImage = "url(" + global_Data.back_image + ")";
-    global_Data.bodyObject.style.backgroundBlendMode = "lighten";
-    global_Data.bodyObject.style.backgroundSize = "cover";
+    G.bodyObject = document.getElementsByTagName("BODY")[0];
+    G.bodyObject.style.backgroundColor = "#666666";
+    G.bodyObject.style.backgroundImage = "url(" + G.back_image + ")";
+    G.bodyObject.style.backgroundBlendMode = "lighten";
+    G.bodyObject.style.backgroundSize = "cover";
 
 
-    global_Data.cog_img = document.createElement("IMG");
-    global_Data.cog_img.src = 'GUIimage/settingCog.png';
-    global_Data.sound_img = document.createElement("IMG");
-    global_Data.sound_img.src = 'GUIimage/soundOn.png';
-    global_Data.HeaderTitle = document.createElement("div");
-    global_Data.HeaderTextND = document.createElement("div");
-    global_Data.HeaderTextND.style.float = "left";
+    G.cog_img = document.createElement("IMG");
+    G.cog_img.src = 'GUIimage/settingCog.png';
+    G.sound_img = document.createElement("IMG");
+    G.sound_img.src = 'GUIimage/soundOn.png';
+    G.HeaderTitle = document.createElement("div");
+    G.HeaderTextND = document.createElement("div");
+    G.HeaderTextND.style.float = "left";
     // adds spaces to the text according to the length
-    var lnth = global_Data.HeaderText.length || 0
+    var lnth = G.HeaderText.length || 0
     var added_spaces = "";
     for (x = 20; x > lnth; x--) {
         added_spaces += "&nbsp"
 
     }
-    global_Data.HeaderTextND.innerHTML = added_spaces + global_Data.HeaderText
-    global_Data.HeaderCountObject = document.createElement("div");
-    global_Data.HeaderStoperObject = document.createElement("div"); //the stopper
-    global_Data.HeaderStoperND = document.createTextNode("00:00");
-    global_Data.HeaderCountObject.style.shadow = "text-shadow: 2px 2px 4px #000;";
-    global_Data.HeaderTitle.appendChild(global_Data.HeaderCountObject);
-    global_Data.HeaderTitle.appendChild(global_Data.HeaderStoperObject);
-    global_Data.HeaderStoperObject.appendChild(global_Data.HeaderStoperND);
+    G.HeaderTextND.innerHTML = added_spaces + G.HeaderText
+    G.HeaderCountObject = document.createElement("div");
+    G.HeaderStoperObject = document.createElement("div"); //the stopper
+    G.HeaderStoperND = document.createTextNode("00:00");
+    G.HeaderCountObject.style.shadow = "text-shadow: 2px 2px 4px #000;";
+    G.HeaderTitle.appendChild(G.HeaderCountObject);
+    G.HeaderTitle.appendChild(G.HeaderStoperObject);
+    G.HeaderStoperObject.appendChild(G.HeaderStoperND);
     var flipNodeText = 0;
 
-    if (global_Data.gamelevel == 2) {
-        flipNodeText = global_Data.NumOfRemainigFlips
+    if (G.gamelevel == 2) {
+        flipNodeText = G.NumOfRemainigFlips
     } else {
-        flipNodeText = global_Data.NumOflips
+        flipNodeText = G.NumOflips
     }
     flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeText + "</th></tr></table>"
-    global_Data.HeaderCountND = document.createElement('div');
-    global_Data.HeaderCountND.innerHTML = flipNodeText;
+    G.HeaderCountND = document.createElement('div');
+    G.HeaderCountND.innerHTML = flipNodeText;
 
-    global_Data.HeaderCountObject.appendChild(global_Data.HeaderCountND);
-    global_Data.HeaderCountObject.style.float = "left";
-    global_Data.HeaderStoperObject.style.float = "left";
-    global_Data.HeaderStoperObject.style.margin = "0px 0px 0px 40px";
-    global_Data.HeaderTitle.appendChild(global_Data.HeaderTextND);
-    document.getElementById("gameConsole").appendChild(global_Data.HeaderTitle);
-    global_Data.HeaderTitle.style.textAlign = "center";
-    //global_Data.HeaderTitle.style.fontWeight = "bold";
-    global_Data.HeaderTitle.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a"
-    global_Data.HeaderTitle.appendChild(global_Data.sound_img);
-    global_Data.HeaderTitle.appendChild(global_Data.cog_img);
-    global_Data.cog_img.style.float = "right";
-    global_Data.cog_img.style.width = '4%'
-    global_Data.cog_img.style.height = '4%'
-    global_Data.cog_img.style.marginRight = "2%"
-    global_Data.cog_img.style.marginTop = "0.5%"
-    global_Data.cog_img.addEventListener("click", settingsConsoleButtonPress, false);
-    global_Data.sound_img.style.float = "right";
-    global_Data.sound_img.style.width = '5%'
-    global_Data.sound_img.style.height = '5%'
-    global_Data.sound_img.addEventListener("click", soundToggle, false);
-    //global_Data.sound_img.style.position = "absolute";
+    G.HeaderCountObject.appendChild(G.HeaderCountND);
+    G.HeaderCountObject.style.float = "left";
+    G.HeaderStoperObject.style.float = "left";
+    G.HeaderStoperObject.style.margin = "0px 0px 0px 40px";
+    G.HeaderTitle.appendChild(G.HeaderTextND);
+    document.getElementById("gameConsole").appendChild(G.HeaderTitle);
+    G.HeaderTitle.style.textAlign = "center";
+    //G.HeaderTitle.style.fontWeight = "bold";
+    G.HeaderTitle.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a"
+    G.HeaderTitle.appendChild(G.sound_img);
+    G.HeaderTitle.appendChild(G.cog_img);
+    G.cog_img.style.float = "right";
+    G.cog_img.style.width = '4%'
+    G.cog_img.style.height = '4%'
+    G.cog_img.style.marginRight = "2%"
+    G.cog_img.style.marginTop = "0.5%"
+    G.cog_img.addEventListener("click", settingsConsoleButtonPress, false);
+    G.sound_img.style.float = "right";
+    G.sound_img.style.width = '5%'
+    G.sound_img.style.height = '5%'
+    G.sound_img.addEventListener("click", soundToggle, false);
+    //G.sound_img.style.position = "absolute";
     document.getElementById('gameConsole').ondragstart = function() {
         return false;
     };
 
 }
 function settingsConsoleButtonPress() {
-    if (global_Data.consoleIsopen == true) {
+    if (G.consoleIsopen == true) {
         DeleteConsole()
     } else {
         ConsoleBoard();
@@ -526,66 +519,66 @@ function settingsConsoleButtonPress() {
 }
 function soundToggle() {
 
-    if (global_Data.soundIson == true) {
-        global_Data.sound_img.src = 'GUIimage/soundOff.png';
-        global_Data.soundIson = false;
-    } else if (global_Data.soundIson == false) {
-        global_Data.sound_img.src = 'GUIimage/soundOn.png';
-        global_Data.soundIson = true;
+    if (G.soundIson == true) {
+        G.sound_img.src = 'GUIimage/soundOff.png';
+        G.soundIson = false;
+    } else if (G.soundIson == false) {
+        G.sound_img.src = 'GUIimage/soundOn.png';
+        G.soundIson = true;
     }
-    var bool = global_Data.soundIson
+    var bool = G.soundIson
     localStorage.StorageSoundIsOn = bool.toString()
 
 }
 function stopWatch() {
-    global_Data.stopWatchTIME = 0;
+    G.stopWatchTIME = 0;
     var ChangeTimeInterval = 100 //change time interval every X milisecinds
-    if (global_Data.gamelevel == 3) {
-        var TimeClicks = global_Data.NumOfChalangeSeconds * 10;
+    if (G.gamelevel == 3) {
+        var TimeClicks = G.NumOfChalangeSeconds * 10;
     } else {
         var TimeClicks = 0
     } // each time the function adds a time
 
     function secondPrint() {
-        var formattedminutes = ("0" + global_Data.minutes).slice(-2);
-        var formattedseconse = ("0" + global_Data.seconds).slice(-2);
-        var TheTimeText = formattedminutes + ":" + formattedseconse + "." + global_Data.miliseconds;
-        global_Data.woneTime = TheTimeText;
+        var formattedminutes = ("0" + G.minutes).slice(-2);
+        var formattedseconse = ("0" + G.seconds).slice(-2);
+        var TheTimeText = formattedminutes + ":" + formattedseconse + "." + G.miliseconds;
+        G.woneTime = TheTimeText;
         let monoTxt = monospaceHtml(TheTimeText)
         TheTimeText = monoTxt;
         let specialFont = "<font>" // "<font face='david'>"
-        global_Data.HeaderStoperObject.innerHTML = TheTimeText;
+        G.HeaderStoperObject.innerHTML = TheTimeText;
 
-        if (global_Data.consoleIsopen == true) {
-            global_Data.HeaderStoperObject.classList.add('blink_me');
+        if (G.consoleIsopen == true) {
+            G.HeaderStoperObject.classList.add('blink_me');
         } else {
-            global_Data.HeaderStoperObject.classList.remove('blink_me');
+            G.HeaderStoperObject.classList.remove('blink_me');
         }
 
 
-        if (global_Data.consoleIsopen == false) {
-            if (global_Data.gamelevel == 3) {
+        if (G.consoleIsopen == false) {
+            if (G.gamelevel == 3) {
                 TimeClicks--
             } else {
                 TimeClicks++
             }
         }
-        if (global_Data.gamelevel == 3 && TimeClicks < 1 && global_Data.ChallangeLost == false) {
-            global_Data.ChallangeLost = true;
+        if (G.gamelevel == 3 && TimeClicks < 1 && G.ChallangeLost == false) {
+            G.ChallangeLost = true;
             ConsoleBoard(false, true)
         }
-        if (global_Data.seconds >= 0) {} else {
-            global_Data.seconds = 0
+        if (G.seconds >= 0) {} else {
+            G.seconds = 0
         };
-        global_Data.seconds = Math.floor(TimeClicks / ChangeTimeInterval * 10) - (global_Data.minutes * 60);
+        G.seconds = Math.floor(TimeClicks / ChangeTimeInterval * 10) - (G.minutes * 60);
 
         var str = TimeClicks + "0";
-        global_Data.miliseconds = str.charAt(str.length - 2); // geting only the last Char of the TIME clicks wich is the ones
+        G.miliseconds = str.charAt(str.length - 2); // geting only the last Char of the TIME clicks wich is the ones
 
-        if (global_Data.seconds >= 0) {} else {
-            global_Data.seconds = 0
+        if (G.seconds >= 0) {} else {
+            G.seconds = 0
         };
-        global_Data.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
+        G.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
     }
 
 
@@ -596,16 +589,16 @@ function stopWatch() {
 function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     if (woneOrnot == true) {
-        (global_Data.soundIson == true) ? global_Data.wonboardSound.play(): 1
+        (G.soundIson == true) ? G.wonboardSound.play(): 1
         levelUp()
     } else {
-        (global_Data.soundIson == true) ? global_Data.popboardSound.play(): 1
+        (G.soundIson == true) ? G.popboardSound.play(): 1
     }
 
 
 
 
-    global_Data.consoleIsopen = true;
+    G.consoleIsopen = true;
     winningScreen = new Object();
     /*  game consol design */
 
@@ -631,13 +624,13 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
     }
     //else {textFinished [1] = "משחק מושהה"};
-    textFinished[2] = "זמן: " + global_Data.woneTime
-    textFinished[3] = "קלפים שנהפכו: " + global_Data.NumOflips;
+    textFinished[2] = "זמן: " + G.woneTime
+    textFinished[3] = "קלפים שנהפכו: " + G.NumOflips;
     textFinished[4] = "" //"משחק נוסף";
 
 
 
-    global_Data.FinishTextNode = ["", "", ""];
+    G.FinishTextNode = ["", "", ""];
 
     // make a for loop for creating a winning text"
     //golobal_data.FinishTextNode.length
@@ -651,7 +644,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             "DivForPictureInCard": "",
             "PictureInCard": ""
         };
-        if (global_Data.ChallangeLost == true) {
+        if (G.ChallangeLost == true) {
             buttonReturnToGame.textOnButton = "משחק חוזר"
         }
         buttonReturnToGame.buttonObj = document.createElement("BUTTON");
@@ -671,10 +664,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 
 
-        global_Data.FinishTextNode[y] = document.createTextNode(textFinished[y]);
+        G.FinishTextNode[y] = document.createTextNode(textFinished[y]);
 
         var span = document.createElement("span");
-        span.appendChild(global_Data.FinishTextNode[y]);
+        span.appendChild(G.FinishTextNode[y]);
 
         var HTMLbreak = document.createElement("br");
         span.style.fontSize = "130%";
@@ -723,14 +716,14 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         };
     };
 
-    if (global_Data.ChallangeLost == true) {
+    if (G.ChallangeLost == true) {
         buttonNewgame[0].textOnButton = "נסיון חוזר"
     } else {
         buttonNewgame[0].textOnButton = "חזרה למשחק";
     }
     buttonNewgame[1].textOnButton = "משחק חדש -רגיל ";
-    buttonNewgame[2].textOnButton = " אתגר " + global_Data.NumOfChalangeFlips + " היפוכים "
-    buttonNewgame[3].textOnButton = " אתגר  " + global_Data.NumOfChalangeSeconds + " שניות ";
+    buttonNewgame[2].textOnButton = " אתגר " + G.NumOfChalangeFlips + " היפוכים "
+    buttonNewgame[3].textOnButton = " אתגר  " + G.NumOfChalangeSeconds + " שניות ";
     buttonNewgame[2].textIfneedsTofinish = "יש לסיים משחק רגיל"
     buttonNewgame[3].textIfneedsTofinish = "יש לסיים את האתגר הקודם"
 
@@ -759,11 +752,11 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 }
 function DeleteConsole() {
-    if (global_Data.ChallangeLost == true) {
+    if (G.ChallangeLost == true) {
         location.reload()
     }
-    global_Data.consoleIsopen = false;
-    (global_Data.soundIson == true) ? global_Data.popboardSound.play(): null
+    G.consoleIsopen = false;
+    (G.soundIson == true) ? G.popboardSound.play(): null
     winningScreen.Divobject.parentNode.removeChild(winningScreen.Divobject);
 }
 function RequestNewGame(newGamenumber) {
@@ -771,15 +764,15 @@ function RequestNewGame(newGamenumber) {
     switch (newGamenumber) {
 
         case 1:
-            global_Data.gamelevel = 1;
+            G.gamelevel = 1;
             gameModeStatus(true);
             location.reload();
             break;
 
         case 2:
 
-            if (global_Data.gameTrophy != "A") {
-                global_Data.gamelevel = 2;
+            if (G.gameTrophy != "A") {
+                G.gamelevel = 2;
                 gameModeStatus(true)
                 location.reload();
                 break;
@@ -788,8 +781,8 @@ function RequestNewGame(newGamenumber) {
 
         case 3:
 
-            if (global_Data.gameTrophy == "C" || global_Data.gameTrophy == "D") {
-                global_Data.gamelevel = 3
+            if (G.gameTrophy == "C" || G.gameTrophy == "D") {
+                G.gamelevel = 3
                 gameModeStatus(true);
                 location.reload();
                 break;
@@ -813,8 +806,8 @@ function gameModeStatus(changeTheFrameOrnot) {
     if (!saved) {
         sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
     } else if (changeTheFrameOrnot == true) {
-        sessionStorage.setItem(G.saveInLocalStorageKey,global_Data.gameTrophy + "," + global_Data.gamelevel)
-        createEvent  ('save',G.saveInLocalStorageKey , global_Data.gameTrophy + "," + global_Data.gamelevel)
+        sessionStorage.setItem(G.saveInLocalStorageKey,G.gameTrophy + "," + G.gamelevel)
+        createEvent  ('save',G.saveInLocalStorageKey , G.gameTrophy + "," + G.gamelevel)
     };
     saved = sessionStorage.getItem(G.saveInLocalStorageKey)
     var stringFromWindowName = saved;
@@ -823,22 +816,22 @@ function gameModeStatus(changeTheFrameOrnot) {
 }
 function levelUp() {
 
-    switch (global_Data.gameTrophy) {
+    switch (G.gameTrophy) {
         case "A":
-            global_Data.gameTrophy = "B";
+            G.gameTrophy = "B";
             gameModeStatus(true) // change the "save"
             break;
 
         case "B":
-            if (global_Data.gamelevel == 2) {
-                global_Data.gameTrophy = "C";
+            if (G.gamelevel == 2) {
+                G.gameTrophy = "C";
                 gameModeStatus(true)
             }
             break;
 
         case "C":
-            if (global_Data.gamelevel == 3) {
-                global_Data.gameTrophy = "D";
+            if (G.gamelevel == 3) {
+                G.gameTrophy = "D";
                 gameModeStatus(true)
             }
             break;
@@ -846,14 +839,14 @@ function levelUp() {
 
 }
 function test () {
-global_Data.developeMode = true;
+G.developeMode = true;
 return "develope mode: on"
 }
 
 function GetvaluesfromConfigFile() {
-    //global_Data.developeMode = true;
-    global_Data.NumOfChalangeFlips = 0;
-    global_Data.NumOfChalangeSeconds = 0;
+    //G.developeMode = true;
+    G.NumOfChalangeFlips = 0;
+    G.NumOfChalangeSeconds = 0;
 
 }
 
@@ -865,7 +858,7 @@ function GetvaluesfromConfigFile() {
 /*this code allows you to win with esc key*/
 document.onkeydown = function(evt) {
 
-    if (global_Data.developeMode == false) {
+    if (G.developeMode == false) {
         return
     };
     evt = evt || window.event;
@@ -893,50 +886,42 @@ function getValuesFromConfig() {
     var errorWithValue = false;
 
     if (G.name_of_game !== 'undefined') {
-        global_Data.ThegameHeadline = G.name_of_game
+        G.ThegameHeadline = G.name_of_game
     };
 
     if (typeof G.flip_chalange !== 'undefined') {
-        validatValue(G.flip_chalange, "int") ? global_Data.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
+        validatValue(G.flip_chalange, "int") ? G.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
     }
     if (typeof G.seconds_challange !== 'undefined') {
-        validatValue(G.seconds_challange, "int") ? global_Data.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
+        validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
     }
 
     if (typeof G.mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-        validatValue(G.mute, "boolean") ? global_Data.soundIson = !G.mute : errorWithValue = true
+        validatValue(G.mute, "boolean") ? G.soundIson = !G.mute : errorWithValue = true
     }
 
     if (typeof G.dev_mode !== 'undefined') {
-        validatValue(G.dev_mode, "boolean") ? global_Data.developeMode = G.dev_mode : errorWithValue = true
+        validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
     }
 
     return errorWithValue
 }
 function setCardsize() {
-    // this part is taken fron the web:
-    var styleEl = document.createElement('style'),
-        styleSheet
-    // Append style element to head
+
+    var styleEl = document.createElement('style'), styleSheet;
     document.head.appendChild(styleEl);
-    // Grab style sheet
     styleSheet = styleEl.sheet;
-    //global_Data.window_width
-    //global_Data.window_height
-
-
     var wideConst = 8
     var highConst = 5.5
-
-    var Widefit = Math.round(global_Data.window_width / wideConst);
-    var heightfit = Math.round(global_Data.window_height / highConst);
+    var Widefit = Math.round(G.window_width / wideConst);
+    var heightfit = Math.round(G.window_height / highConst);
     styleSheet.insertRule('.flip-container {width:' + Widefit + 'px; height: ' + heightfit + 'px;}', 0);
 }
 function playCardAudio(num) {
-    if (global_Data.soundIson == false) {
+    if (G.soundIson == false) {
         return
     }
-    var Audiofilepath = global_Data.audiofolderPath + "Sound" + card[num].picture.substring(4, 10) + ".mp3"
+    var Audiofilepath = G.audiofolderPath + "Sound" + card[num].picture.substring(4, 10) + ".mp3"
     var cardsoundObj = new Audio(Audiofilepath)
     cardsoundObj.play()
     return;

@@ -802,18 +802,22 @@ function RequestNewGame(newGamenumber) {
 
     //winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
 }
-function gameModeStatus(changeTheFrameOrnot) { // if changeframe is true than it copies the values to the "cookie", else it creats a new game.
-    //G.saveInLocalStorageKey // session storage;
+function gameModeStatus(changeTheFrameOrnot) {
+    var createEvent  = (actionType, key, value)  => {
+        let ev = new Event ('storage');
+        ev.key = key; ev.value = value
+        ev.actionType = actionType; return window.dispatchEvent(ev)}
+
     let saved = sessionStorage.getItem(G.saveInLocalStorageKey)
     console.log (saved)
-    if (window.name == "") {
-        window.name = "A,1"
+    if (!saved) {
         sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
     } else if (changeTheFrameOrnot == true) {
-        window.name = global_Data.gameTrophy + "," + global_Data.gamelevel
         sessionStorage.setItem(G.saveInLocalStorageKey,global_Data.gameTrophy + "," + global_Data.gamelevel)
+        createEvent  ('save',G.saveInLocalStorageKey , global_Data.gameTrophy + "," + global_Data.gamelevel)
     };
-    var stringFromWindowName = window.name;
+    saved = sessionStorage.getItem(G.saveInLocalStorageKey)
+    var stringFromWindowName = saved;
     var modearray = stringFromWindowName.split(",");
     return modearray;
 }

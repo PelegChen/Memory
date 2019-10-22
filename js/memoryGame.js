@@ -171,7 +171,7 @@ function BuildAPP () {
                 }
 
                 if (G.soundIson == true) {
-                    window.setTimeout(G.woncardSound.play(), 200);
+                    setTimeout(G.woncardSound.play(), 200);
                 }
             }
             function endTurn() {
@@ -223,10 +223,11 @@ function BuildAPP () {
                 return
             };
 
+
             if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
             else if (G.statuS.endingTurn == true) { // אם לוחצים באמצע התור
                 var Keep_cardVlaue = cardnum;
-                window.clearTimeout(endTurn);
+                clearTimeout(endTurn);
                 endTurn();
                 G.statuS.card1 = 0;
                 G.statuS.card2 = 0;
@@ -250,7 +251,7 @@ function BuildAPP () {
                     wonTurn()
                 } else {
                     //conWrite ("endturnd timer");
-                    window.clearTimeout(G.timeoutId);
+                    clearTimeout(G.timeoutId);
                     G.timeoutId = setTimeout(endTurn, 4000);
                 }
                 //conWrite (cardnum);
@@ -333,7 +334,9 @@ function BuildAPP () {
         // משום מה אסור למחוק את זה לא מבין למה
         var ImageObject123 = document.createElement("IMG");
         ImageObject123.src = G.cutedImage;
-        window.onload = function() {
+        window.onload = drawCanvasParts;
+        ImageObject123.onload = drawCanvasParts;
+        function drawCanvasParts () {
             for (i = 1; i < G.NumOfcard + 1; i++) {
                 var z = i;
                 G.card[i].partiatImage = document.createElement("IMG");
@@ -582,8 +585,8 @@ function BuildAPP () {
             G.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
         }
 
-
-        window.setInterval(function() {
+        if (G.stopWatchInterval){clearInterval(G.stopWatchInterval)}
+        G.stopWatchInterval = setInterval(function() {
             secondPrint();
         }, ChangeTimeInterval);
     }
@@ -598,9 +601,9 @@ function BuildAPP () {
         evt = evt || window.event;
         var isEscape = false;
         if ("key" in evt) {
-            isEscape = (evt.key == "Escape" || evt.key == "Esc" || evt.key == 1);
+            isEscape = (evt.key == 1);
         } else {
-            isEscape = (evt.keyCode == 27);
+            isEscape = (evt.keyCode == "fsdfsdfsdfsdf");
         }
         if (isEscape) {
             ConsoleBoard(true);
@@ -655,7 +658,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             case 1:
                 G.gamelevel = 1;
                 gameModeStatus(true);
-                location.reload();
+                NewGame();
                 break;
 
             case 2:
@@ -663,7 +666,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
                 if (G.gameTrophy != "A") {
                     G.gamelevel = 2;
                     gameModeStatus(true)
-                    location.reload();
+                    NewGame();
                     break;
                 };
                 break;
@@ -673,7 +676,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
                 if (G.gameTrophy == "C" || G.gameTrophy == "D") {
                     G.gamelevel = 3
                     gameModeStatus(true);
-                    location.reload();
+                    NewGame();
                     break;
                 }
                 break;
@@ -684,7 +687,6 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
         //winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
     }
-
     if (woneOrnot == true) {
         (G.soundIson == true) ? G.wonboardSound.play(): 1
         levelUp()
@@ -850,7 +852,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 }
 function DeleteConsole() {
     if (G.ChallangeLost == true) {
-        location.reload()
+        NewGame()
     }
     G.consoleIsopen = false;
     (G.soundIson == true) ? G.popboardSound.play(): null
@@ -863,7 +865,6 @@ function gameModeStatus(changeTheFrameOrnot) {
         ev.actionType = actionType; return window.dispatchEvent(ev)}
 
     let saved = sessionStorage.getItem(G.saveInLocalStorageKey)
-    console.log (saved)
     if (!saved) {
         sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
     } else if (changeTheFrameOrnot == true) {
@@ -892,14 +893,12 @@ function soundToggle() {
     localStorage.StorageSoundIsOn = bool.toString()
 
 }
+function NewGame (){
+    let originalHtml = `<div id="gameConsole"> </div><div id = "wrapper01"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
+    document.body.innerHTML = originalHtml;
+    BuildAPP ()
+
+}
 
 /* main*/
 BuildAPP ()
-clearAll = ()=>{
-    document.body.innerHTML = `<div id="gameConsole"> </div>
-    <div id = "wrapper01">
-    <span id="ErrorCheck"> Loading... </span>
-    </div>
- <script src="js/config.js" type="text/javascript"></script>
- <script src="js/memoryGame.js" type="text/javascript"></script>`
-}

@@ -40,30 +40,13 @@ G.timeoutId = new Object();
 G.NumOfcard = 24;
 G.card = [];
 if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
-buildCards()
+G.statuS = {};
+G.statuS.turn = false;
+G.statuS.card1 = 0;
+G.statuS.card2 = 0;
+G.statuS.endingTurn = false;
 
 
-
-n = 3
-
-var statuS = new Object();
-statuS.turn = false;
-statuS.card1 = 0;
-statuS.card2 = 0;
-statuS.endingTurn = false;
-var StWrite = new Object();
-StWrite.Pobject = "p";
-G.cutedImageSize = function() {
-    var DroneImage = document.createElement("img");
-    DroneImage.src = G.cutedImage; // the whole picture to be cut
-    DroneImage.style.position = "fixed";
-    DroneImage.style.left = "-20000px";
-    document.body.appendChild(DroneImage);
-    DroneImage.onload = function() {
-        G.SplicedImage_height = DroneImage.height;
-        G.SplicedImage_width = DroneImage.width;
-    }
-}
 function monospaceHtml(htm) {
     let arr = htm.split('');
     let addedChar = '</th><th>'
@@ -150,7 +133,18 @@ function buildCards() {
     }
 }
 function cutImageUp() {
-    G.cutedImageSize();
+    function cutedImageSize () {
+        var DroneImage = document.createElement("img");
+        DroneImage.src = G.cutedImage; // the whole picture to be cut
+        DroneImage.style.position = "fixed";
+        DroneImage.style.left = "-20000px";
+        document.body.appendChild(DroneImage);
+        DroneImage.onload = function() {
+            G.SplicedImage_height = DroneImage.height;
+            G.SplicedImage_width = DroneImage.width;
+        }
+    }
+    cutedImageSize();
     var theCSS_height = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
     theCSS_height = parseInt(theCSS_height)
     var theCSS_width = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
@@ -221,30 +215,30 @@ function turnCard(cardnum) {
         return
     };
 
-    if (G.card[cardnum].cardWone == true || statuS.card1 == cardnum || statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
-    else if (statuS.endingTurn == true) { // אם לוחצים באמצע התור
+    if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
+    else if (G.statuS.endingTurn == true) { // אם לוחצים באמצע התור
         var Keep_cardVlaue = cardnum;
         window.clearTimeout(endTurn);
         endTurn();
-        statuS.card1 = 0;
-        statuS.card2 = 0;
+        G.statuS.card1 = 0;
+        G.statuS.card2 = 0;
         cardnum = Keep_cardVlaue;
-        statuS.card1 = cardnum
-        statuS.turn = true;
+        G.statuS.card1 = cardnum
+        G.statuS.turn = true;
         turnCard(cardnum);
         G.card[cardnum].Cobject.classList.add("flipped")
         AddtoFlipCount(cardnum);
-    } else if (statuS.turn == false && statuS.endingTurn == false) {
-        statuS.turn = true;
-        statuS.card1 = cardnum;
+    } else if (G.statuS.turn == false && G.statuS.endingTurn == false) {
+        G.statuS.turn = true;
+        G.statuS.card1 = cardnum;
         G.card[cardnum].Cobject.classList.add("flipped");
         AddtoFlipCount(cardnum);
-    } else if (statuS.turn == true && statuS.endingTurn == false) {
-        statuS.card2 = cardnum;
+    } else if (G.statuS.turn == true && G.statuS.endingTurn == false) {
+        G.statuS.card2 = cardnum;
         G.card[cardnum].Cobject.classList.add("flipped");
-        statuS.endingTurn = true;
+        G.statuS.endingTurn = true;
         AddtoFlipCount(cardnum);
-        if (G.card[statuS.card1].contentOfcard == G.card[statuS.card2].contentOfcard) {
+        if (G.card[G.statuS.card1].contentOfcard == G.card[G.statuS.card2].contentOfcard) {
             wonTurn()
         } else {
             //conWrite ("endturnd timer");
@@ -279,12 +273,12 @@ function AddtoFlipCount(cardnumberforaudio) {
 function wonTurn() {
     G.wins++
 
-    G.card[statuS.card1].cardWone = true;
-    G.card[statuS.card2].cardWone = true;
-    statuS.card1 = 0;
-    statuS.card2 = 0;
-    statuS.turn = false;
-    statuS.endingTurn = false;
+    G.card[G.statuS.card1].cardWone = true;
+    G.card[G.statuS.card2].cardWone = true;
+    G.statuS.card1 = 0;
+    G.statuS.card2 = 0;
+    G.statuS.turn = false;
+    G.statuS.endingTurn = false;
 
     if (G.wins == (G.NumOfcard / 2)) {
         ConsoleBoard(true)
@@ -296,14 +290,14 @@ function wonTurn() {
 }
 function endTurn() {
     //conWrite ("endturnd starts");
-    if (statuS.endingTurn == false) { //conWrite ("endturnd canceled");
+    if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
     } else {
-        G.card[statuS.card1].Cobject.classList.remove("flipped");
-        G.card[statuS.card2].Cobject.classList.remove("flipped");;
-        statuS.card1 = 0;
-        statuS.card2 = 0;
-        statuS.turn = false;
-        statuS.endingTurn = false;
+        G.card[G.statuS.card1].Cobject.classList.remove("flipped");
+        G.card[G.statuS.card2].Cobject.classList.remove("flipped");;
+        G.statuS.card1 = 0;
+        G.statuS.card2 = 0;
+        G.statuS.turn = false;
+        G.statuS.endingTurn = false;
         //conWrite ("endturnd finished");
     }
 }
@@ -818,20 +812,12 @@ function test () {
 G.developeMode = true;
 return "develope mode: on"
 }
-
 function GetvaluesfromConfigFile() {
     //G.developeMode = true;
     G.NumOfChalangeFlips = 0;
     G.NumOfChalangeSeconds = 0;
 
 }
-
-
-/* the program itself*/
-// the start if the program and calling the functions Is from here ->
-
-/*testing for boardwining quiq///*/
-/*this code allows you to win with esc key*/
 document.onkeydown = function(evt) {
 
     if (G.developeMode == false) {
@@ -904,6 +890,9 @@ function playCardAudio(num) {
 
 
 }
+/* main*/
+
+buildCards()
 setCardsize()
 document.getElementById("ErrorCheck").innerHTML = "";
 getValuesFromConfig()

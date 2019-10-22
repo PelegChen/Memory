@@ -1,9 +1,10 @@
-﻿
+﻿var G = {} // global for config
 name_of_game =  "משחק הזיכרון פעולות"
 seconds_challange = 100
 flip_chalange = 101
 mute = 0
 dev_mode =0
+
 
 /*
 הסבר:
@@ -19,12 +20,9 @@ mute - המשחק מתחיל כשהקול מושתק, ניתן להפעיל או
 
 
 let myFileName = location.pathname.split("/").slice(-1)
-
 G.fileName = myFileName[0].replace(/\.html/ig,"")
 G.saveInLocalStorageKey = 'English_' + G.fileName
 G.saveBooleanValue = 'wasSaved_' + G.fileName
-
-
 var urlParams = new URLSearchParams(window.location.search);
 async function getClicktScript(url, urlGetPrams) {
     urlGetPrams += "&gameName=" +  G.saveInLocalStorageKey
@@ -60,9 +58,6 @@ if (urlParams.has('api')) {
         }
 
     } else {G.isClickGameSaveInSessionStore = true}
-
-
-
 getClicktScript (urlParams.get('api'), urlParams.toString())
 } else {console.log ('no Click site Connection')}
 

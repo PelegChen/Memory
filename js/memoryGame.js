@@ -4,7 +4,6 @@ G.CardsTorandomize = [1, 2, 3];
 G.cardFromFile = [1, 2, 3];
 G.window_width = window.innerWidth;
 G.window_height = window.innerHeight;
-setCardsize()
 G.audiofolderPath = "CardSound/";
 G.developeMode = false // do you have to win games or you can press esc to win them
 G.gameTrophy = gameModeStatus()[0]; //witch type of game the player can play if he wants to   (A B C) + D
@@ -12,23 +11,13 @@ G.gamelevel = gameModeStatus()[1]; //witch type of level the player chooses to p
 G.wasTheGamewone = false;
 G.NumOfChalangeFlips = 99; //number of flips do the flip challange
 G.NumOfChalangeSeconds = 100;
-//number of seconds to do the time challange
 G.NumOfRemainigFlips = G.NumOfChalangeFlips;
 G.ChallangeLost = false;
-
-if (localStorage.StorageSoundIsOn == "false") {
-    G.soundIson = false
-} else {
-    G.soundIson = true
-}
-
-
 G.cutedImage = "Defaultimage/frontOfcards.png";
 G.back_image = "Defaultimage/back_Groundimage.jpg";
 G.stopWatchTIME = new Date();
 G.numColsToCut = 6;
 G.ThegameHeadline = "משחק הזיכרון"
-
 /*changing the header*/
 G.consoleIsopen = false; // if the console is open
 G.NumOflips = 0;
@@ -43,100 +32,16 @@ G.window_height = window.innerHeight;
 G.cardWidth = "160px";
 G.cardHeight = window.innerHeight/5 + "px";*/
 G.cardFromFile.lenth = 100;
-
 G.wins = 0;
 G.woncardSound = new Audio('Sounds/Woncardsound.mp3');
 G.wonboardSound = new Audio('Sounds/Victory.mp3');
 G.popboardSound = new Audio('Sounds/BubblePop.mp3');
-
-function monospaceHtml(htm) {
-    let arr = htm.split('');
-    let addedChar = '</th><th>'
-    let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
-    let finString = prefix;
-    for (i in arr) {
-        finString += arr[i]
-        if (arr[i] === '.' || arr[i] === ':' || i < 6) {
-            continue
-        }
-        finString += addedChar
-    }
-    return finString + '</tr></table>'
-}
 G.timeoutId = new Object();
 G.NumOfcard = 24;
-var card = [];
-
-
-for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
-    G.cardFromFile[i] = {
-        "valueOfcard": i,
-        "Apart": "a",
-        "Apart": "b ",
-        "cardWone": false
-    };
-}
-for (i = 1; i < (G.NumOfcard) + 5; i++) {
-    G.CardsTorandomize[i] = {
-        "valueOfcard": i,
-        "color": "white",
-        "cardBack": "InTheCard",
-        "cardWone": false
-    };
-}
-
-unResize = function() {
-    var viewport = window.visualViewport;
-
-    //  alert (G.window_width + "  X " + G.window_height + " VP " + Math.round(viewport.height));
-    //window.resizeTo(G.window_width,G.window_height)
-}
-
-window.onresize = unResize;
-
-
+G.card = [];
+if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
 buildCards()
-for (i = 1; i < 10; i++) {
-    G.cardFromFile[i].Apart = "Card0" + i + "A";
-    G.cardFromFile[i].Bpart = "Card0" + i + "B";
-}
-for (i = 10; i < 13; i++) {
-    G.cardFromFile[i].Apart = "Card" + i + "A";
-    G.cardFromFile[i].Bpart = "Card" + i + "B";
-}
-for (i = 1; i <= (G.NumOfcard); i++) {
-    if (i <= (G.NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
-        G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i].valueOfcard;
-        G.CardsTorandomize[i].InTheCard = G.cardFromFile[i].Apart;
-    } else {
-        G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i - (G.NumOfcard / 2)].valueOfcard;
-        G.CardsTorandomize[i].InTheCard = G.cardFromFile[i - (G.NumOfcard / 2)].Bpart;
-    }
-}
-for (i = 1; i < 27; i++) {
-    card[i].contentOfcard = G.errorString;
-    G.CardsTorandomize[i].writtenTocard = false
-}
-var n = 1
-while (n < (G.NumOfcard + 1)) {
-    var i = 0;
-    var rnd = Math.floor((Math.random() * 24) + 1);
-    if (G.CardsTorandomize[rnd].writtenTocard == false) {
-        card[n].contentOfcard = G.CardsTorandomize[rnd].InTheCard;
-        G.CardsTorandomize[rnd].writtenTocard = true;
-        n++;
-    }
-}
-for (i = 1; i < G.NumOfcard + 1; i++) {
-    card[i].picture = card[i].contentOfcard
-}
-// הפיכת המשתנה, תוכן הקלף למשתנה ללא האותיות A B
-for (i = 1; i < G.NumOfcard + 1; i++) {
-    var str = card[i].contentOfcard
-    var lnth = str.length;
-    var strWithoutAB = str.substring(0, lnth - 1)
-    card[i].contentOfcard = strWithoutAB
-}
+
 
 
 n = 3
@@ -159,10 +64,41 @@ G.cutedImageSize = function() {
         G.SplicedImage_width = DroneImage.width;
     }
 }
+function monospaceHtml(htm) {
+    let arr = htm.split('');
+    let addedChar = '</th><th>'
+    let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
+    let finString = prefix;
+    for (i in arr) {
+        finString += arr[i]
+        if (arr[i] === '.' || arr[i] === ':' || i < 6) {
+            continue
+        }
+        finString += addedChar
+    }
+    return finString + '</tr></table>'
+}
 function buildCards() {
+    for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
+        G.cardFromFile[i] = {
+            "valueOfcard": i,
+            "Apart": "a",
+            "Apart": "b ",
+            "cardWone": false
+        };
+    }
+    for (i = 1; i < (G.NumOfcard) + 5; i++) {
+        G.CardsTorandomize[i] = {
+            "valueOfcard": i,
+            "color": "white",
+            "cardBack": "InTheCard",
+            "cardWone": false
+        };
+    }
+
     var foo = 1;
     for (i = 0; i < G.NumOfcard + 40; i++) {
-        card[i] = {
+        G.card[i] = {
             "number": i,
             "color": "white",
             "cardBack": "Card number " + i,
@@ -172,12 +108,52 @@ function buildCards() {
             "PictureInCard": ""
         };
     };
+    for (i = 1; i < 10; i++) {
+        G.cardFromFile[i].Apart = "Card0" + i + "A";
+        G.cardFromFile[i].Bpart = "Card0" + i + "B";
+    }
+    for (i = 10; i < 13; i++) {
+        G.cardFromFile[i].Apart = "Card" + i + "A";
+        G.cardFromFile[i].Bpart = "Card" + i + "B";
+    }
+    for (i = 1; i <= (G.NumOfcard); i++) {
+        if (i <= (G.NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
+            G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i].valueOfcard;
+            G.CardsTorandomize[i].InTheCard = G.cardFromFile[i].Apart;
+        } else {
+            G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i - (G.NumOfcard / 2)].valueOfcard;
+            G.CardsTorandomize[i].InTheCard = G.cardFromFile[i - (G.NumOfcard / 2)].Bpart;
+        }
+    }
+    for (i = 1; i < 27; i++) {
+        G.card[i].contentOfcard = G.errorString;
+        G.CardsTorandomize[i].writtenTocard = false
+    }
+    var n = 1
+    while (n < (G.NumOfcard + 1)) {
+        var i = 0;
+        var rnd = Math.floor((Math.random() * 24) + 1);
+        if (G.CardsTorandomize[rnd].writtenTocard == false) {
+            G.card[n].contentOfcard = G.CardsTorandomize[rnd].InTheCard;
+            G.CardsTorandomize[rnd].writtenTocard = true;
+            n++;
+        }
+    }
+    for (i = 1; i < G.NumOfcard + 1; i++) {
+        G.card[i].picture = G.card[i].contentOfcard
+    }
+    for (i = 1; i < G.NumOfcard + 1; i++) {
+        var str = G.card[i].contentOfcard
+        var lnth = str.length;
+        var strWithoutAB = str.substring(0, lnth - 1)
+        G.card[i].contentOfcard = strWithoutAB
+    }
 }
 function cutImageUp() {
     G.cutedImageSize();
-    var theCSS_height = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("height");
+    var theCSS_height = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
     theCSS_height = parseInt(theCSS_height)
-    var theCSS_width = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("width");
+    var theCSS_width = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
     G.widthOfcard = theCSS_width;
     G.heightOfcard = theCSS_height;
     theCSS_width = parseInt(theCSS_height);
@@ -188,14 +164,14 @@ function cutImageUp() {
     window.onload = function() {
         for (i = 1; i < G.NumOfcard + 1; i++) {
             var z = i;
-            card[i].partiatImage = document.createElement("IMG");
-            card[i].partiatImage.src = G.cutedImage;
+            G.card[i].partiatImage = document.createElement("IMG");
+            G.card[i].partiatImage.src = G.cutedImage;
 
-            card[i].Frontcanvas = document.createElement("canvas");
-            card[i].Frontcanvas.style.position = "absolute";
-            card[i].Cobject.style.zIndex = "1";
-            card[i].FrontObject.appendChild(card[i].Frontcanvas);
-            var ctx = card[i].Frontcanvas.getContext("2d");
+            G.card[i].Frontcanvas = document.createElement("canvas");
+            G.card[i].Frontcanvas.style.position = "absolute";
+            G.card[i].Cobject.style.zIndex = "1";
+            G.card[i].FrontObject.appendChild(G.card[i].Frontcanvas);
+            var ctx = G.card[i].Frontcanvas.getContext("2d");
             G.numRowsToCut = 4;
             G.numColsToCut = 6;
             var x_numTocut = Math.ceil(i / G.numColsToCut);
@@ -225,17 +201,17 @@ function cutImageUp() {
             var drawx = (theCSS_width * -1 * (x_Position_of_image - 1) * Magic_number2);
             var drawy = (theCSS_width * -1 * y_Position_of_image * 1.0);
 
-            ctx.drawImage(card[i].partiatImage, drawx, drawy, stretchX, stretchY);
-            // ctx.drawImage(card[i].partiatImage,0,0,stretchX,stretchY);
-            card[i].Frontcanvas.number = i;
-            card[i].partiatImage.number = i;
+            ctx.drawImage(G.card[i].partiatImage, drawx, drawy, stretchX, stretchY);
+            // ctx.drawImage(G.card[i].partiatImage,0,0,stretchX,stretchY);
+            G.card[i].Frontcanvas.number = i;
+            G.card[i].partiatImage.number = i;
             // בניית אובייקט לחיצה
-            card[i].pressobj = document.createElement("DIV");
-            card[i].pressobj.style.position = "fixed";
-            card[i].pressobj.className += "pressobjclass"
-            card[i].pressobj.style.zIndex = "20";
-            card[i].pressobj.style.backgroundColor = "red";
-            card[i].FrontObject.appendChild(card[i].pressobj);
+            G.card[i].pressobj = document.createElement("DIV");
+            G.card[i].pressobj.style.position = "fixed";
+            G.card[i].pressobj.className += "pressobjclass"
+            G.card[i].pressobj.style.zIndex = "20";
+            G.card[i].pressobj.style.backgroundColor = "red";
+            G.card[i].FrontObject.appendChild(G.card[i].pressobj);
         };
     }
 }
@@ -245,7 +221,7 @@ function turnCard(cardnum) {
         return
     };
 
-    if (card[cardnum].cardWone == true || statuS.card1 == cardnum || statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
+    if (G.card[cardnum].cardWone == true || statuS.card1 == cardnum || statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
     else if (statuS.endingTurn == true) { // אם לוחצים באמצע התור
         var Keep_cardVlaue = cardnum;
         window.clearTimeout(endTurn);
@@ -256,19 +232,19 @@ function turnCard(cardnum) {
         statuS.card1 = cardnum
         statuS.turn = true;
         turnCard(cardnum);
-        card[cardnum].Cobject.classList.add("flipped")
+        G.card[cardnum].Cobject.classList.add("flipped")
         AddtoFlipCount(cardnum);
     } else if (statuS.turn == false && statuS.endingTurn == false) {
         statuS.turn = true;
         statuS.card1 = cardnum;
-        card[cardnum].Cobject.classList.add("flipped");
+        G.card[cardnum].Cobject.classList.add("flipped");
         AddtoFlipCount(cardnum);
     } else if (statuS.turn == true && statuS.endingTurn == false) {
         statuS.card2 = cardnum;
-        card[cardnum].Cobject.classList.add("flipped");
+        G.card[cardnum].Cobject.classList.add("flipped");
         statuS.endingTurn = true;
         AddtoFlipCount(cardnum);
-        if (card[statuS.card1].contentOfcard == card[statuS.card2].contentOfcard) {
+        if (G.card[statuS.card1].contentOfcard == G.card[statuS.card2].contentOfcard) {
             wonTurn()
         } else {
             //conWrite ("endturnd timer");
@@ -303,8 +279,8 @@ function AddtoFlipCount(cardnumberforaudio) {
 function wonTurn() {
     G.wins++
 
-    card[statuS.card1].cardWone = true;
-    card[statuS.card2].cardWone = true;
+    G.card[statuS.card1].cardWone = true;
+    G.card[statuS.card2].cardWone = true;
     statuS.card1 = 0;
     statuS.card2 = 0;
     statuS.turn = false;
@@ -322,8 +298,8 @@ function endTurn() {
     //conWrite ("endturnd starts");
     if (statuS.endingTurn == false) { //conWrite ("endturnd canceled");
     } else {
-        card[statuS.card1].Cobject.classList.remove("flipped");
-        card[statuS.card2].Cobject.classList.remove("flipped");;
+        G.card[statuS.card1].Cobject.classList.remove("flipped");
+        G.card[statuS.card2].Cobject.classList.remove("flipped");;
         statuS.card1 = 0;
         statuS.card2 = 0;
         statuS.turn = false;
@@ -337,47 +313,47 @@ function boardBuilder() {
     for (i = 1; i < G.NumOfcard + 1; i++) {
         /*FRAME*/
         var card01 = document.createElement("div");
-        window.card[i].Cobject = card01;
-        card[i].Cobject.class = i;
-        card[i].Cobject.classList.add("flip-container");
-        card[i].Cobject.style.height = G.cardHeight;
-        card[i].Cobject.style.width = G.cardWidth;
-        card[i].Cobject.number = i;
-        card[i].number = "numbers " + i;
-        card[i].Cardwrapper = document.createElement("div");
-        card[i].BackObject = document.createElement("div");
-        card[i].FrontObject = document.createElement("div");
-        card[i].Cobject.number = i;
-        card[i].FrontObject.number = i;
-        card[i].BackObject.number = i;
-        card[i].Cardwrapper.number = i;
+        G.card[i].Cobject = card01;
+        G.card[i].Cobject.class = i;
+        G.card[i].Cobject.classList.add("flip-container");
+        G.card[i].Cobject.style.height = G.cardHeight;
+        G.card[i].Cobject.style.width = G.cardWidth;
+        G.card[i].Cobject.number = i;
+        G.card[i].number = "numbers " + i;
+        G.card[i].Cardwrapper = document.createElement("div");
+        G.card[i].BackObject = document.createElement("div");
+        G.card[i].FrontObject = document.createElement("div");
+        G.card[i].Cobject.number = i;
+        G.card[i].FrontObject.number = i;
+        G.card[i].BackObject.number = i;
+        G.card[i].Cardwrapper.number = i;
 
 
 
-        card[i].Cardwrapper.appendChild(card[i].Cobject);
-        card[i].Cobject.appendChild(card[i].BackObject);
-        card[i].Cobject.appendChild(card[i].FrontObject);
-        card[i].BackObject.classList.add("back");
-        card[i].FrontObject.classList.add("front");
-        card[i].Cardwrapper.classList.add("cardWrappStyle");
+        G.card[i].Cardwrapper.appendChild(G.card[i].Cobject);
+        G.card[i].Cobject.appendChild(G.card[i].BackObject);
+        G.card[i].Cobject.appendChild(G.card[i].FrontObject);
+        G.card[i].BackObject.classList.add("back");
+        G.card[i].FrontObject.classList.add("front");
+        G.card[i].Cardwrapper.classList.add("cardWrappStyle");
 
 
 
 
-        G.widthOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("width");
-        G.heightOfcard = window.getComputedStyle(card[1].Cobject, null).getPropertyValue("height");
+        G.widthOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
+        G.heightOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
 
-        card[i].press = function() {
+        G.card[i].press = function() {
             turnCard(event.target.number);
         };
-        card[i].Cobject.addEventListener("click", card[i].press, false);
+        G.card[i].Cobject.addEventListener("click", G.card[i].press, false);
 
 
         var y = i - 1 // new line every 4 rows
         if (Math.ceil(y / G.numColsToCut) == (y / G.numColsToCut)) {
-            card[i].Cardwrapper.style.clear = "left"
+            G.card[i].Cardwrapper.style.clear = "left"
         }
-        document.getElementById("wrapper01").appendChild(card[i].Cardwrapper);
+        document.getElementById("wrapper01").appendChild(G.card[i].Cardwrapper);
     }
 
     document.getElementById('wrapper01').ondragstart = function() {
@@ -390,37 +366,37 @@ function cardPictureBuilder() { // if you dont need this the erase the function
 
         if (i > 0) {
 
-            //card[i].picture.adress = "CardsImage/" + card[i].contentOfcard + ".jpg" ;
+            //G.card[i].picture.adress = "CardsImage/" + G.card[i].contentOfcard + ".jpg" ;
             var PictureInCard = document.createElement("img");
-            card[i].DivForPictureInCard = document.createElement("div");
+            G.card[i].DivForPictureInCard = document.createElement("div");
 
-            PictureInCard.scr = "CardsImage/" + card[i].picture + ".jpg"
-            card[i].picture.obj = PictureInCard;
+            PictureInCard.scr = "CardsImage/" + G.card[i].picture + ".jpg"
+            G.card[i].picture.obj = PictureInCard;
             // appending a div inside the back object
-            card[i].BackObject.appendChild(card[i].DivForPictureInCard);
-            card[i].DivForPictureInCard.appendChild(PictureInCard);
+            G.card[i].BackObject.appendChild(G.card[i].DivForPictureInCard);
+            G.card[i].DivForPictureInCard.appendChild(PictureInCard);
 
-            card[i].BackObject.style.backgroundImage = "url(" + PictureInCard.scr + ")";
-            card[i].BackObject.style.height = "100%" // G.heightOfcard;
-            card[i].BackObject.style.width = "100%" // G.widthOfcard;
-            card[i].BackObject.style.backgroundSize = "100% 100%";
-            card[i].BackObject.style.backfaceVisibility = "hidden";
-            card[i].BackObject.style.zIndex = "-1";
-            card[i].FrontObject.style.backfaceVisibility = "hidden";
+            G.card[i].BackObject.style.backgroundImage = "url(" + PictureInCard.scr + ")";
+            G.card[i].BackObject.style.height = "100%" // G.heightOfcard;
+            G.card[i].BackObject.style.width = "100%" // G.widthOfcard;
+            G.card[i].BackObject.style.backgroundSize = "100% 100%";
+            G.card[i].BackObject.style.backfaceVisibility = "hidden";
+            G.card[i].BackObject.style.zIndex = "-1";
+            G.card[i].FrontObject.style.backfaceVisibility = "hidden";
 
-            card[i].Back_pressobj = document.createElement("div");
+            G.card[i].Back_pressobj = document.createElement("div");
 
-            card[i].Back_pressobj.style.position = "fixed";
-            card[i].Back_pressobj.style.top = "0px"
-            card[i].Back_pressobj.style.left = "0px"
+            G.card[i].Back_pressobj.style.position = "fixed";
+            G.card[i].Back_pressobj.style.top = "0px"
+            G.card[i].Back_pressobj.style.left = "0px"
 
-            card[i].Back_pressobj.className += "pressobjclass2"
-            card[i].Back_pressobj.style.zIndex = "20";
+            G.card[i].Back_pressobj.className += "pressobjclass2"
+            G.card[i].Back_pressobj.style.zIndex = "20";
 
-            card[i].Back_pressobj.style.backfaceVisibility = "visible";
-            card[i].Back_pressobj.style.height = "100%";
-            card[i].Back_pressobj.style.width = "100%";
-            card[i].BackObject.appendChild(card[i].Back_pressobj);
+            G.card[i].Back_pressobj.style.backfaceVisibility = "visible";
+            G.card[i].Back_pressobj.style.height = "100%";
+            G.card[i].Back_pressobj.style.width = "100%";
+            G.card[i].BackObject.appendChild(G.card[i].Back_pressobj);
         } // close the if
     }
 }
@@ -921,13 +897,14 @@ function playCardAudio(num) {
     if (G.soundIson == false) {
         return
     }
-    var Audiofilepath = G.audiofolderPath + "Sound" + card[num].picture.substring(4, 10) + ".mp3"
+    var Audiofilepath = G.audiofolderPath + "Sound" + G.card[num].picture.substring(4, 10) + ".mp3"
     var cardsoundObj = new Audio(Audiofilepath)
     cardsoundObj.play()
     return;
 
 
 }
+setCardsize()
 document.getElementById("ErrorCheck").innerHTML = "";
 getValuesFromConfig()
 boardBuilder();

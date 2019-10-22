@@ -1,5 +1,5 @@
-//window.name = "asdfasdfasdfa"  // var that stays after page reload
-var global_Data = { // An object wich will use for all the global variables and objects in this file.
+
+var global_Data = {
     CardsTorandomize: [1, 2, 3],
     cardFromFile: [1, 2, 3],
 }
@@ -9,7 +9,6 @@ var modeAndLevel = gameModeStatus();
 global_Data.window_width = window.innerWidth;
 global_Data.window_height = window.innerHeight;
 setCardsize()
-
 global_Data.audiofolderPath = "CardSound/"
 global_Data.developeMode = false // do you have to win games or you can press esc to win them
 global_Data.gameTrophy = modeAndLevel[0]; //witch type of game the player can play if he wants to   (A B C) + D
@@ -18,16 +17,14 @@ global_Data.wasTheGamewone = false
 global_Data.NumOfChalangeFlips = 99; //number of flips do the flip challange
 global_Data.NumOfChalangeSeconds = 100;
 //number of seconds to do the time challange
-
 global_Data.NumOfRemainigFlips = global_Data.NumOfChalangeFlips;
 global_Data.ChallangeLost = false;
-
 
 if (localStorage.StorageSoundIsOn == "false") {
     global_Data.soundIson = false
 } else {
     global_Data.soundIson = true
-} // volume on as default
+}
 
 
 global_Data.cutedImage = "Defaultimage/frontOfcards.png";
@@ -92,12 +89,6 @@ for (i = 1; i < (NumOfcard) + 5; i++) {
     };
 }
 
-
-/* 'CURRENT
-global_Data.window_width = window.innerWidth;
-global_Data.window_height = window.innerHeight;
-*/
-
 unResize = function() {
     var viewport = window.visualViewport;
 
@@ -109,17 +100,14 @@ window.onresize = unResize;
 
 
 buildCards()
-
 for (i = 1; i < 10; i++) {
     global_Data.cardFromFile[i].Apart = "Card0" + i + "A";
     global_Data.cardFromFile[i].Bpart = "Card0" + i + "B";
 }
-
 for (i = 10; i < 13; i++) {
     global_Data.cardFromFile[i].Apart = "Card" + i + "A";
     global_Data.cardFromFile[i].Bpart = "Card" + i + "B";
 }
-
 for (i = 1; i <= (NumOfcard); i++) {
     if (i <= (NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
         global_Data.CardsTorandomize[i].valueOfcard = global_Data.cardFromFile[i].valueOfcard;
@@ -133,9 +121,7 @@ for (i = 1; i < 27; i++) {
     card[i].contentOfcard = global_Data.errorString;
     global_Data.CardsTorandomize[i].writtenTocard = false
 }
-
 var n = 1
-//פונקציה של סידור הקלפים בצורה אקראית
 while (n < (NumOfcard + 1)) {
     var i = 0;
     var rnd = Math.floor((Math.random() * 24) + 1);
@@ -145,8 +131,6 @@ while (n < (NumOfcard + 1)) {
         n++;
     }
 }
-
-// יצירת משתנה חדש, שהוא התמונה
 for (i = 1; i < NumOfcard + 1; i++) {
     card[i].picture = card[i].contentOfcard
 }
@@ -445,8 +429,8 @@ function cardPictureBuilder() { // if you dont need this the erase the function
             card[i].Back_pressobj.style.width = "100%";
             card[i].BackObject.appendChild(card[i].Back_pressobj);
         } // close the if
-    } // close the loop
-} // clocse the function
+    }
+}
 function HeaderBuilder() {
 
     // BUILDING THE TEXT OF HEADER
@@ -553,7 +537,7 @@ function soundToggle() {
     localStorage.StorageSoundIsOn = bool.toString()
 
 }
-function stopWatch() { // function that sets a time interval and starts the stoper
+function stopWatch() {
     global_Data.stopWatchTIME = 0;
     var ChangeTimeInterval = 100 //change time interval every X milisecinds
     if (global_Data.gamelevel == 3) {
@@ -773,7 +757,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 
 
-} // end of woone board
+}
 function DeleteConsole() {
     if (global_Data.ChallangeLost == true) {
         location.reload()
@@ -819,10 +803,15 @@ function RequestNewGame(newGamenumber) {
     //winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
 }
 function gameModeStatus(changeTheFrameOrnot) { // if changeframe is true than it copies the values to the "cookie", else it creats a new game.
+    //G.saveInLocalStorageKey // session storage;
+    let saved = sessionStorage.getItem(G.saveInLocalStorageKey)
+    console.log (saved)
     if (window.name == "") {
         window.name = "A,1"
+        sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
     } else if (changeTheFrameOrnot == true) {
         window.name = global_Data.gameTrophy + "," + global_Data.gamelevel
+        sessionStorage.setItem(G.saveInLocalStorageKey,global_Data.gameTrophy + "," + global_Data.gamelevel)
     };
     var stringFromWindowName = window.name;
     var modearray = stringFromWindowName.split(",");
@@ -852,6 +841,11 @@ function levelUp() {
     }
 
 }
+function test () {
+global_Data.developeMode = true;
+return "develope mode: on"
+}
+
 function GetvaluesfromConfigFile() {
     //global_Data.developeMode = true;
     global_Data.NumOfChalangeFlips = 0;
@@ -868,13 +862,12 @@ function GetvaluesfromConfigFile() {
 document.onkeydown = function(evt) {
 
     if (global_Data.developeMode == false) {
-        ;
         return
     };
     evt = evt || window.event;
     var isEscape = false;
     if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
+        isEscape = (evt.key == "Escape" || evt.key == "Esc" || evt.key == 1);
     } else {
         isEscape = (evt.keyCode == 27);
     }
@@ -895,23 +888,23 @@ function getValuesFromConfig() {
     }
     var errorWithValue = false;
 
-    if (name_of_game !== 'undefined') {
-        global_Data.ThegameHeadline = name_of_game
+    if (G.name_of_game !== 'undefined') {
+        global_Data.ThegameHeadline = G.name_of_game
     };
 
-    if (typeof flip_chalange !== 'undefined') {
-        validatValue(flip_chalange, "int") ? global_Data.NumOfChalangeFlips = flip_chalange : errorWithValue = true
+    if (typeof G.flip_chalange !== 'undefined') {
+        validatValue(G.flip_chalange, "int") ? global_Data.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
     }
-    if (typeof seconds_challange !== 'undefined') {
-        validatValue(seconds_challange, "int") ? global_Data.NumOfChalangeSeconds = seconds_challange : errorWithValue = true
-    }
-
-    if (typeof mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-        validatValue(mute, "boolean") ? global_Data.soundIson = !mute : errorWithValue = true
+    if (typeof G.seconds_challange !== 'undefined') {
+        validatValue(G.seconds_challange, "int") ? global_Data.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
     }
 
-    if (typeof dev_mode !== 'undefined') {
-        validatValue(dev_mode, "boolean") ? global_Data.developeMode = dev_mode : errorWithValue = true
+    if (typeof G.mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
+        validatValue(G.mute, "boolean") ? global_Data.soundIson = !G.mute : errorWithValue = true
+    }
+
+    if (typeof G.dev_mode !== 'undefined') {
+        validatValue(G.dev_mode, "boolean") ? global_Data.developeMode = G.dev_mode : errorWithValue = true
     }
 
     return errorWithValue

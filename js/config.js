@@ -1,23 +1,21 @@
 ﻿var G = {} // global for config
-name_of_game =  "משחק הזיכרון פעולות"
-seconds_challange = 100
-flip_chalange = 101
-mute = 0
-dev_mode =0
-
+G.name_of_game =  "משחק הזיכרון פעולות";
+G.seconds_challange = 100;
+G.flip_chalange = 101;
+G.mute = 0;
+G.dev_mode =1; //change back to 0
 
 /*
 הסבר:
 ניתן לשנות את המשתנים הבאים, על ידי שינוי הנתונים אחרי סימן השיוויון (=)
 
-name_of_game - השם שרשום בכותרת המשחק
-seconds_challange - כמות השניות שיש לשחקן באתגר הזמן
-flip_chalange - כמות היפוכי הקלפים שיש לשחקן באתגר ההיפוכים
-dev_mode1 - מצב מפתח, לחיצה על Esc גורמת לזכייה במשחק. (0 = לא פעיל, 1 = מצב מפתח פעיל)
-mute - המשחק מתחיל כשהקול מושתק, ניתן להפעיל אותו שוב. (0 = לא פעיל, 1 = המשחק מושתק בהתחלה)
+G.name_of_game - השם שרשום בכותרת המשחק
+G.seconds_challange - כמות השניות שיש לשחקן באתגר הזמן
+G.flip_chalange - כמות היפוכי הקלפים שיש לשחקן באתגר ההיפוכים
+G.dev_mode1 - מצב מפתח, לחיצה על Esc גורמת לזכייה במשחק. (0 = לא פעיל, 1 = מצב מפתח פעיל)
+G.mute - המשחק מתחיל כשהקול מושתק, ניתן להפעיל אותו שוב. (0 = לא פעיל, 1 = המשחק מושתק בהתחלה)
 
 */
-
 
 let myFileName = location.pathname.split("/").slice(-1)
 G.fileName = myFileName[0].replace(/\.html/ig,"")

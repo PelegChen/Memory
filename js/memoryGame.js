@@ -5,9 +5,9 @@ G.cardFromFile = [1, 2, 3];
 G.window_width = window.innerWidth;
 G.window_height = window.innerHeight;
 G.audiofolderPath = "CardSound/";
-G.developeMode = false // do you have to win games or you can press esc to win them
-G.gameTrophy = gameModeStatus()[0]; //witch type of game the player can play if he wants to   (A B C) + D
-G.gamelevel = gameModeStatus()[1]; //witch type of level the player chooses to play (1 2 3)
+G.developeMode = false
+G.gameTrophy = gameModeStatus()[0];
+G.gamelevel = gameModeStatus()[1];
 G.wasTheGamewone = false;
 G.NumOfChalangeFlips = 99; //number of flips do the flip challange
 G.NumOfChalangeSeconds = 100;
@@ -23,14 +23,6 @@ G.consoleIsopen = false; // if the console is open
 G.NumOflips = 0;
 G.errorString = "Error no data"
 G.numRowsToCut = 4;
-/*
-G.cardWidth = "160px";
-G.cardHeight = "110px";
-G.window_width = window.innerWidth;
-G.window_height = window.innerHeight;
-
-G.cardWidth = "160px";
-G.cardHeight = window.innerHeight/5 + "px";*/
 G.cardFromFile.lenth = 100;
 G.wins = 0;
 G.woncardSound = new Audio('Sounds/Woncardsound.mp3');
@@ -39,7 +31,7 @@ G.popboardSound = new Audio('Sounds/BubblePop.mp3');
 G.timeoutId = new Object();
 G.NumOfcard = 24;
 G.card = [];
-if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
+
 G.statuS = {};
 G.statuS.turn = false;
 G.statuS.card1 = 0;
@@ -47,20 +39,7 @@ G.statuS.card2 = 0;
 G.statuS.endingTurn = false;
 
 
-function monospaceHtml(htm) {
-    let arr = htm.split('');
-    let addedChar = '</th><th>'
-    let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
-    let finString = prefix;
-    for (i in arr) {
-        finString += arr[i]
-        if (arr[i] === '.' || arr[i] === ':' || i < 6) {
-            continue
-        }
-        finString += addedChar
-    }
-    return finString + '</tr></table>'
-}
+
 function buildCards() {
     for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
         G.cardFromFile[i] = {
@@ -131,6 +110,101 @@ function buildCards() {
         var strWithoutAB = str.substring(0, lnth - 1)
         G.card[i].contentOfcard = strWithoutAB
     }
+}
+function setCardsize() {
+
+    var styleEl = document.createElement('style'), styleSheet;
+    document.head.appendChild(styleEl);
+    styleSheet = styleEl.sheet;
+    var wideConst = 8
+    var highConst = 5.5
+    var Widefit = Math.round(G.window_width / wideConst);
+    var heightfit = Math.round(G.window_height / highConst);
+    styleSheet.insertRule('.flip-container {width:' + Widefit + 'px; height: ' + heightfit + 'px;}', 0);
+}
+function getValuesFromConfig() {
+
+    function validatValue(theVar, typeOfvar) {
+        if (typeOfvar == "boolean") {
+            return (theVar == 0 || theVar == 1) ? true : false
+        } else if (typeOfvar == "int") {
+            return (theVar > 0 && theVar < 1000) ? true : false
+        } else {
+            return false
+        }
+    }
+    var errorWithValue = false;
+    if (G.name_of_game !== 'undefined') {
+        G.ThegameHeadline = G.name_of_game
+    };
+    if (typeof G.flip_chalange !== 'undefined') {
+        validatValue(G.flip_chalange, "int") ? G.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
+    }
+    if (typeof G.seconds_challange !== 'undefined') {
+        validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
+    }
+    if (typeof G.mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
+        validatValue(G.mute, "boolean") ? G.soundIson = !G.mute : errorWithValue = true
+    }
+    if (typeof G.dev_mode !== 'undefined') {
+        validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
+    }
+
+    return errorWithValue
+}
+function boardBuilder() {
+
+
+    for (i = 1; i < G.NumOfcard + 1; i++) {
+        /*FRAME*/
+        var card01 = document.createElement("div");
+        G.card[i].Cobject = card01;
+        G.card[i].Cobject.class = i;
+        G.card[i].Cobject.classList.add("flip-container");
+        G.card[i].Cobject.style.height = G.cardHeight;
+        G.card[i].Cobject.style.width = G.cardWidth;
+        G.card[i].Cobject.number = i;
+        G.card[i].number = "numbers " + i;
+        G.card[i].Cardwrapper = document.createElement("div");
+        G.card[i].BackObject = document.createElement("div");
+        G.card[i].FrontObject = document.createElement("div");
+        G.card[i].Cobject.number = i;
+        G.card[i].FrontObject.number = i;
+        G.card[i].BackObject.number = i;
+        G.card[i].Cardwrapper.number = i;
+
+
+
+        G.card[i].Cardwrapper.appendChild(G.card[i].Cobject);
+        G.card[i].Cobject.appendChild(G.card[i].BackObject);
+        G.card[i].Cobject.appendChild(G.card[i].FrontObject);
+        G.card[i].BackObject.classList.add("back");
+        G.card[i].FrontObject.classList.add("front");
+        G.card[i].Cardwrapper.classList.add("cardWrappStyle");
+
+
+
+
+        G.widthOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
+        G.heightOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
+
+        G.card[i].press = function() {
+            turnCard(event.target.number);
+        };
+        G.card[i].Cobject.addEventListener("click", G.card[i].press, false);
+
+
+        var y = i - 1 // new line every 4 rows
+        if (Math.ceil(y / G.numColsToCut) == (y / G.numColsToCut)) {
+            G.card[i].Cardwrapper.style.clear = "left"
+        }
+        document.getElementById("wrapper01").appendChild(G.card[i].Cardwrapper);
+    }
+
+    document.getElementById('wrapper01').ondragstart = function() {
+        return false;
+    };
+
 }
 function cutImageUp() {
     function cutedImageSize () {
@@ -209,170 +283,22 @@ function cutImageUp() {
         };
     }
 }
-function turnCard(cardnum) {
-    // אם המצב שווה ללא נכון, אז מבצעים את הפעילויות האלו
-    if (G.consoleIsopen == true) {
-        return
-    };
-
-    if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
-    else if (G.statuS.endingTurn == true) { // אם לוחצים באמצע התור
-        var Keep_cardVlaue = cardnum;
-        window.clearTimeout(endTurn);
-        endTurn();
-        G.statuS.card1 = 0;
-        G.statuS.card2 = 0;
-        cardnum = Keep_cardVlaue;
-        G.statuS.card1 = cardnum
-        G.statuS.turn = true;
-        turnCard(cardnum);
-        G.card[cardnum].Cobject.classList.add("flipped")
-        AddtoFlipCount(cardnum);
-    } else if (G.statuS.turn == false && G.statuS.endingTurn == false) {
-        G.statuS.turn = true;
-        G.statuS.card1 = cardnum;
-        G.card[cardnum].Cobject.classList.add("flipped");
-        AddtoFlipCount(cardnum);
-    } else if (G.statuS.turn == true && G.statuS.endingTurn == false) {
-        G.statuS.card2 = cardnum;
-        G.card[cardnum].Cobject.classList.add("flipped");
-        G.statuS.endingTurn = true;
-        AddtoFlipCount(cardnum);
-        if (G.card[G.statuS.card1].contentOfcard == G.card[G.statuS.card2].contentOfcard) {
-            wonTurn()
-        } else {
-            //conWrite ("endturnd timer");
-            window.clearTimeout(G.timeoutId);
-            G.timeoutId = setTimeout(endTurn, 4000);
-        }
-        //conWrite (cardnum);
-    }
-    //conWrite ("turncard");
-}
-function AddtoFlipCount(cardnumberforaudio) {
-    playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
-    G.NumOflips++;
-    var flipNodeTexT = 0
-    if (G.gamelevel == 2) {
-        G.NumOfRemainigFlips = G.NumOfChalangeFlips -
-            G.NumOflips;
-        flipNodeTexT = G.NumOfRemainigFlips;
-    } else {
-        flipNodeTexT = G.NumOflips
-    }
-    if (G.NumOfRemainigFlips < 1) {
-        G.ChallangeLost = true;
-        ConsoleBoard(false, true)
-    } //loset the game
-
-    //G.HeaderCountObject.innerHTML = flipNodeTexT;
-    flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
-    G.HeaderCountND.innerHTML = flipNodeText;
-
-}
-function wonTurn() {
-    G.wins++
-
-    G.card[G.statuS.card1].cardWone = true;
-    G.card[G.statuS.card2].cardWone = true;
-    G.statuS.card1 = 0;
-    G.statuS.card2 = 0;
-    G.statuS.turn = false;
-    G.statuS.endingTurn = false;
-
-    if (G.wins == (G.NumOfcard / 2)) {
-        ConsoleBoard(true)
-    }
-
-    if (G.soundIson == true) {
-        window.setTimeout(G.woncardSound.play(), 200);
-    }
-}
-function endTurn() {
-    //conWrite ("endturnd starts");
-    if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
-    } else {
-        G.card[G.statuS.card1].Cobject.classList.remove("flipped");
-        G.card[G.statuS.card2].Cobject.classList.remove("flipped");;
-        G.statuS.card1 = 0;
-        G.statuS.card2 = 0;
-        G.statuS.turn = false;
-        G.statuS.endingTurn = false;
-        //conWrite ("endturnd finished");
-    }
-}
-function boardBuilder() {
-
-
-    for (i = 1; i < G.NumOfcard + 1; i++) {
-        /*FRAME*/
-        var card01 = document.createElement("div");
-        G.card[i].Cobject = card01;
-        G.card[i].Cobject.class = i;
-        G.card[i].Cobject.classList.add("flip-container");
-        G.card[i].Cobject.style.height = G.cardHeight;
-        G.card[i].Cobject.style.width = G.cardWidth;
-        G.card[i].Cobject.number = i;
-        G.card[i].number = "numbers " + i;
-        G.card[i].Cardwrapper = document.createElement("div");
-        G.card[i].BackObject = document.createElement("div");
-        G.card[i].FrontObject = document.createElement("div");
-        G.card[i].Cobject.number = i;
-        G.card[i].FrontObject.number = i;
-        G.card[i].BackObject.number = i;
-        G.card[i].Cardwrapper.number = i;
-
-
-
-        G.card[i].Cardwrapper.appendChild(G.card[i].Cobject);
-        G.card[i].Cobject.appendChild(G.card[i].BackObject);
-        G.card[i].Cobject.appendChild(G.card[i].FrontObject);
-        G.card[i].BackObject.classList.add("back");
-        G.card[i].FrontObject.classList.add("front");
-        G.card[i].Cardwrapper.classList.add("cardWrappStyle");
-
-
-
-
-        G.widthOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
-        G.heightOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
-
-        G.card[i].press = function() {
-            turnCard(event.target.number);
-        };
-        G.card[i].Cobject.addEventListener("click", G.card[i].press, false);
-
-
-        var y = i - 1 // new line every 4 rows
-        if (Math.ceil(y / G.numColsToCut) == (y / G.numColsToCut)) {
-            G.card[i].Cardwrapper.style.clear = "left"
-        }
-        document.getElementById("wrapper01").appendChild(G.card[i].Cardwrapper);
-    }
-
-    document.getElementById('wrapper01').ondragstart = function() {
-        return false;
-    };
-
-}
-function cardPictureBuilder() { // if you dont need this the erase the function
+function cardPictureBuilder() {
     for (i = 1; i < G.NumOfcard + 1; i++) {
 
         if (i > 0) {
 
-            //G.card[i].picture.adress = "CardsImage/" + G.card[i].contentOfcard + ".jpg" ;
             var PictureInCard = document.createElement("img");
             G.card[i].DivForPictureInCard = document.createElement("div");
 
             PictureInCard.scr = "CardsImage/" + G.card[i].picture + ".jpg"
             G.card[i].picture.obj = PictureInCard;
-            // appending a div inside the back object
             G.card[i].BackObject.appendChild(G.card[i].DivForPictureInCard);
             G.card[i].DivForPictureInCard.appendChild(PictureInCard);
 
             G.card[i].BackObject.style.backgroundImage = "url(" + PictureInCard.scr + ")";
-            G.card[i].BackObject.style.height = "100%" // G.heightOfcard;
-            G.card[i].BackObject.style.width = "100%" // G.widthOfcard;
+            G.card[i].BackObject.style.height = "100%" ;
+            G.card[i].BackObject.style.width = "100%" ;
             G.card[i].BackObject.style.backgroundSize = "100% 100%";
             G.card[i].BackObject.style.backfaceVisibility = "hidden";
             G.card[i].BackObject.style.zIndex = "-1";
@@ -480,6 +406,103 @@ function HeaderBuilder() {
     };
 
 }
+
+
+function turnCard(cardnum) {
+    // אם המצב שווה ללא נכון, אז מבצעים את הפעילויות האלו
+    if (G.consoleIsopen == true) {
+        return
+    };
+
+    if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
+    else if (G.statuS.endingTurn == true) { // אם לוחצים באמצע התור
+        var Keep_cardVlaue = cardnum;
+        window.clearTimeout(endTurn);
+        endTurn();
+        G.statuS.card1 = 0;
+        G.statuS.card2 = 0;
+        cardnum = Keep_cardVlaue;
+        G.statuS.card1 = cardnum
+        G.statuS.turn = true;
+        turnCard(cardnum);
+        G.card[cardnum].Cobject.classList.add("flipped")
+        AddtoFlipCount(cardnum);
+    } else if (G.statuS.turn == false && G.statuS.endingTurn == false) {
+        G.statuS.turn = true;
+        G.statuS.card1 = cardnum;
+        G.card[cardnum].Cobject.classList.add("flipped");
+        AddtoFlipCount(cardnum);
+    } else if (G.statuS.turn == true && G.statuS.endingTurn == false) {
+        G.statuS.card2 = cardnum;
+        G.card[cardnum].Cobject.classList.add("flipped");
+        G.statuS.endingTurn = true;
+        AddtoFlipCount(cardnum);
+        if (G.card[G.statuS.card1].contentOfcard == G.card[G.statuS.card2].contentOfcard) {
+            wonTurn()
+        } else {
+            //conWrite ("endturnd timer");
+            window.clearTimeout(G.timeoutId);
+            G.timeoutId = setTimeout(endTurn, 4000);
+        }
+        //conWrite (cardnum);
+    }
+    //conWrite ("turncard");
+}
+function AddtoFlipCount(cardnumberforaudio) {
+    playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
+    G.NumOflips++;
+    var flipNodeTexT = 0
+    if (G.gamelevel == 2) {
+        G.NumOfRemainigFlips = G.NumOfChalangeFlips -
+            G.NumOflips;
+        flipNodeTexT = G.NumOfRemainigFlips;
+    } else {
+        flipNodeTexT = G.NumOflips
+    }
+    if (G.NumOfRemainigFlips < 1) {
+        G.ChallangeLost = true;
+        ConsoleBoard(false, true)
+    } //loset the game
+
+    //G.HeaderCountObject.innerHTML = flipNodeTexT;
+    flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
+    G.HeaderCountND.innerHTML = flipNodeText;
+
+}
+function wonTurn() {
+    G.wins++
+
+    G.card[G.statuS.card1].cardWone = true;
+    G.card[G.statuS.card2].cardWone = true;
+    G.statuS.card1 = 0;
+    G.statuS.card2 = 0;
+    G.statuS.turn = false;
+    G.statuS.endingTurn = false;
+
+    if (G.wins == (G.NumOfcard / 2)) {
+        ConsoleBoard(true)
+    }
+
+    if (G.soundIson == true) {
+        window.setTimeout(G.woncardSound.play(), 200);
+    }
+}
+function endTurn() {
+    //conWrite ("endturnd starts");
+    if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
+    } else {
+        G.card[G.statuS.card1].Cobject.classList.remove("flipped");
+        G.card[G.statuS.card2].Cobject.classList.remove("flipped");;
+        G.statuS.card1 = 0;
+        G.statuS.card2 = 0;
+        G.statuS.turn = false;
+        G.statuS.endingTurn = false;
+        //conWrite ("endturnd finished");
+    }
+}
+
+
+
 function settingsConsoleButtonPress() {
     if (G.consoleIsopen == true) {
         DeleteConsole()
@@ -501,6 +524,20 @@ function soundToggle() {
 
 }
 function stopWatch() {
+    function monospaceHtml(htm) {
+        let arr = htm.split('');
+        let addedChar = '</th><th>'
+        let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
+        let finString = prefix;
+        for (i in arr) {
+            finString += arr[i]
+            if (arr[i] === '.' || arr[i] === ':' || i < 6) {
+                continue
+            }
+            finString += addedChar
+        }
+        return finString + '</tr></table>'
+    }
     G.stopWatchTIME = 0;
     var ChangeTimeInterval = 100 //change time interval every X milisecinds
     if (G.gamelevel == 3) {
@@ -834,51 +871,6 @@ document.onkeydown = function(evt) {
         ConsoleBoard(true);
     }
 };
-function getValuesFromConfig() {
-
-    function validatValue(theVar, typeOfvar) {
-        if (typeOfvar == "boolean") {
-            return (theVar == 0 || theVar == 1) ? true : false
-        } else if (typeOfvar == "int") {
-            return (theVar > 0 && theVar < 1000) ? true : false
-        } else {
-            return false
-        }
-    }
-    var errorWithValue = false;
-
-    if (G.name_of_game !== 'undefined') {
-        G.ThegameHeadline = G.name_of_game
-    };
-
-    if (typeof G.flip_chalange !== 'undefined') {
-        validatValue(G.flip_chalange, "int") ? G.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
-    }
-    if (typeof G.seconds_challange !== 'undefined') {
-        validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
-    }
-
-    if (typeof G.mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-        validatValue(G.mute, "boolean") ? G.soundIson = !G.mute : errorWithValue = true
-    }
-
-    if (typeof G.dev_mode !== 'undefined') {
-        validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
-    }
-
-    return errorWithValue
-}
-function setCardsize() {
-
-    var styleEl = document.createElement('style'), styleSheet;
-    document.head.appendChild(styleEl);
-    styleSheet = styleEl.sheet;
-    var wideConst = 8
-    var highConst = 5.5
-    var Widefit = Math.round(G.window_width / wideConst);
-    var heightfit = Math.round(G.window_height / highConst);
-    styleSheet.insertRule('.flip-container {width:' + Widefit + 'px; height: ' + heightfit + 'px;}', 0);
-}
 function playCardAudio(num) {
     if (G.soundIson == false) {
         return
@@ -890,8 +882,10 @@ function playCardAudio(num) {
 
 
 }
-/* main*/
 
+
+/* main*/
+if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
 buildCards()
 setCardsize()
 document.getElementById("ErrorCheck").innerHTML = "";

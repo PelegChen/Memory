@@ -937,7 +937,9 @@ function soundToggle() {
 }
 function NewGame (){
     let originalHtml = `<div id="gameConsole"> </div><div id = "wrapper01"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
-    document.body.innerHTML = originalHtml;
+    document.getElementById('gameConsole').innerHTML = ""
+    document.getElementById('wrapper01').innerHTML = ""
+    //document.body.innerHTML = originalHtml;
     BuildAPP ()
 
 }

@@ -19,7 +19,7 @@ function setGlobal (){
     G.back_image = "Defaultimage/back_Groundimage.jpg";
     G.stopWatchTIME = new Date();
     G.numColsToCut = 6;
-    G.ThegameHeadline = "משחק הזיכרון"
+    G.ThegameHeadline = "משחק הזיכרון";
     /*changing the header*/
     G.consoleIsopen = false; // if the console is open
     G.NumOflips = 0;
@@ -27,9 +27,9 @@ function setGlobal (){
     G.numRowsToCut = 4;
     G.cardFromFile.lenth = 100;
     G.wins = 0;
-    G.woncardSound = new Audio('Sounds/Woncardsound.mp3');
-    G.wonboardSound = new Audio('Sounds/Victory.mp3');
-    G.popboardSound = new Audio('Sounds/BubblePop.mp3');
+    G.woncardSound = new Audio("Sounds/Woncardsound.mp3");
+    G.wonboardSound = new Audio("Sounds/Victory.mp3");
+    G.popboardSound = new Audio("Sounds/BubblePop.mp3");
     G.timeoutId = new Object();
     G.NumOfcard = 24;
     G.card = [];
@@ -44,7 +44,7 @@ function BuildAPP () {
     function randomColorForCards (cardNumber,rndNum = 0.5) {
         let coloeDeg = rndNum*388;
         let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`;
-        return color
+        return color;
     }
     function getRandomFromGameName (string) {
         let total = 0;
@@ -52,11 +52,10 @@ function BuildAPP () {
             const num = string.charCodeAt(i);
             total += num;
         }
-        return (Math.sin(total) / 2) + 0.5
-
-
+        return (Math.sin(total) / 2) + 0.5;
     }
     function buildCards() {
+        
         for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
             G.cardFromFile[i] = {
                 "valueOfcard": i,
@@ -129,14 +128,14 @@ function BuildAPP () {
     }
     function setCardsize() {
 
-        var styleEl = document.createElement('style'), styleSheet;
+        var styleEl = document.createElement("style"), styleSheet;
         document.head.appendChild(styleEl);
         styleSheet = styleEl.sheet;
         var wideConst = 8;
         var highConst = 5.5;
         var Widefit = Math.round(G.window_width / wideConst);
         var heightfit = Math.round(G.window_height / highConst);
-        styleSheet.insertRule('.flip-container {width:' + Widefit + 'px; height: ' + heightfit + 'px;}', 0);
+        styleSheet.insertRule(".flip-container {width:" + Widefit + "px; height: " + heightfit + "px;}", 0);
     }
     function getValuesFromConfig() {
 
@@ -150,19 +149,19 @@ function BuildAPP () {
             }
         }
         var errorWithValue = false;
-        if (G.name_of_game !== 'undefined') {
+        if (G.name_of_game !== "undefined") {
             G.ThegameHeadline = G.name_of_game;
         };
-        if (typeof G.flip_chalange !== 'undefined') {
+        if (typeof G.flip_chalange !== "undefined") {
             validatValue(G.flip_chalange, "int") ? G.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
         }
-        if (typeof G.seconds_challange !== 'undefined') {
+        if (typeof G.seconds_challange !== "undefined") {
             validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
         }
-        if (typeof G.mute !== 'undefined' && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
+        if (typeof G.mute !== "undefined" && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
             validatValue(G.mute, "boolean") ? G.soundIson = !G.mute : errorWithValue = true
         }
-        if (typeof G.dev_mode !== 'undefined') {
+        if (typeof G.dev_mode !== "undefined") {
             validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
         }
         return errorWithValue
@@ -322,7 +321,7 @@ function BuildAPP () {
             document.getElementById("wrapper01").appendChild(G.card[i].Cardwrapper);
         }
 
-        document.getElementById('wrapper01').ondragstart = function() {
+        document.getElementById("wrapper01").ondragstart = function() {
             return false;
         };
 
@@ -473,9 +472,9 @@ function BuildAPP () {
 
 
         G.cog_img = document.createElement("IMG");
-        G.cog_img.src = 'GUIimage/settingCog.png';
+        G.cog_img.src = "GUIimage/settingCog.png";
         G.sound_img = document.createElement("IMG");
-        G.sound_img.src = 'GUIimage/soundOn.png';
+        G.sound_img.src = "GUIimage/soundOn.png";
         G.HeaderTitle = document.createElement("div");
         G.HeaderTextND = document.createElement("div");
         G.HeaderTextND.style.float = "left";
@@ -502,7 +501,7 @@ function BuildAPP () {
             flipNodeText = G.NumOflips;
         }
         flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeText + "</th></tr></table>"
-        G.HeaderCountND = document.createElement('div');
+        G.HeaderCountND = document.createElement("div");
         G.HeaderCountND.innerHTML = flipNodeText;
 
         G.HeaderCountObject.appendChild(G.HeaderCountND);
@@ -517,35 +516,35 @@ function BuildAPP () {
         G.HeaderTitle.appendChild(G.sound_img);
         G.HeaderTitle.appendChild(G.cog_img);
         G.cog_img.style.float = "right";
-        G.cog_img.style.width = '4%'
-        G.cog_img.style.height = '4%'
+        G.cog_img.style.width = "4%"
+        G.cog_img.style.height = "4%"
         G.cog_img.style.marginRight = "2%"
         G.cog_img.style.marginTop = "0.5%"
         G.cog_img.addEventListener("click", settingsConsoleButtonPress, false);
         G.sound_img.style.float = "right";
-        G.sound_img.style.width = '5%'
-        G.sound_img.style.height = '5%'
+        G.sound_img.style.width = "5%"
+        G.sound_img.style.height = "5%"
         G.sound_img.addEventListener("click", soundToggle, false);
         //G.sound_img.style.position = "absolute";
-        document.getElementById('gameConsole').ondragstart = function() {
+        document.getElementById("gameConsole").ondragstart = function() {
             return false;
         };
 
     }
     function stopWatchBuilder() {
         function monospaceHtml(htm) {
-            let arr = htm.split('');
-            let addedChar = '</th><th>'
+            let arr = htm.split("");
+            let addedChar = "</th><th>"
             let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
             let finString = prefix;
             for (i in arr) {
                 finString += arr[i]
-                if (arr[i] === '.' || arr[i] === ':' || i < 6) {
+                if (arr[i] === "." || arr[i] === ":" || i < 6) {
                     continue
                 }
                 finString += addedChar
             }
-            return finString + '</tr></table>'
+            return finString + "</tr></table>"
         }
         G.stopWatchTIME = 0;
         var ChangeTimeInterval = 100 //change time interval every X milisecinds
@@ -562,13 +561,13 @@ function BuildAPP () {
             G.woneTime = TheTimeText;
             let monoTxt = monospaceHtml(TheTimeText)
             TheTimeText = monoTxt;
-            let specialFont = "<font>" // "<font face='david'>"
+            let specialFont = "<font>" // "<font face="david">"
             G.HeaderStoperObject.innerHTML = TheTimeText;
 
             if (G.consoleIsopen == true) {
-                G.HeaderStoperObject.classList.add('blink_me');
+                G.HeaderStoperObject.classList.add("blink_me");
             } else {
-                G.HeaderStoperObject.classList.remove('blink_me');
+                G.HeaderStoperObject.classList.remove("blink_me");
             }
 
 
@@ -716,7 +715,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.winningScreen.Divobject = document.createElement("div");
     //   G.winningScreen.Divobject.style.backgroundColor = "#800040";
-    G.winningScreen.Divobject.style.background = '  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)';
+    G.winningScreen.Divobject.style.background = "  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)";
     G.winningScreen.Divobject.style.position = "fixed";
     G.winningScreen.Divobject.style.left = "10%"
     G.winningScreen.Divobject.style.bottom = "10%";
@@ -732,10 +731,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 /* heb */
     if (woneOrnot == true) {
         textFinished[1] = "כל הכבוד !"
-        if (EN) {textFinished[1] = 'Good Job!'}
+        if (EN) {textFinished[1] = "Good Job!"}
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
-        if (EN) {textFinished[1] = 'Try Again!' }
+        if (EN) {textFinished[1] = "Try Again!" }
     }
     //else {textFinished [1] = "משחק מושהה"};
     textFinished[2] = "זמן: " + G.woneTime
@@ -763,10 +762,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             "DivForPictureInCard": "",
             "PictureInCard": ""
         };
-        if (EN) {buttonReturnToGame.textOnButton = 'Back to the game'}
+        if (EN) {buttonReturnToGame.textOnButton = "Back to the game"}
         if (G.ChallangeLost == true) {
             buttonReturnToGame.textOnButton = "משחק חוזר"
-            if (EN) {buttonReturnToGame.textOnButton = 'Another game'}
+            if (EN) {buttonReturnToGame.textOnButton = "Another game"}
         }
         buttonReturnToGame.buttonObj = document.createElement("BUTTON");
         var textnode = document.createTextNode(buttonReturnToGame.textOnButton);
@@ -819,7 +818,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     //G.winningScreen.Divobject.style.fontWeight = "bold";
     G.winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
     G.winningScreen.Divobject.style.fontSize = "130%";
-    G.winningScreen.Divobject.style.fontFamily = 'noot';
+    G.winningScreen.Divobject.style.fontFamily = "noot";
     // var droneTextnode = document.createTextNode(":");   G.winningScreen.Divobject.appendChild(droneTextnode);
     //G.winningScreen.Divobject.appendChild(br_node);
 
@@ -894,7 +893,7 @@ function DeleteConsole() {
 }
 function gameModeStatus(changeTheFrameOrnot) {
     var createEvent  = (actionType, key, value)  => {
-        let ev = new Event ('storage');
+        let ev = new Event ("storage");
         ev.key = key; ev.value = value
         ev.actionType = actionType; return window.dispatchEvent(ev)}
 
@@ -903,7 +902,7 @@ function gameModeStatus(changeTheFrameOrnot) {
         sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
     } else if (changeTheFrameOrnot == true) {
         sessionStorage.setItem(G.saveInLocalStorageKey,G.gameTrophy + "," + G.gamelevel)
-        createEvent  ('save',G.saveInLocalStorageKey , G.gameTrophy + "," + G.gamelevel)
+        createEvent  ("save",G.saveInLocalStorageKey , G.gameTrophy + "," + G.gamelevel)
     };
     saved = sessionStorage.getItem(G.saveInLocalStorageKey)
     var stringFromWindowName = saved;
@@ -917,10 +916,10 @@ return "develope mode: on"
 function soundToggle() {
 
     if (G.soundIson == true) {
-        G.sound_img.src = 'GUIimage/soundOff.png';
+        G.sound_img.src = "GUIimage/soundOff.png";
         G.soundIson = false;
     } else if (G.soundIson == false) {
-        G.sound_img.src = 'GUIimage/soundOn.png';
+        G.sound_img.src = "GUIimage/soundOn.png";
         G.soundIson = true;
     }
     var bool = G.soundIson;

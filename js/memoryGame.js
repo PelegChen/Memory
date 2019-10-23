@@ -8,8 +8,8 @@ function setGlobal (){
     G.window_height = window.innerHeight;
     G.audiofolderPath = "CardSound/";
     G.developeMode = false;
-    G.gameTrophy = gameModeStatus()[0];
-    G.gamelevel = gameModeStatus()[1];
+    G.gameTrophy = storeInLocal()[0];
+    G.gamelevel = storeInLocal()[1];
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange
     G.NumOfChalangeSeconds = 100;
@@ -55,7 +55,7 @@ function BuildAPP () {
         return (Math.sin(total) / 2) + 0.5;
     }
     function buildCards() {
-        
+
         for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
             G.cardFromFile[i] = {
                 "valueOfcard": i,
@@ -644,19 +644,19 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         switch (G.gameTrophy) {
             case "A":
                 G.gameTrophy = "B";
-                gameModeStatus(true) // change the "save"
+                storeInLocal(true) // change the "save"
                 break;
             case "B":
                 if (G.gamelevel == 2) {
                     G.gameTrophy = "C";
-                    gameModeStatus(true)
+                    storeInLocal(true)
                 }
                 break;
 
             case "C":
                 if (G.gamelevel == 3) {
                     G.gameTrophy = "D";
-                    gameModeStatus(true)
+                    storeInLocal(true)
                 }
                 break;
         }
@@ -668,7 +668,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
             case 1:
                 G.gamelevel = 1;
-                gameModeStatus(true);
+                storeInLocal(true);
                 NewGame();
                 break;
 
@@ -676,7 +676,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.gameTrophy != "A") {
                     G.gamelevel = 2;
-                    gameModeStatus(true)
+                    storeInLocal(true)
                     NewGame();
                     break;
                 };
@@ -686,7 +686,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.gameTrophy == "C" || G.gameTrophy == "D") {
                     G.gamelevel = 3;
-                    gameModeStatus(true);
+                    storeInLocal(true);
                     NewGame();
                     break;
                 }
@@ -891,22 +891,31 @@ function DeleteConsole() {
     (G.soundIson == true) ? G.popboardSound.play(): null
     G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
-function gameModeStatus(changeTheFrameOrnot) {
+function storeInLocal(changeTheFrameOrnot) {
     var createEvent  = (actionType, key, value)  => {
         let ev = new Event ("storage");
         ev.key = key; ev.value = value
         ev.actionType = actionType; return window.dispatchEvent(ev)}
+    let saveObj = {gameTrophy:G.gameTrophy ,gamelevel: G.gamelevel}
+    let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
 
     let saved = sessionStorage.getItem(G.saveInLocalStorageKey)
     if (!saved) {
-        sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
+    //    sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
+        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(firstLevelObj))
     } else if (changeTheFrameOrnot == true) {
-        sessionStorage.setItem(G.saveInLocalStorageKey,G.gameTrophy + "," + G.gamelevel)
-        createEvent  ("save",G.saveInLocalStorageKey , G.gameTrophy + "," + G.gamelevel)
+    //    sessionStorage.setItem(G.saveInLocalStorageKey,G.gameTrophy + "," + G.gamelevel)
+        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(saveObj))
+
+
+        createEvent  ("save",G.saveInLocalStorageKey , JSON.stringify(saveObj))
+
+
     };
     saved = sessionStorage.getItem(G.saveInLocalStorageKey)
-    var stringFromWindowName = saved;
-    var modearray = stringFromWindowName.split(",");
+    var fromSS = JSON.parse(saved);
+    var modearray = [fromSS.gameTrophy,fromSS.gamelevel]
+    console.log(modearray)
     return modearray;
 }
 function test () {

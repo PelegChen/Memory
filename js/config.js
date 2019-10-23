@@ -1,9 +1,12 @@
 ﻿var G = {} // global for config
 G.name_of_game =  "משחק הזיכרון פעולות";
+G.name_of_gameEN = 'Memory Game Actions'
 G.seconds_challange = 100;
 G.flip_chalange = 101;
 G.mute = 0;
 G.dev_mode =1; //change back to 0
+G.isLanguageEnglish = true;
+
 
 /*
 הסבר:

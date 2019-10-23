@@ -96,7 +96,7 @@ function BuildAPP () {
             G.cardFromFile[i].Bpart = "Card" + i + "B";
         }
         for (i = 1; i <= (G.NumOfcard); i++) {
-            if (i <= (G.NumOfcard / 2)) { //פונקציה של סידור הקלפים בצורה אקראית
+            if (i <= (G.NumOfcard / 2)) {
                 G.CardsTorandomize[i].valueOfcard = G.cardFromFile[i].valueOfcard;
                 G.CardsTorandomize[i].InTheCard = G.cardFromFile[i].Apart;
             } else {
@@ -240,8 +240,8 @@ function BuildAPP () {
             };
 
 
-            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} //אם אחד מהתנאים מתקיים אל תעשה כלום
-            else if (G.statuS.endingTurn == true) { // אם לוחצים באמצע התור
+            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {}
+            else if (G.statuS.endingTurn == true) {
                 var Keep_cardVlaue = cardnum;
                 clearTimeout(endTurn);
                 endTurn();
@@ -349,8 +349,6 @@ function BuildAPP () {
         G.widthOfcard = theCSS_width;
         G.heightOfcard = theCSS_height;
         theCSS_width = parseInt(theCSS_height);
-
-        // משום מה אסור למחוק את זה לא מבין למה
         var ImageObject123 = document.createElement("IMG");
         ImageObject123.src = G.cutedImage;
         window.onload = drawCanvasParts;
@@ -374,7 +372,6 @@ function BuildAPP () {
                 var overallResize2 = 1;
                 var stretchX = G.SplicedImage_width; //equals original width
                 var stretchY = G.SplicedImage_height; //equals original height
-                // אם הגודל של התמונה קטן מהתוצאה הסופית, מגדילים את התמונה
 
                 var Magic_number1 = 1.3 //original 1.3
                 var Magic_number2 = 1.6 //original 1.5
@@ -383,7 +380,7 @@ function BuildAPP () {
                 };
                 stretchX = G.SplicedImage_width * overallResize1;
                 stretchY = G.SplicedImage_height * overallResize1;
-                // כנל לגבי הגובה של התמונה
+
                 if (stretchY < theCSS_height * G.numRowsToCut * Magic_number1) {
                     overallResize2 = ((theCSS_height * G.numRowsToCut * Magic_number1) + stretchY) / (stretchY)
                 };
@@ -399,7 +396,6 @@ function BuildAPP () {
                 // ctx.drawImage(G.card[i].partiatImage,0,0,stretchX,stretchY);
                 G.card[i].Frontcanvas.number = i;
                 G.card[i].partiatImage.number = i;
-                // בניית אובייקט לחיצה
                 G.card[i].pressobj = document.createElement("DIV");
                 G.card[i].pressobj.style.position = "fixed";
                 G.card[i].pressobj.className += "pressobjclass"
@@ -468,7 +464,7 @@ function BuildAPP () {
         }
         G.HeaderText += G.ThegameHeadline;
         if (G.gamelevel > 1) {
-            G.HeaderText = G.HeaderText + "" //  "  אתגר  "
+            G.HeaderText = G.HeaderText + "" //
         };
 
 
@@ -610,6 +606,7 @@ function BuildAPP () {
         }, ChangeTimeInterval);
     }
     setGlobal ()
+    if (G.isLanguageEnglish) { G.name_of_game = G.name_of_gameEN || G.name_of_game}
     if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
@@ -618,25 +615,15 @@ function BuildAPP () {
             return
         };
         evt = evt || window.event;
-        var isEscape = false;
+        var isPushWin = false;
+        var isPushLoose = false;
         if ("key" in evt) {
-            isEscape = (evt.key == 1);
-        } else {
-            isEscape = (evt.keyCode == "fsdfsdfsdfsdf");
-        }
-        if (isEscape) {
-            ConsoleBoard(true);
-        }
+            isPushWin = (evt.key == 1)
+            isPushLoose = (evt.key == 2) }
+        if (isPushWin) {ConsoleBoard(true)}
+        if (isPushLoose) {ConsoleBoard(false, true);}
     };
-    let tryRand = G.name_of_game
-    tryRand = `משחק הזיכרון כלבים` + "d" +"P"
-    console.log (getRandomFromGameName (tryRand))
-    console.log (getRandomFromGameName (tryRand + "ע"))
-    console.log (getRandomFromGameName (tryRand + "שדגשדגשדג"))
-    console.log (getRandomFromGameName (tryRand + "ע"))
-    console.log (getRandomFromGameName (tryRand + "שדגשFFFדגשדג"))
-    console.log (getRandomFromGameName ( "ע"))
-    console.log (getRandomFromGameName ( "שדגשFFFדגשדג"))
+
     buildCards()
     setCardsize()
     getValuesFromConfig()
@@ -655,6 +642,7 @@ function BuildAPP () {
 
 }
 function ConsoleBoard(woneOrnot, LooseOrnot) {
+    const EN = G.isLanguageEnglish || false;
     function levelUp() {
 
         switch (G.gameTrophy) {
@@ -744,16 +732,23 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     var textFinished = ["", "", ""]
     var NumberOfFinishtexts = 3;
-
+/* heb */
     if (woneOrnot == true) {
         textFinished[1] = "כל הכבוד !"
+        if (EN) {textFinished[1] = 'Good Job!'}
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
+        if (EN) {textFinished[1] = 'Try Again!'}
     }
     //else {textFinished [1] = "משחק מושהה"};
     textFinished[2] = "זמן: " + G.woneTime
     textFinished[3] = "קלפים שנהפכו: " + G.NumOflips;
     textFinished[4] = "" //"משחק נוסף";
+    if (EN) {
+        textFinished[2] = "Time: " + G.woneTime
+        textFinished[3] = "Cards turned: " + G.NumOflips;
+        textFinished[4] = "" //"משחק נוסף";
+    }
 
 
 
@@ -771,8 +766,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             "DivForPictureInCard": "",
             "PictureInCard": ""
         };
+        if (EN) {buttonReturnToGame.textOnButton = 'Back to the game'}
         if (G.ChallangeLost == true) {
             buttonReturnToGame.textOnButton = "משחק חוזר"
+            if (EN) {buttonReturnToGame.textOnButton = 'Another game'}
         }
         buttonReturnToGame.buttonObj = document.createElement("BUTTON");
         var textnode = document.createTextNode(buttonReturnToGame.textOnButton);
@@ -844,15 +841,26 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     };
 
     if (G.ChallangeLost == true) {
-        buttonNewgame[0].textOnButton = "נסיון חוזר"
+        buttonNewgame[0].textOnButton = "נסיון חוזר";
+        if (EN){buttonNewgame[0].textOnButton = "Another game";}
+
     } else {
         buttonNewgame[0].textOnButton = "חזרה למשחק";
+        if (EN){buttonNewgame[0].textOnButton ="Back to the game";}
     }
     buttonNewgame[1].textOnButton = "משחק חדש -רגיל ";
     buttonNewgame[2].textOnButton = " אתגר " + G.NumOfChalangeFlips + " היפוכים "
     buttonNewgame[3].textOnButton = " אתגר  " + G.NumOfChalangeSeconds + " שניות ";
     buttonNewgame[2].textIfneedsTofinish = "יש לסיים משחק רגיל"
     buttonNewgame[3].textIfneedsTofinish = "יש לסיים את האתגר הקודם"
+    if (EN){
+        buttonNewgame[1].textOnButton = "Start a basic game"
+        buttonNewgame[2].textOnButton = "A challange of " + G.NumOfChalangeFlips + " flips"
+        buttonNewgame[3].textOnButton = "A challange of " + G.NumOfChalangeSeconds + " seconds";
+        buttonNewgame[2].textIfneedsTofinish = "Please complete a basic game"
+        buttonNewgame[3].textIfneedsTofinish = "Please complete the next challange"
+
+    }
 
 
     for (i = 1; i < 4; i++) {

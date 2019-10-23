@@ -1,5 +1,5 @@
 
-var G = G || {} /*global*/
+var G = G || {}; /*global*/
 
 function setGlobal (){
     G.CardsTorandomize = [1, 2, 3];
@@ -7,7 +7,7 @@ function setGlobal (){
     G.window_width = window.innerWidth;
     G.window_height = window.innerHeight;
     G.audiofolderPath = "CardSound/";
-    G.developeMode = false
+    G.developeMode = false;
     G.gameTrophy = gameModeStatus()[0];
     G.gamelevel = gameModeStatus()[1];
     G.wasTheGamewone = false;
@@ -23,7 +23,7 @@ function setGlobal (){
     /*changing the header*/
     G.consoleIsopen = false; // if the console is open
     G.NumOflips = 0;
-    G.errorString = "Error no data"
+    G.errorString = "Error no data";
     G.numRowsToCut = 4;
     G.cardFromFile.lenth = 100;
     G.wins = 0;
@@ -42,15 +42,15 @@ function setGlobal (){
 }
 function BuildAPP () {
     function randomColorForCards (cardNumber,rndNum = 0.5) {
-        let coloeDeg = rndNum*388
-        let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`
+        let coloeDeg = rndNum*388;
+        let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`;
         return color
     }
     function getRandomFromGameName (string) {
-        let total = 0
+        let total = 0;
         for (let i = 0 ; i < string.length ; i++){
-            const num = string.charCodeAt(i)
-            total += num
+            const num = string.charCodeAt(i);
+            total += num;
         }
         return (Math.sin(total) / 2) + 0.5
 
@@ -107,7 +107,7 @@ function BuildAPP () {
             G.card[i].contentOfcard = G.errorString;
             G.CardsTorandomize[i].writtenTocard = false
         }
-        var n = 1
+        var n = 1;
         while (n < (G.NumOfcard + 1)) {
             var i = 0;
             var rnd = Math.floor((Math.random() * 24) + 1);
@@ -132,8 +132,8 @@ function BuildAPP () {
         var styleEl = document.createElement('style'), styleSheet;
         document.head.appendChild(styleEl);
         styleSheet = styleEl.sheet;
-        var wideConst = 8
-        var highConst = 5.5
+        var wideConst = 8;
+        var highConst = 5.5;
         var Widefit = Math.round(G.window_width / wideConst);
         var heightfit = Math.round(G.window_height / highConst);
         styleSheet.insertRule('.flip-container {width:' + Widefit + 'px; height: ' + heightfit + 'px;}', 0);
@@ -151,7 +151,7 @@ function BuildAPP () {
         }
         var errorWithValue = false;
         if (G.name_of_game !== 'undefined') {
-            G.ThegameHeadline = G.name_of_game
+            G.ThegameHeadline = G.name_of_game;
         };
         if (typeof G.flip_chalange !== 'undefined') {
             validatValue(G.flip_chalange, "int") ? G.NumOfChalangeFlips = G.flip_chalange : errorWithValue = true
@@ -165,7 +165,6 @@ function BuildAPP () {
         if (typeof G.dev_mode !== 'undefined') {
             validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
         }
-
         return errorWithValue
     }
     function boardBuilder() {
@@ -216,13 +215,12 @@ function BuildAPP () {
                 }
                 playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
                 G.NumOflips++;
-                var flipNodeTexT = 0
+                var flipNodeTexT = 0;
                 if (G.gamelevel == 2) {
-                    G.NumOfRemainigFlips = G.NumOfChalangeFlips -
-                        G.NumOflips;
+                    G.NumOfRemainigFlips = G.NumOfChalangeFlips - G.NumOflips;
                     flipNodeTexT = G.NumOfRemainigFlips;
                 } else {
-                    flipNodeTexT = G.NumOflips
+                    flipNodeTexT = G.NumOflips;
                 }
                 if (G.NumOfRemainigFlips < 1) {
                     G.ChallangeLost = true;
@@ -247,7 +245,7 @@ function BuildAPP () {
                 G.statuS.card1 = 0;
                 G.statuS.card2 = 0;
                 cardnum = Keep_cardVlaue;
-                G.statuS.card1 = cardnum
+                G.statuS.card1 = cardnum;
                 G.statuS.turn = true;
                 turnCard(cardnum);
                 G.card[cardnum].Cobject.classList.add("flipped")
@@ -451,7 +449,7 @@ function BuildAPP () {
         }
 
         // BUILDING THE TEXT OF HEADER
-        G.HeaderText = ""
+        G.HeaderText = "";
         if (G.gameTrophy == "B") {
             G.HeaderText += " ⭐️ "
         }
@@ -499,9 +497,9 @@ function BuildAPP () {
         var flipNodeText = 0;
 
         if (G.gamelevel == 2) {
-            flipNodeText = G.NumOfRemainigFlips
+            flipNodeText = G.NumOfRemainigFlips;
         } else {
-            flipNodeText = G.NumOflips
+            flipNodeText = G.NumOflips;
         }
         flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeText + "</th></tr></table>"
         G.HeaderCountND = document.createElement('div');
@@ -554,7 +552,7 @@ function BuildAPP () {
         if (G.gamelevel == 3) {
             var TimeClicks = G.NumOfChalangeSeconds * 10;
         } else {
-            var TimeClicks = 0
+            var TimeClicks = 0;
         } // each time the function adds a time
 
         function secondPrint() {
@@ -586,7 +584,7 @@ function BuildAPP () {
                 ConsoleBoard(false, true)
             }
             if (G.seconds >= 0) {} else {
-                G.seconds = 0
+                G.seconds = 0;
             };
             G.seconds = Math.floor(TimeClicks / ChangeTimeInterval * 10) - (G.minutes * 60);
 
@@ -594,7 +592,7 @@ function BuildAPP () {
             G.miliseconds = str.charAt(str.length - 2); // geting only the last Char of the TIME clicks wich is the ones
 
             if (G.seconds >= 0) {} else {
-                G.seconds = 0
+                G.seconds = 0;
             };
             G.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
         }
@@ -649,7 +647,6 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
                 G.gameTrophy = "B";
                 gameModeStatus(true) // change the "save"
                 break;
-
             case "B":
                 if (G.gamelevel == 2) {
                     G.gameTrophy = "C";
@@ -689,7 +686,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             case 3:
 
                 if (G.gameTrophy == "C" || G.gameTrophy == "D") {
-                    G.gamelevel = 3
+                    G.gamelevel = 3;
                     gameModeStatus(true);
                     NewGame();
                     break;
@@ -881,8 +878,8 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.winningScreen.extraTextDiv = document.createElement("div");
     G.winningScreen.Divobject.appendChild(G.winningScreen.extraTextDiv)
-    G.winningScreen.extraTextDiv.style.fontSize = "20px"
-    G.winningScreen.extraTextDiv.style.color = "yellow"
+    G.winningScreen.extraTextDiv.style.fontSize = "20px";
+    G.winningScreen.extraTextDiv.style.color = "yellow";
 
 
 
@@ -926,8 +923,8 @@ function soundToggle() {
         G.sound_img.src = 'GUIimage/soundOn.png';
         G.soundIson = true;
     }
-    var bool = G.soundIson
-    localStorage.StorageSoundIsOn = bool.toString()
+    var bool = G.soundIson;
+    localStorage.StorageSoundIsOn = bool.toString();
 
 }
 function NewGame (){

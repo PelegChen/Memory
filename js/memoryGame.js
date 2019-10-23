@@ -41,7 +41,6 @@ function setGlobal (){
 
 }
 function BuildAPP () {
-
     function randomColorForCards (cardNumber,rndNum = 0.5) {
         let coloeDeg = rndNum*388
         let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`
@@ -606,22 +605,22 @@ function BuildAPP () {
         }, ChangeTimeInterval);
     }
     setGlobal ()
+
     if (G.isLanguageEnglish) { G.name_of_game = G.name_of_gameEN || G.name_of_game}
     if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
-
         if (G.developeMode == false) {
             return
         };
         evt = evt || window.event;
         var isPushWin = false;
-        var isPushLoose = false;
+        var isPushLose = false;
         if ("key" in evt) {
             isPushWin = (evt.key == 1)
-            isPushLoose = (evt.key == 2) }
+            isPushLose = (evt.key == 2) }
         if (isPushWin) {ConsoleBoard(true)}
-        if (isPushLoose) {ConsoleBoard(false, true);}
+        if (isPushLose) {ConsoleBoard(false, true);}
     };
 
     buildCards()
@@ -642,7 +641,7 @@ function BuildAPP () {
 
 }
 function ConsoleBoard(woneOrnot, LooseOrnot) {
-    const EN = G.isLanguageEnglish || false;
+
     function levelUp() {
 
         switch (G.gameTrophy) {
@@ -699,10 +698,11 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
         }
 
-        winningScreen.extraTextDiv.innerHTML = buttonNewgame[newGamenumber].textIfneedsTofinish ////
+        G.winningScreen.extraTextDiv.innerHTML = buttonNewgame[newGamenumber].textIfneedsTofinish ////
 
-        //winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
+        //G.winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
     }
+    const EN = G.isLanguageEnglish || false;
     if (woneOrnot == true) {
         (G.soundIson == true) ? G.wonboardSound.play(): 1
         levelUp()
@@ -714,21 +714,21 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 
     G.consoleIsopen = true;
-    winningScreen = new Object();
+    G.winningScreen = {}
     /*  game consol design */
 
-    winningScreen.Divobject = document.createElement("div");
-    //   winningScreen.Divobject.style.backgroundColor = "#800040";
-    winningScreen.Divobject.style.background = '  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)';
-    winningScreen.Divobject.style.position = "fixed";
-    winningScreen.Divobject.style.left = "10%"
-    winningScreen.Divobject.style.bottom = "10%";
-    winningScreen.Divobject.style.height = "70%";
-    winningScreen.Divobject.style.width = "80%";
-    winningScreen.Divobject.style.padding = "-15px"
-    winningScreen.Divobject.style.borderRadius = "50% / 10%";
-    winningScreen.Divobject.style.border = "ridge #3d3d29 6px";
-    winningScreen.Divobject.style.fontSize = "130%";
+    G.winningScreen.Divobject = document.createElement("div");
+    //   G.winningScreen.Divobject.style.backgroundColor = "#800040";
+    G.winningScreen.Divobject.style.background = '  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)';
+    G.winningScreen.Divobject.style.position = "fixed";
+    G.winningScreen.Divobject.style.left = "10%"
+    G.winningScreen.Divobject.style.bottom = "10%";
+    G.winningScreen.Divobject.style.height = "70%";
+    G.winningScreen.Divobject.style.width = "80%";
+    G.winningScreen.Divobject.style.padding = "-15px"
+    G.winningScreen.Divobject.style.borderRadius = "50% / 10%";
+    G.winningScreen.Divobject.style.border = "ridge #3d3d29 6px";
+    G.winningScreen.Divobject.style.fontSize = "130%";
 
     var textFinished = ["", "", ""]
     var NumberOfFinishtexts = 3;
@@ -738,7 +738,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         if (EN) {textFinished[1] = 'Good Job!'}
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
-        if (EN) {textFinished[1] = 'Try Again!'}
+        if (EN) {textFinished[1] = 'Try Again!' }
     }
     //else {textFinished [1] = "משחק מושהה"};
     textFinished[2] = "זמן: " + G.woneTime
@@ -777,7 +777,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonReturnToGame.buttonObj.number = i;
         buttonReturnToGame.buttonObj.classList.add("flash-button")
         buttonReturnToGame.buttonObj.classList.add("button")
-        winningScreen.Divobject.appendChild(buttonReturnToGame.buttonObj);
+        G.winningScreen.Divobject.appendChild(buttonReturnToGame.buttonObj);
         buttonReturnToGame.ClickerFunc = function() {
             DeleteConsole()
         } // delete console
@@ -801,31 +801,32 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         if (y == 1) {
             span.style.fontSize = "150%";
         } else if (y == 2) {
-            winningScreen.Divobject.appendChild(HTMLbreak)
+            G.winningScreen.Divobject.appendChild(HTMLbreak)
         } else {
             span.style.fontSize = "130%"
         }
 
-        winningScreen.Divobject.appendChild(span);
+        G.winningScreen.Divobject.appendChild(span);
 
         var br_node = document.createElement("BR");
         br_node.style.lineHeight = "0";
         br_node.style.fontSize = "10%"
-        winningScreen.Divobject.appendChild(br_node);
+        G.winningScreen.Divobject.appendChild(br_node);
     }
-    winningScreen.Divobject.style.textAlign = "center";
-    winningScreen.Divobject.style.color = "white";
-    winningScreen.Divobject.style.direction = "rtl";
-    winningScreen.Divobject.style.verticalAlign = "middle"
+    G.winningScreen.Divobject.style.textAlign = "center";
+    G.winningScreen.Divobject.style.color = "white";
+    G.winningScreen.Divobject.style.direction = "rtl";
+    if (EN) {G.winningScreen.Divobject.style.direction = "ltr";}
+    G.winningScreen.Divobject.style.verticalAlign = "middle"
 
-    //winningScreen.Divobject.style.fontWeight = "bold";
-    winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
-    winningScreen.Divobject.style.fontSize = "130%";
-    winningScreen.Divobject.style.fontFamily = 'noot';
-    // var droneTextnode = document.createTextNode(":");   winningScreen.Divobject.appendChild(droneTextnode);
-    //winningScreen.Divobject.appendChild(br_node);
+    //G.winningScreen.Divobject.style.fontWeight = "bold";
+    G.winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
+    G.winningScreen.Divobject.style.fontSize = "130%";
+    G.winningScreen.Divobject.style.fontFamily = 'noot';
+    // var droneTextnode = document.createTextNode(":");   G.winningScreen.Divobject.appendChild(droneTextnode);
+    //G.winningScreen.Divobject.appendChild(br_node);
 
-    document.getElementById("wrapper01").appendChild(winningScreen.Divobject);
+    document.getElementById("wrapper01").appendChild(G.winningScreen.Divobject);
 
     buttonNewgame = ["", "", ""]
     for (i = 0; i < 4; i++) {
@@ -869,7 +870,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonNewgame[i].buttonObj.appendChild(textnode)
         buttonNewgame[i].buttonObj.number = i;
         buttonNewgame[i].buttonObj.classList.add("button")
-        winningScreen.Divobject.appendChild(buttonNewgame[i].buttonObj);
+        G.winningScreen.Divobject.appendChild(buttonNewgame[i].buttonObj);
         buttonNewgame[i].ClickerFunc = function() {
             RequestNewGame(event.target.number)
         }
@@ -878,10 +879,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 
 
-    winningScreen.extraTextDiv = document.createElement("div");
-    winningScreen.Divobject.appendChild(winningScreen.extraTextDiv)
-    winningScreen.extraTextDiv.style.fontSize = "20px"
-    winningScreen.extraTextDiv.style.color = "yellow"
+    G.winningScreen.extraTextDiv = document.createElement("div");
+    G.winningScreen.Divobject.appendChild(G.winningScreen.extraTextDiv)
+    G.winningScreen.extraTextDiv.style.fontSize = "20px"
+    G.winningScreen.extraTextDiv.style.color = "yellow"
 
 
 
@@ -892,7 +893,7 @@ function DeleteConsole() {
     }
     G.consoleIsopen = false;
     (G.soundIson == true) ? G.popboardSound.play(): null
-    winningScreen.Divobject.parentNode.removeChild(winningScreen.Divobject);
+    G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
 function gameModeStatus(changeTheFrameOrnot) {
     var createEvent  = (actionType, key, value)  => {

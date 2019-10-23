@@ -42,6 +42,21 @@ function setGlobal (){
 }
 function BuildAPP () {
 
+    function randomColorForCards (cardNumber,rndNum = 0.5) {
+        let coloeDeg = rndNum*388
+        let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`
+        return color
+    }
+    function getRandomFromGameName (string) {
+        let total = 0
+        for (let i = 0 ; i < string.length ; i++){
+            const num = string.charCodeAt(i)
+            total += num
+        }
+        return (Math.sin(total) / 2) + 0.5
+
+
+    }
     function buildCards() {
         for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
             G.cardFromFile[i] = {
@@ -155,6 +170,7 @@ function BuildAPP () {
         return errorWithValue
     }
     function boardBuilder() {
+        const randFromName = getRandomFromGameName(G.name_of_game || "123")
         function turnCard(cardnum) {
             function wonTurn() {
                 G.wins++
@@ -285,6 +301,9 @@ function BuildAPP () {
             G.card[i].Cobject.appendChild(G.card[i].FrontObject);
             G.card[i].BackObject.classList.add("back");
             G.card[i].FrontObject.classList.add("front");
+
+
+            G.card[i].FrontObject.style.background = randomColorForCards(i,randFromName );
             G.card[i].Cardwrapper.classList.add("cardWrappStyle");
 
 
@@ -609,6 +628,15 @@ function BuildAPP () {
             ConsoleBoard(true);
         }
     };
+    let tryRand = G.name_of_game
+    tryRand = `משחק הזיכרון כלבים` + "d" +"P"
+    console.log (getRandomFromGameName (tryRand))
+    console.log (getRandomFromGameName (tryRand + "ע"))
+    console.log (getRandomFromGameName (tryRand + "שדגשדגשדג"))
+    console.log (getRandomFromGameName (tryRand + "ע"))
+    console.log (getRandomFromGameName (tryRand + "שדגשFFFדגשדג"))
+    console.log (getRandomFromGameName ( "ע"))
+    console.log (getRandomFromGameName ( "שדגשFFFדגשדג"))
     buildCards()
     setCardsize()
     getValuesFromConfig()

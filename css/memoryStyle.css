@@ -46,7 +46,7 @@ body {
 	border-radius: 3vmin;
 	font-family: "noot", Times, serif;
 	color: white;
-	font-size: 6vmin;
+	font-size: 5.4vmin;
 	padding: 1vmin 1vmin;
 }
 #wheel_hover {}
@@ -93,7 +93,7 @@ body {
 }
 .front {
 	opacity: 0.99;
-	background-color: gold;
+	background: gold;
 	transform: rotateY(0deg);
 	z-index: 1;
 	overflow: hidden //transform-style: preserve-2d;

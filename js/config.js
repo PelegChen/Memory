@@ -57,7 +57,9 @@ if (urlParams.has('api')) {
 
     } else {G.isClickGameSaveInSessionStore = true}
 getClicktScript (urlParams.get('api'), urlParams.toString())
-} else {console.log ('no Click site Connection')}
+} else {
+    //console.log ('no Click site Connection')
+}
 
 if (urlParams.has( 'userFullName')){
     G.clickFullNameOfUser = urlParams.get( 'userFullName')

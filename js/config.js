@@ -19,7 +19,7 @@ G.mute - המשחק מתחיל כשהקול מושתק, ניתן להפעיל א
 
 */
 G.fileName = location.pathname.split("/").slice(-1)[0].replace(/\.html/ig,"")
-G.saveInLocalStorageKey = 'English_' + G.fileName
+G.saveInLocalStorageKey = G.fileName
 G.saveBooleanValue = 'wasSaved_' + G.fileName
 
 function activateClick (){

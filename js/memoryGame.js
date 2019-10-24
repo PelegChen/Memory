@@ -8,9 +8,11 @@ function setGlobal (){
     G.window_height = window.innerHeight;
     G.audiofolderPath = "CardSound/";
     G.developeMode = false;
-    G.playerStatus = ''; 
-    G.gameTrophy = storeInLocal()[0];
-    G.gamelevel = storeInLocal()[1];
+    G.PlayerStatus = {};
+    G.PlayerStatus.Trophy = "A" //storeInLocal()[0];
+    G.PlayerStatus.Level = "1" //storeInLocal()[1];
+    G.PlayerStatus.History = []
+    G.PlayerStatus = storeInLocal (false, 'load') || G.PlayerStatus;
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange
     G.NumOfChalangeSeconds = 100;
@@ -216,7 +218,7 @@ function BuildAPP () {
                 playCardAudio(cardnumberforaudio); // this is the place where the play sound card is invoked.
                 G.NumOflips++;
                 var flipNodeTexT = 0;
-                if (G.gamelevel == 2) {
+                if (G.PlayerStatus.Level == 2) {
                     G.NumOfRemainigFlips = G.NumOfChalangeFlips - G.NumOflips;
                     flipNodeTexT = G.NumOfRemainigFlips;
                 } else {
@@ -450,17 +452,17 @@ function BuildAPP () {
 
         // BUILDING THE TEXT OF HEADER
         G.HeaderText = "";
-        if (G.gameTrophy == "B") {
+        if (G.PlayerStatus.Trophy == "B") {
             G.HeaderText += " ⭐️ "
         }
-        if (G.gameTrophy == "C") {
+        if (G.PlayerStatus.Trophy == "C") {
             G.HeaderText += " ⭐️⭐️ "
         }
-        if (G.gameTrophy == "D") {
+        if (G.PlayerStatus.Trophy == "D") {
             G.HeaderText += " ⭐️⭐️⭐️"
         }
         G.HeaderText += G.ThegameHeadline;
-        if (G.gamelevel > 1) {
+        if (G.PlayerStatus.Level > 1) {
             G.HeaderText = G.HeaderText + "" //
         };
 
@@ -496,7 +498,7 @@ function BuildAPP () {
         G.HeaderStoperObject.appendChild(G.HeaderStoperND);
         var flipNodeText = 0;
 
-        if (G.gamelevel == 2) {
+        if (G.PlayerStatus.Level == 2) {
             flipNodeText = G.NumOfRemainigFlips;
         } else {
             flipNodeText = G.NumOflips;
@@ -549,7 +551,7 @@ function BuildAPP () {
         }
         G.stopWatchTIME = 0;
         var ChangeTimeInterval = 100 //change time interval every X milisecinds
-        if (G.gamelevel == 3) {
+        if (G.PlayerStatus.Level == 3) {
             var TimeClicks = G.NumOfChalangeSeconds * 10;
         } else {
             var TimeClicks = 0;
@@ -573,13 +575,13 @@ function BuildAPP () {
 
 
             if (G.consoleIsopen == false) {
-                if (G.gamelevel == 3) {
+                if (G.PlayerStatus.Level == 3) {
                     TimeClicks--
                 } else {
                     TimeClicks++
                 }
             }
-            if (G.gamelevel == 3 && TimeClicks < 1 && G.ChallangeLost == false) {
+            if (G.PlayerStatus.Level == 3 && TimeClicks < 1 && G.ChallangeLost == false) {
                 G.ChallangeLost = true;
                 ConsoleBoard(false, true)
             }
@@ -642,22 +644,22 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     function levelUp() {
 
-        switch (G.gameTrophy) {
+        switch (G.PlayerStatus.Trophy) {
             case "A":
-                G.gameTrophy = "B";
-                storeInLocal(true) // change the "save"
+                G.PlayerStatus.Trophy = "B";
+                storeInLocal(true, 'save') // change the "save"
                 break;
             case "B":
-                if (G.gamelevel == 2) {
-                    G.gameTrophy = "C";
-                    storeInLocal(true)
+                if (G.PlayerStatus.Level == 2) {
+                    G.PlayerStatus.Trophy = "C";
+                    storeInLocal(true, 'save')
                 }
                 break;
 
             case "C":
-                if (G.gamelevel == 3) {
-                    G.gameTrophy = "D";
-                    storeInLocal(true)
+                if (G.PlayerStatus.Level == 3) {
+                    G.PlayerStatus.Trophy = "D";
+                    storeInLocal(true, 'save')
                 }
                 break;
         }
@@ -668,16 +670,16 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         switch (newGamenumber) {
 
             case 1:
-                G.gamelevel = 1;
-                storeInLocal(true);
+                G.PlayerStatus.Level = 1;
+                storeInLocal(true, 'save');
                 NewGame();
                 break;
 
             case 2:
 
-                if (G.gameTrophy != "A") {
-                    G.gamelevel = 2;
-                    storeInLocal(true)
+                if (G.PlayerStatus.Trophy != "A") {
+                    G.PlayerStatus.Level = 2;
+                    storeInLocal(true, 'save')
                     NewGame();
                     break;
                 };
@@ -685,9 +687,9 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
             case 3:
 
-                if (G.gameTrophy == "C" || G.gameTrophy == "D") {
-                    G.gamelevel = 3;
-                    storeInLocal(true);
+                if (G.PlayerStatus.Trophy == "C" || G.PlayerStatus.Trophy == "D") {
+                    G.PlayerStatus.Level = 3;
+                    storeInLocal(true, 'save');
                     NewGame();
                     break;
                 }
@@ -731,8 +733,12 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     var NumberOfFinishtexts = 3;
 /* heb */
     if (woneOrnot == true) {
+
         textFinished[1] = "כל הכבוד !"
         if (EN) {textFinished[1] = "Good Job!"}
+        let historyDoc = {L:G.PlayerStatus.Level,F: G.NumOflips, T:G.seconds + (G.minutes * 60)}
+        if (G.PlayerStatus.History.length < 6) {G.PlayerStatus.History.push(historyDoc)}
+
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
         if (EN) {textFinished[1] = "Try Again!" }
@@ -892,26 +898,33 @@ function DeleteConsole() {
     (G.soundIson == true) ? G.popboardSound.play(): null
     G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
-function storeInLocal(changeTheFrameOrnot) {
+function storeInLocal(saveOrnot, action) {
     var createEvent  = (actionType, key, value)  => {
         let ev = new Event ("storage");
         ev.key = key; ev.value = value
         ev.actionType = actionType; return window.dispatchEvent(ev)}
     let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
-
-    let saveObj = {gameTrophy:G.gameTrophy ,gamelevel: G.gamelevel}
-
-    let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
-
+    //let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
+    switch (action) {
+        case 'load':
+        let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
+        if (savedBefore) {return JSON.parse(savedBefore)} else {return false}
+        break;
+        case 'save':
+        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus))
+        createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus))
+        return true
+        break;
+    }
 
     if (!savedBefore) {
-        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(firstLevelObj))
-    } else if (changeTheFrameOrnot == true) {
-        console.log('finished')
-        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(saveObj))
+    //    sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(firstLevelObj))
+    } else if (saveOrnot == true) {
+    //    console.log('finished')
+        //sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(saveObj))
 
-        if (JSON.parse(savedBefore).gameTrophy !== G.gameTrophy){
-            createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(saveObj))
+        if (JSON.parse(savedBefore).gameTrophy !== G.PlayerStatus.Trophy){
+
         }
 
     } else { }

@@ -42,19 +42,22 @@ function activateClick (){
         document.body.appendChild(script)
     }
     var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('api')) {
-        if (urlParams.has(G.saveInLocalStorageKey)){
-            const isSavedInSession = sessionStorage.getItem(G.saveBooleanValue);
-            if (isSavedInSession == 'true') {
-            } else if (urlParams.has( G.saveInLocalStorageKey)) {
-                let loadedGame = JSON.parse(urlParams.get( G.saveInLocalStorageKey));
-                sessionStorage.setItem(G.saveInLocalStorageKey, JSON.stringify(loadedGame));
-                sessionStorage.setItem(G.saveBooleanValue, 'true')
-            }
+    if (!urlParams.has('api')) {
+        console.log('%c no site Connection - game saved on this PC \n אין חיבור לאתר, המשחק ישמר על מחשב זה', 'font-family:david; font-size: 3vmin; background: gold; color:blue;');
+        return
+    }
 
-        } else {G.isClickGameSaveInSessionStore = true}
+    if (urlParams.has(G.saveInLocalStorageKey)){
+        const isSavedInSession = sessionStorage.getItem(G.saveBooleanValue);
+        if (isSavedInSession == 'true') {}
+        if (urlParams.has(G.saveInLocalStorageKey)) {
+            let loadedGame = JSON.parse(urlParams.get(G.saveInLocalStorageKey));
+            console.log (loadedGame)
+            sessionStorage.setItem(G.saveInLocalStorageKey, JSON.stringify(loadedGame));
+            sessionStorage.setItem(G.saveBooleanValue, 'true')
+        }
 
-
+    } else {G.isClickGameSaveInSessionStore = true}
     if (urlParams.has( 'userFullName')){
         G.clickFullNameOfUser = urlParams.get( 'userFullName')
         if (sessionStorage.getItem(G.saveInLocalStorageKey)) {
@@ -63,6 +66,8 @@ function activateClick (){
             else {console.info ('not the same player');  sessionStorage.setItem(G.saveBooleanValue, 'false')}
         }
     }
-    getClicktScript (urlParams.get('api'), urlParams.toString()) } else {console.log('%c no site Connection - game saved on this PC \n אין חיבור לאתר, המשחק ישמר על מחשב זה', 'font-family:david; font-size: 3vmin; background: gold; color:blue;');}
+    getClicktScript (urlParams.get('api'), urlParams.toString())
 }
+
+
 activateClick ()

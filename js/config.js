@@ -23,6 +23,7 @@ G.saveInLocalStorageKey = G.fileName
 G.saveBooleanValue = 'wasSaved_' + G.fileName
 
 function activateClick (){
+    let urlName, ssName;
     async function getClicktScript(url, urlGetPrams) {
         urlGetPrams += "&gameName=" +  G.saveInLocalStorageKey
         let response = await fetch(url + "?" + urlGetPrams , {
@@ -41,21 +42,38 @@ function activateClick (){
         script.innerHTML =  responseScript ;//responseScript    // "clickScript.js"
         document.body.appendChild(script)
     }
-    var urlParams = new URLSearchParams(window.location.search);
+    function loadGameFrom (source){
+
+    }
     if (!urlParams.has('api')) {
         console.log('%c no site Connection - game saved on this PC \n אין חיבור לאתר, המשחק ישמר על מחשב זה', 'font-family:david; font-size: 3vmin; background: gold; color:blue;');
         return
     }
 
-    if (urlParams.has(G.saveInLocalStorageKey)){
-        const isSavedInSession = sessionStorage.getItem(G.saveBooleanValue);
-        if (isSavedInSession == 'true') {}
-        if (urlParams.has(G.saveInLocalStorageKey)) {
-            let loadedGame = JSON.parse(urlParams.get(G.saveInLocalStorageKey));
-            console.log (loadedGame)
-            sessionStorage.setItem(G.saveInLocalStorageKey, JSON.stringify(loadedGame));
-            sessionStorage.setItem(G.saveBooleanValue, 'true')
-        }
+    var urlParams = new URLSearchParams(window.location.search);
+    const saveFromSS = sessionStorage.getItem(G.saveInLocalStorageKey)
+    const  saveFromURL = urlParams.get(G.saveInLocalStorageKey) || false;
+    if (saveFromURL && saveFromSS){
+        urlName = urlParams.get('userFullName') ;ssName = saveFromSS.nameOfplayer;
+
+    }
+
+
+    if (saveFromURL && saveFromSS && (urlName === ssName) ){
+
+    const urlTime = Number(saveFromURL.lst_) || 0
+    const ssTime =  Number(saveFromSS.lst_) || 0
+    const higher = Math.max(urlTime,ssTime)
+    if (higher === ssTime) {loadGameFrom ('ss')}
+    else if (higher === urlTime)
+
+        //const isSavedInSession = sessionStorage.getItem(G.saveBooleanValue);
+    // if (urlParams.has(G.saveInLocalStorageKey)) {
+    //         let loadedGame = JSON.parse(urlParams.get(G.saveInLocalStorageKey));
+    //         console.log (loadedGame.lst_)
+    //         sessionStorage.setItem(G.saveInLocalStorageKey, JSON.stringify(loadedGame));
+    //         sessionStorage.setItem(G.saveBooleanValue, 'true')
+    //     }
 
     } else {G.isClickGameSaveInSessionStore = true}
     if (urlParams.has( 'userFullName')){

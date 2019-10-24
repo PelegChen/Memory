@@ -12,6 +12,7 @@ function setGlobal (){
     G.PlayerStatus.Trophy = "A"
     G.PlayerStatus.Level = "1"
     G.PlayerStatus.History = []
+    G.nameOfplayer = G.clickFullNameOfUser || "";
     G.PlayerStatus = storeInLocal (false, 'load') || G.PlayerStatus;
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange

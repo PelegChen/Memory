@@ -8,6 +8,7 @@ function setGlobal (){
     G.window_height = window.innerHeight;
     G.audiofolderPath = "CardSound/";
     G.developeMode = false;
+    G.playerStatus = ''; 
     G.gameTrophy = storeInLocal()[0];
     G.gamelevel = storeInLocal()[1];
     G.wasTheGamewone = false;
@@ -896,26 +897,29 @@ function storeInLocal(changeTheFrameOrnot) {
         let ev = new Event ("storage");
         ev.key = key; ev.value = value
         ev.actionType = actionType; return window.dispatchEvent(ev)}
+    let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
+
     let saveObj = {gameTrophy:G.gameTrophy ,gamelevel: G.gamelevel}
+
     let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
 
-    let saved = sessionStorage.getItem(G.saveInLocalStorageKey)
-    if (!saved) {
-    //    sessionStorage.setItem(G.saveInLocalStorageKey,"A,1")
+
+    if (!savedBefore) {
         sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(firstLevelObj))
     } else if (changeTheFrameOrnot == true) {
-    //    sessionStorage.setItem(G.saveInLocalStorageKey,G.gameTrophy + "," + G.gamelevel)
+        console.log('finished')
         sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(saveObj))
 
+        if (JSON.parse(savedBefore).gameTrophy !== G.gameTrophy){
+            createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(saveObj))
+        }
 
-        createEvent  ("save",G.saveInLocalStorageKey , JSON.stringify(saveObj))
+    } else { }
 
-
-    };
-    saved = sessionStorage.getItem(G.saveInLocalStorageKey)
-    var fromSS = JSON.parse(saved);
+    let savedAfter = sessionStorage.getItem(G.saveInLocalStorageKey)
+    var fromSS = JSON.parse(savedAfter);
     var modearray = [fromSS.gameTrophy,fromSS.gamelevel]
-    console.log(modearray)
+
     return modearray;
 }
 function test () {
@@ -938,7 +942,7 @@ function soundToggle() {
 function NewGame (){
     let originalHtml = `<div id="gameConsole"> </div><div id = "wrapper01"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
     document.getElementById('gameConsole').innerHTML = ""
-    document.getElementById('wrapper01').innerHTML = ""
+    document.getElementById('wrapper01').innerHTML = "<span id='ErrorCheck'>Loading... </span>"
     //document.body.innerHTML = originalHtml;
     BuildAPP ()
 

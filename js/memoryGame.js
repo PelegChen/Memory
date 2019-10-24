@@ -650,7 +650,6 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         switch (G.PlayerStatus.Trophy) {
             case "A":
                 G.PlayerStatus.Trophy = "B";
-
                 break;
             case "B":
                 if (G.PlayerStatus.Level == 2) {
@@ -664,6 +663,9 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
                 }
                 break;
         }
+
+
+        console.log ('levelUP', G.PlayerStatus.Trophy,G.PlayerStatus.Level)
         storeInLocal(true, 'save')
     }
     function RequestNewGame(newGamenumber) {
@@ -672,7 +674,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
             case 1:
                 G.PlayerStatus.Level = 1;
-                //storeInLocal(true, 'save');
+                storeInLocal(true, 'silentSave')
                 NewGame();
                 break;
 
@@ -680,7 +682,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.PlayerStatus.Trophy != "A") {
                     G.PlayerStatus.Level = 2;
-                    //storeInLocal(true, 'save')
+                    storeInLocal(true, 'silentSave')
                     NewGame();
                     break;
                 };
@@ -690,13 +692,15 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.PlayerStatus.Trophy == "C" || G.PlayerStatus.Trophy == "D") {
                     G.PlayerStatus.Level = 3;
-                    //storeInLocal(true, 'save');
+                    storeInLocal(true, 'silentSave')
                     NewGame();
                     break;
                 }
                 break;
 
         }
+
+
 
         G.winningScreen.extraTextDiv.innerHTML = buttonNewgame[newGamenumber].textIfneedsTofinish ////
 
@@ -911,9 +915,11 @@ function storeInLocal(saveOrnot, action) {
         let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
         if (savedBefore) {return JSON.parse(savedBefore)} else {return false}
         break;
+
         case 'save':
-        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus))
-        createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus))
+        createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus));
+        case 'silentSave':
+        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus));
         return true
         break;
     }

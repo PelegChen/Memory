@@ -5,7 +5,7 @@ G.seconds_challange = 100;
 G.flip_chalange = 101;
 G.mute = 0;
 G.dev_mode =1; //change back to 0
-G.isLanguageEnglish = 0;
+G.isLanguageEnglish = 1;
 /*****/
  /*
 הסבר:

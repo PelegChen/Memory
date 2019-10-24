@@ -9,8 +9,8 @@ function setGlobal (){
     G.audiofolderPath = "CardSound/";
     G.developeMode = false;
     G.PlayerStatus = {};
-    G.PlayerStatus.Trophy = "A" //storeInLocal()[0];
-    G.PlayerStatus.Level = "1" //storeInLocal()[1];
+    G.PlayerStatus.Trophy = "A"
+    G.PlayerStatus.Level = "1"
     G.PlayerStatus.History = []
     G.PlayerStatus = storeInLocal (false, 'load') || G.PlayerStatus;
     G.wasTheGamewone = false;
@@ -606,7 +606,10 @@ function BuildAPP () {
     }
     setGlobal ()
 
-    if (G.isLanguageEnglish) { G.name_of_game = G.name_of_gameEN || G.name_of_game}
+    if (G.isLanguageEnglish) { G.name_of_game = G.name_of_gameEN || G.name_of_game
+        let title = `<title>משחק הזיכרון</title>`;
+        document.title = "Memory Game"
+    }
     if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
@@ -647,23 +650,21 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         switch (G.PlayerStatus.Trophy) {
             case "A":
                 G.PlayerStatus.Trophy = "B";
-                storeInLocal(true, 'save') // change the "save"
+
                 break;
             case "B":
                 if (G.PlayerStatus.Level == 2) {
                     G.PlayerStatus.Trophy = "C";
-                    storeInLocal(true, 'save')
                 }
                 break;
 
             case "C":
                 if (G.PlayerStatus.Level == 3) {
                     G.PlayerStatus.Trophy = "D";
-                    storeInLocal(true, 'save')
                 }
                 break;
         }
-
+        storeInLocal(true, 'save')
     }
     function RequestNewGame(newGamenumber) {
 
@@ -671,7 +672,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
             case 1:
                 G.PlayerStatus.Level = 1;
-                storeInLocal(true, 'save');
+                //storeInLocal(true, 'save');
                 NewGame();
                 break;
 
@@ -679,7 +680,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.PlayerStatus.Trophy != "A") {
                     G.PlayerStatus.Level = 2;
-                    storeInLocal(true, 'save')
+                    //storeInLocal(true, 'save')
                     NewGame();
                     break;
                 };
@@ -689,7 +690,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
                 if (G.PlayerStatus.Trophy == "C" || G.PlayerStatus.Trophy == "D") {
                     G.PlayerStatus.Level = 3;
-                    storeInLocal(true, 'save');
+                    //storeInLocal(true, 'save');
                     NewGame();
                     break;
                 }
@@ -859,10 +860,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     buttonNewgame[3].textIfneedsTofinish = "יש לסיים את האתגר הקודם"
     if (EN){
         buttonNewgame[1].textOnButton = "Start a basic game"
-        buttonNewgame[2].textOnButton = "A challange of " + G.NumOfChalangeFlips + " flips"
-        buttonNewgame[3].textOnButton = "A challange of " + G.NumOfChalangeSeconds + " seconds";
+        buttonNewgame[2].textOnButton = G.NumOfChalangeFlips + " Flip challenge"
+        buttonNewgame[3].textOnButton = G.NumOfChalangeSeconds + " Seconds challenge";
         buttonNewgame[2].textIfneedsTofinish = "Please complete a basic game"
-        buttonNewgame[3].textIfneedsTofinish = "Please complete the next challange"
+        buttonNewgame[3].textIfneedsTofinish = "Please complete the next challenge"
 
     }
 
@@ -917,23 +918,7 @@ function storeInLocal(saveOrnot, action) {
         break;
     }
 
-    if (!savedBefore) {
-    //    sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(firstLevelObj))
-    } else if (saveOrnot == true) {
-    //    console.log('finished')
-        //sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(saveObj))
 
-        if (JSON.parse(savedBefore).gameTrophy !== G.PlayerStatus.Trophy){
-
-        }
-
-    } else { }
-
-    let savedAfter = sessionStorage.getItem(G.saveInLocalStorageKey)
-    var fromSS = JSON.parse(savedAfter);
-    var modearray = [fromSS.gameTrophy,fromSS.gamelevel]
-
-    return modearray;
 }
 function test () {
 G.developeMode = true;

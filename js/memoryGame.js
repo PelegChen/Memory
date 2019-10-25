@@ -918,6 +918,9 @@ function storeInLocal(saveOrnot, action) {
         break;
 
         case 'save':
+        const lastGame = 'lst_';
+        const now = Math.floor(Date.now() / 1000)
+        G.PlayerStatus[lastGame] = now;
         createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus));
         case 'silentSave':
         sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus));

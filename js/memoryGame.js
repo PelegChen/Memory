@@ -13,10 +13,12 @@ function setGlobal (){
     G.PlayerStatus.Level = "1"
     G.PlayerStatus.History = []
     G.PlayerStatus.nameOfplayer = G.clickFullNameOfUser || "";
+    G.PlayerStatus.soundIson = true;
     G.PlayerStatus = storeInLocal (false, 'load') || G.PlayerStatus;
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange
     G.NumOfChalangeSeconds = 100;
+    G.maxHistoryInSave = 20; 
     G.NumOfRemainigFlips = G.NumOfChalangeFlips;
     G.ChallangeLost = false;
     G.cutedImage = "Defaultimage/frontOfcards.png";
@@ -162,9 +164,8 @@ function BuildAPP () {
         if (typeof G.seconds_challange !== "undefined") {
             validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
         }
-        if (typeof G.mute !== "undefined" && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-            validatValue(G.mute, "boolean") ? G.soundIson = !G.mute : errorWithValue = true
-        }
+        //if (typeof G.mute !== "undefined" && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
+            //validatValue(G.mute, "boolean") ? G.PlayerStatus.soundIson = !G.mute : errorWithValue = true
         if (typeof G.dev_mode !== "undefined") {
             validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
         }
@@ -187,7 +188,7 @@ function BuildAPP () {
                     ConsoleBoard(true)
                 }
 
-                if (G.soundIson == true) {
+                if (G.PlayerStatus.soundIson == true) {
                     setTimeout(G.woncardSound.play(), 200);
                 }
             }
@@ -206,7 +207,7 @@ function BuildAPP () {
             }
             function AddtoFlipCount(cardnumberforaudio) {
                 function playCardAudio(num) {
-                    if (G.soundIson == false) {
+                    if (G.PlayerStatus.soundIson == false) {
                         return
                     }
                     var Audiofilepath = G.audiofolderPath + "Sound" + G.card[num].picture.substring(4, 10) + ".mp3"
@@ -611,7 +612,7 @@ function BuildAPP () {
         let title = `<title>משחק הזיכרון</title>`;
         document.title = "Memory Game"
     }
-    if (localStorage.StorageSoundIsOn == "false") {G.soundIson = false} else {G.soundIson = true}
+    //if (localStorage.StorageSoundIsOn == "false") {G.PlayerStatus.soundIson = false} else {G.PlayerStatus.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
         if (G.developeMode == false) {
@@ -645,7 +646,12 @@ function BuildAPP () {
 
 }
 function ConsoleBoard(woneOrnot, LooseOrnot) {
+    function pushHistory () {
+        let historyDoc = {L:G.PlayerStatus.Level,F: G.NumOflips, T:G.seconds + (G.minutes * 60)}
+        while (G.PlayerStatus.History.length >= G.maxHistoryInSave) {G.PlayerStatus.History.shift()}
+        G.PlayerStatus.History.push(historyDoc)
 
+    }
     function levelUp() {
 
         switch (G.PlayerStatus.Trophy) {
@@ -665,8 +671,6 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
                 break;
         }
 
-
-        console.log ('levelUP', G.PlayerStatus.Trophy,G.PlayerStatus.Level)
         storeInLocal(true, 'save')
     }
     function RequestNewGame(newGamenumber) {
@@ -709,10 +713,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     }
     const EN = G.isLanguageEnglish || false;
     if (woneOrnot == true) {
-        (G.soundIson == true) ? G.wonboardSound.play(): 1
+        (G.PlayerStatus.soundIson == true) ? G.wonboardSound.play(): 1
         levelUp()
     } else {
-        (G.soundIson == true) ? G.popboardSound.play(): 1
+        (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): 1
     }
 
 
@@ -742,9 +746,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
         textFinished[1] = "כל הכבוד !"
         if (EN) {textFinished[1] = "Good Job!"}
-        let historyDoc = {L:G.PlayerStatus.Level,F: G.NumOflips, T:G.seconds + (G.minutes * 60)}
-        if (G.PlayerStatus.History.length < 6) {G.PlayerStatus.History.push(historyDoc)}
-
+        pushHistory ()
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
         if (EN) {textFinished[1] = "Try Again!" }
@@ -901,7 +903,7 @@ function DeleteConsole() {
         NewGame()
     }
     G.consoleIsopen = false;
-    (G.soundIson == true) ? G.popboardSound.play(): null
+    (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): null
     G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
 function storeInLocal(saveOrnot, action) {
@@ -936,15 +938,14 @@ return "develope mode: on"
 }
 function soundToggle() {
 
-    if (G.soundIson == true) {
+    if (G.PlayerStatus.soundIson === true) {
         G.sound_img.src = "GUIimage/soundOff.png";
-        G.soundIson = false;
-    } else if (G.soundIson == false) {
+        G.PlayerStatus.soundIson = false;
+    } else if (G.PlayerStatus.soundIson === false) {
         G.sound_img.src = "GUIimage/soundOn.png";
-        G.soundIson = true;
+        G.PlayerStatus.soundIson = true;
     }
-    var bool = G.soundIson;
-    localStorage.StorageSoundIsOn = bool.toString();
+    storeInLocal(true, 'silentSave');
 
 }
 function NewGame (){

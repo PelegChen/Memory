@@ -4,7 +4,7 @@ G.name_of_gameEN = 'Memory Game Actions';
 G.seconds_challange = 100;
 G.flip_chalange = 101;
 G.mute = 0;
-G.dev_mode =1; //change back to 0
+G.dev_mode = 1; //change back to 0
 G.isLanguageEnglish = 0;
 /*****/
  /*
@@ -59,7 +59,6 @@ function activateClick (){
     const saveFromURL = urlParams.get(G.saveInLocalStorageKey) || false;
     const urlName = urlParams.get('userFullName') ?  urlParams.get('userFullName') : false
     const lsName = saveFromSS.nameOfplayer || false;
-    console.log ('urlname',urlName, 'lsName', lsName )
     if (!urlParams.has('api')) {
         console.log('%c no site Connection - game saved on this PC \n אין חיבור לאתר, המשחק ישמר על מחשב זה', 'font-family:david; font-size: 3vmin; background: gold; color:blue;');
         G.saveInLocalStorageKey = G.fileName + "_Local"

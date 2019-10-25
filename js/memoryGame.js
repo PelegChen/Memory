@@ -1,4 +1,4 @@
-
+/*© 2019 Chen Peleg All Rights Reserved */
 var G = G || {}; /*global*/
 
 function setGlobal (){
@@ -18,7 +18,7 @@ function setGlobal (){
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange
     G.NumOfChalangeSeconds = 100;
-    G.maxHistoryInSave = 20; 
+    G.maxHistoryInSave = 20;
     G.NumOfRemainigFlips = G.NumOfChalangeFlips;
     G.ChallangeLost = false;
     G.cutedImage = "Defaultimage/frontOfcards.png";

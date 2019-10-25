@@ -1,4 +1,5 @@
-﻿var G = {} // global for config
+/*© 2019 Chen Peleg All Rights Reserved */
+var G = {} // global for config
 G.name_of_game =  "משחק הזיכרון פעולות";
 G.name_of_gameEN = 'Memory Game Actions';
 G.seconds_challange = 100;

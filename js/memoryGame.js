@@ -909,11 +909,11 @@ function storeInLocal(saveOrnot, action) {
         let ev = new Event ("storage");
         ev.key = key; ev.value = value
         ev.actionType = actionType; return window.dispatchEvent(ev)}
-    let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
+    let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
     //let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
     switch (action) {
         case 'load':
-        let savedBefore = sessionStorage.getItem(G.saveInLocalStorageKey)
+        let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
         if (savedBefore) {return JSON.parse(savedBefore)} else {return false}
         break;
 
@@ -923,7 +923,7 @@ function storeInLocal(saveOrnot, action) {
         G.PlayerStatus[lastGame] = now;
         createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus));
         case 'silentSave':
-        sessionStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus));
+        localStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus));
         return true
         break;
     }

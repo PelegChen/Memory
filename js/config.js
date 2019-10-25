@@ -20,8 +20,6 @@ G.mute - המשחק מתחיל כשהקול מושתק, ניתן להפעיל א
 */
 G.fileName = location.pathname.split("/").slice(-1)[0].replace(/\.html/ig,"")
 G.saveInLocalStorageKey = G.fileName
-G.saveBooleanValue = 'wasSaved_' + G.fileName
-
 function activateClick (){
 
     async function getClicktScript(url, urlGetPrams) {
@@ -43,7 +41,7 @@ function activateClick (){
         document.body.appendChild(script)
     }
     function loadGameFrom (source){
-        if (source === 'ss') {
+        if (source === 'ls') {
             // default loads from css;
         }
         if (source === 'clear') {
@@ -56,26 +54,27 @@ function activateClick (){
 
     }
     const urlParams = new URLSearchParams(window.location.search);
-    const ssString = localStorage.getItem(G.saveInLocalStorageKey)
-    const saveFromSS = ssString ? JSON.stringify(ssString) : false
+    const lsString = localStorage.getItem(G.saveInLocalStorageKey)
+    const saveFromSS = lsString ? JSON.parse(lsString) : false
     const saveFromURL = urlParams.get(G.saveInLocalStorageKey) || false;
     const urlName = urlParams.get('userFullName') ?  urlParams.get('userFullName') : false
-    const ssName = saveFromSS.nameOfplayer || false;
+    const lsName = saveFromSS.nameOfplayer || false;
+    console.log ('urlname',urlName, 'lsName', lsName )
     if (!urlParams.has('api')) {
         console.log('%c no site Connection - game saved on this PC \n אין חיבור לאתר, המשחק ישמר על מחשב זה', 'font-family:david; font-size: 3vmin; background: gold; color:blue;');
         G.saveInLocalStorageKey = G.fileName + "_Local"
         return
     }
 
-    if (saveFromURL && saveFromSS && (urlName === ssName) ){
+    if (saveFromURL && saveFromSS && (urlName === lsName) ){
         const urlTime = Number(saveFromURL.lst_) || 0
-        const ssTime =  Number(saveFromSS.lst_) || 0
-        const higher = Math.max(urlTime,ssTime)
-        if (higher === ssTime) {loadGameFrom ('ss')}
+        const lsTime =  Number(saveFromSS.lst_) || 0
+        const higher = Math.max(urlTime,lsTime)
+        if (higher === lsTime) {loadGameFrom ('ls')}
         else if (higher === urlTime) {loadGameFrom ('url')}
 
-    } else if (saveFromSS && (urlName === ssName)) {
-        loadGameFrom ('ss')
+    } else if (saveFromSS && (urlName === lsName)) {
+        loadGameFrom ('ls')
     } else if (saveFromURL) {
         loadGameFrom ('url')
     } else if (urlName){

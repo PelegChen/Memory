@@ -615,17 +615,16 @@ function BuildAPP () {
     //if (localStorage.StorageSoundIsOn == "false") {G.PlayerStatus.soundIson = false} else {G.PlayerStatus.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
-        if (G.developeMode == false) {
-            return
-        };
+        if (G.developeMode == false) {return};
+
         evt = evt || window.event;
         var isPushWin = false;
         var isPushLose = false;
         if ("key" in evt) {
             isPushWin = (evt.key == 1)
             isPushLose = (evt.key == 2) }
-        if (isPushWin) {ConsoleBoard(true)}
-        if (isPushLose) {ConsoleBoard(false, true);}
+        if (isPushWin) {ConsoleBoard(true) ; G.PlayerStatus.cheat = true;}
+        if (isPushLose) {ConsoleBoard(false, true); G.PlayerStatus.cheat = true;}
     };
 
     buildCards()

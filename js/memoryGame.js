@@ -1,7 +1,7 @@
 /*© 2019 Chen Peleg All Rights Reserved */
 var G = G || {}; /*global*/
 
-function setGlobal (){
+function setGlobal() {
     G.CardsTorandomize = [1, 2, 3];
     G.cardFromFile = [1, 2, 3];
     G.window_width = window.innerWidth;
@@ -14,7 +14,7 @@ function setGlobal (){
     G.PlayerStatus.History = []
     G.PlayerStatus.nameOfplayer = G.clickFullNameOfUser || "";
     G.PlayerStatus.soundIson = true;
-    G.PlayerStatus = storeInLocal (false, 'load') || G.PlayerStatus;
+    G.PlayerStatus = storeInLocal(false, 'load') || G.PlayerStatus;
     G.wasTheGamewone = false;
     G.NumOfChalangeFlips = 99; //number of flips do the flip challange
     G.NumOfChalangeSeconds = 100;
@@ -46,15 +46,15 @@ function setGlobal (){
     G.statuS.endingTurn = false;
 
 }
-function BuildAPP () {
-    function randomColorForCards (cardNumber,rndNum = 0.5) {
-        let coloeDeg = rndNum*388;
+function BuildAPP() {
+    function randomColorForCards(cardNumber, rndNum = 0.5) {
+        let coloeDeg = rndNum * 388;
         let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`;
         return color;
     }
-    function getRandomFromGameName (string) {
+    function getRandomFromGameName(string) {
         let total = 0;
-        for (let i = 0 ; i < string.length ; i++){
+        for (let i = 0; i < string.length; i++) {
             const num = string.charCodeAt(i);
             total += num;
         }
@@ -141,7 +141,9 @@ function BuildAPP () {
         var highConst = 5.5;
         var Widefit = Math.round(G.window_width / wideConst);
         var heightfit = Math.round(G.window_height / highConst);
-        styleSheet.insertRule(".flip-container {width:" + Widefit + "px; height: " + heightfit + "px;}", 0);
+        const clacWidth = wideConst + "vw"
+        const clacHeight = highConst + "vh"
+        // styleSheet.insertRule(".flip-container {width:" + clacWidth + "; height: " + heightfit + ";}", 0);
     }
     function getValuesFromConfig() {
 
@@ -165,7 +167,7 @@ function BuildAPP () {
             validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
         }
         //if (typeof G.mute !== "undefined" && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-            //validatValue(G.mute, "boolean") ? G.PlayerStatus.soundIson = !G.mute : errorWithValue = true
+        //validatValue(G.mute, "boolean") ? G.PlayerStatus.soundIson = !G.mute : errorWithValue = true
         if (typeof G.dev_mode !== "undefined") {
             validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
         }
@@ -241,7 +243,7 @@ function BuildAPP () {
             };
 
 
-            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {}
+            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) { }
             else if (G.statuS.endingTurn == true) {
                 var Keep_cardVlaue = cardnum;
                 clearTimeout(endTurn);
@@ -304,7 +306,7 @@ function BuildAPP () {
             G.card[i].FrontObject.classList.add("front");
 
 
-            G.card[i].FrontObject.style.background = randomColorForCards(i,randFromName );
+            G.card[i].FrontObject.style.background = randomColorForCards(i, randFromName);
             G.card[i].Cardwrapper.classList.add("cardWrappStyle");
 
 
@@ -313,7 +315,7 @@ function BuildAPP () {
             G.widthOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
             G.heightOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
 
-            G.card[i].press = function() {
+            G.card[i].press = function () {
                 turnCard(event.target.number);
             };
             G.card[i].Cobject.addEventListener("click", G.card[i].press, false);
@@ -323,22 +325,22 @@ function BuildAPP () {
             if (Math.ceil(y / G.numColsToCut) == (y / G.numColsToCut)) {
                 G.card[i].Cardwrapper.style.clear = "left"
             }
-            document.getElementById("wrapper01").appendChild(G.card[i].Cardwrapper);
+            document.getElementById("boardWrapper").appendChild(G.card[i].Cardwrapper);
         }
 
-        document.getElementById("wrapper01").ondragstart = function() {
+        document.getElementById("boardWrapper").ondragstart = function () {
             return false;
         };
 
     }
     function cutImageUp() {
-        function cutedImageSize () {
+        function cutedImageSize() {
             var DroneImage = document.createElement("img");
             DroneImage.src = G.cutedImage; // the whole picture to be cut
             DroneImage.style.position = "fixed";
             DroneImage.style.left = "-20000px";
             document.body.appendChild(DroneImage);
-            DroneImage.onload = function() {
+            DroneImage.onload = function () {
                 G.SplicedImage_height = DroneImage.height;
                 G.SplicedImage_width = DroneImage.width;
             }
@@ -354,7 +356,7 @@ function BuildAPP () {
         ImageObject123.src = G.cutedImage;
         window.onload = drawCanvasParts;
         ImageObject123.onload = drawCanvasParts;
-        function drawCanvasParts () {
+        function drawCanvasParts() {
             for (i = 1; i < G.NumOfcard + 1; i++) {
                 var z = i;
                 G.card[i].partiatImage = document.createElement("IMG");
@@ -420,8 +422,8 @@ function BuildAPP () {
                 G.card[i].DivForPictureInCard.appendChild(PictureInCard);
 
                 G.card[i].BackObject.style.backgroundImage = "url(" + PictureInCard.scr + ")";
-                G.card[i].BackObject.style.height = "100%" ;
-                G.card[i].BackObject.style.width = "100%" ;
+                G.card[i].BackObject.style.height = "100%";
+                G.card[i].BackObject.style.width = "100%";
                 G.card[i].BackObject.style.backgroundSize = "100% 100%";
                 G.card[i].BackObject.style.backfaceVisibility = "hidden";
                 G.card[i].BackObject.style.zIndex = "-1";
@@ -531,7 +533,7 @@ function BuildAPP () {
         G.sound_img.style.height = "5%"
         G.sound_img.addEventListener("click", soundToggle, false);
         //G.sound_img.style.position = "absolute";
-        document.getElementById("gameConsole").ondragstart = function() {
+        document.getElementById("gameConsole").ondragstart = function () {
             return false;
         };
 
@@ -587,7 +589,7 @@ function BuildAPP () {
                 G.ChallangeLost = true;
                 ConsoleBoard(false, true)
             }
-            if (G.seconds >= 0) {} else {
+            if (G.seconds >= 0) { } else {
                 G.seconds = 0;
             };
             G.seconds = Math.floor(TimeClicks / ChangeTimeInterval * 10) - (G.minutes * 60);
@@ -595,36 +597,38 @@ function BuildAPP () {
             var str = TimeClicks + "0";
             G.miliseconds = str.charAt(str.length - 2); // geting only the last Char of the TIME clicks wich is the ones
 
-            if (G.seconds >= 0) {} else {
+            if (G.seconds >= 0) { } else {
                 G.seconds = 0;
             };
             G.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
         }
 
-        if (G.stopWatchInterval){clearInterval(G.stopWatchInterval)}
-        G.stopWatchInterval = setInterval(function() {
+        if (G.stopWatchInterval) { clearInterval(G.stopWatchInterval) }
+        G.stopWatchInterval = setInterval(function () {
             secondPrint();
         }, ChangeTimeInterval);
     }
-    setGlobal ()
+    setGlobal()
 
-    if (G.isLanguageEnglish) { G.name_of_game = G.name_of_gameEN || G.name_of_game
+    if (G.isLanguageEnglish) {
+        G.name_of_game = G.name_of_gameEN || G.name_of_game
         let title = `<title>משחק הזיכרון</title>`;
         document.title = "Memory Game"
     }
     //if (localStorage.StorageSoundIsOn == "false") {G.PlayerStatus.soundIson = false} else {G.PlayerStatus.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
-    document.onkeydown = function(evt) {
-        if (G.developeMode == false) {return};
+    document.onkeydown = function (evt) {
+        if (G.developeMode == false) { return };
 
         evt = evt || window.event;
         var isPushWin = false;
         var isPushLose = false;
         if ("key" in evt) {
             isPushWin = (evt.key == 1)
-            isPushLose = (evt.key == 2) }
-        if (isPushWin) {ConsoleBoard(true) ; G.PlayerStatus.cheat = true;}
-        if (isPushLose) {ConsoleBoard(false, true); G.PlayerStatus.cheat = true;}
+            isPushLose = (evt.key == 2)
+        }
+        if (isPushWin) { ConsoleBoard(true); G.PlayerStatus.cheat = true; }
+        if (isPushLose) { ConsoleBoard(false, true); G.PlayerStatus.cheat = true; }
     };
 
     buildCards()
@@ -645,9 +649,9 @@ function BuildAPP () {
 
 }
 function ConsoleBoard(woneOrnot, LooseOrnot) {
-    function pushHistory () {
-        let historyDoc = {L:G.PlayerStatus.Level,F: G.NumOflips, T:G.seconds + (G.minutes * 60)}
-        while (G.PlayerStatus.History.length >= G.maxHistoryInSave) {G.PlayerStatus.History.shift()}
+    function pushHistory() {
+        let historyDoc = { L: G.PlayerStatus.Level, F: G.NumOflips, T: G.seconds + (G.minutes * 60) }
+        while (G.PlayerStatus.History.length >= G.maxHistoryInSave) { G.PlayerStatus.History.shift() }
         G.PlayerStatus.History.push(historyDoc)
 
     }
@@ -712,10 +716,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     }
     const EN = G.isLanguageEnglish || false;
     if (woneOrnot == true) {
-        (G.PlayerStatus.soundIson == true) ? G.wonboardSound.play(): 1
+        (G.PlayerStatus.soundIson == true) ? G.wonboardSound.play() : 1
         levelUp()
     } else {
-        (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): 1
+        (G.PlayerStatus.soundIson == true) ? G.popboardSound.play() : 1
     }
 
 
@@ -740,15 +744,15 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     var textFinished = ["", "", ""]
     var NumberOfFinishtexts = 3;
-/* heb */
+    /* heb */
     if (woneOrnot == true) {
 
         textFinished[1] = "כל הכבוד !"
-        if (EN) {textFinished[1] = "Good Job!"}
-        pushHistory ()
+        if (EN) { textFinished[1] = "Good Job!" }
+        pushHistory()
     } else if (LooseOrnot == true) {
         textFinished[1] = " לא נורא !" + " " + "נסו שוב !"
-        if (EN) {textFinished[1] = "Try Again!" }
+        if (EN) { textFinished[1] = "Try Again!" }
     }
     //else {textFinished [1] = "משחק מושהה"};
     textFinished[2] = "זמן: " + G.woneTime
@@ -766,7 +770,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     // make a for loop for creating a winning text"
     //golobal_data.FinishTextNode.length
-    if (woneOrnot == true) {} else {
+    if (woneOrnot == true) { } else {
         buttonReturnToGame = {
             "number": i,
             "color": "white",
@@ -776,10 +780,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
             "DivForPictureInCard": "",
             "PictureInCard": ""
         };
-        if (EN) {buttonReturnToGame.textOnButton = "Back to the game"}
+        if (EN) { buttonReturnToGame.textOnButton = "Back to the game" }
         if (G.ChallangeLost == true) {
             buttonReturnToGame.textOnButton = "משחק חוזר"
-            if (EN) {buttonReturnToGame.textOnButton = "Another game"}
+            if (EN) { buttonReturnToGame.textOnButton = "Another game" }
         }
         buttonReturnToGame.buttonObj = document.createElement("BUTTON");
         var textnode = document.createTextNode(buttonReturnToGame.textOnButton);
@@ -788,7 +792,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonReturnToGame.buttonObj.classList.add("flash-button")
         buttonReturnToGame.buttonObj.classList.add("button")
         G.winningScreen.Divobject.appendChild(buttonReturnToGame.buttonObj);
-        buttonReturnToGame.ClickerFunc = function() {
+        buttonReturnToGame.ClickerFunc = function () {
             DeleteConsole()
         } // delete console
         buttonReturnToGame.buttonObj.addEventListener("click", DeleteConsole, false)
@@ -826,7 +830,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     G.winningScreen.Divobject.style.textAlign = "center";
     G.winningScreen.Divobject.style.color = "white";
     G.winningScreen.Divobject.style.direction = "rtl";
-    if (EN) {G.winningScreen.Divobject.style.direction = "ltr";}
+    if (EN) { G.winningScreen.Divobject.style.direction = "ltr"; }
     G.winningScreen.Divobject.style.verticalAlign = "middle"
 
     //G.winningScreen.Divobject.style.fontWeight = "bold";
@@ -836,7 +840,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     // var droneTextnode = document.createTextNode(":");   G.winningScreen.Divobject.appendChild(droneTextnode);
     //G.winningScreen.Divobject.appendChild(br_node);
 
-    document.getElementById("wrapper01").appendChild(G.winningScreen.Divobject);
+    document.getElementById("boardWrapper").appendChild(G.winningScreen.Divobject);
 
     buttonNewgame = ["", "", ""]
     for (i = 0; i < 4; i++) {
@@ -853,18 +857,18 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     if (G.ChallangeLost == true) {
         buttonNewgame[0].textOnButton = "נסיון חוזר";
-        if (EN){buttonNewgame[0].textOnButton = "Another game";}
+        if (EN) { buttonNewgame[0].textOnButton = "Another game"; }
 
     } else {
         buttonNewgame[0].textOnButton = "חזרה למשחק";
-        if (EN){buttonNewgame[0].textOnButton ="Back to the game";}
+        if (EN) { buttonNewgame[0].textOnButton = "Back to the game"; }
     }
     buttonNewgame[1].textOnButton = "משחק חדש -רגיל ";
     buttonNewgame[2].textOnButton = " אתגר " + G.NumOfChalangeFlips + " היפוכים "
     buttonNewgame[3].textOnButton = " אתגר  " + G.NumOfChalangeSeconds + " שניות ";
     buttonNewgame[2].textIfneedsTofinish = "יש לסיים משחק רגיל"
     buttonNewgame[3].textIfneedsTofinish = "יש לסיים את האתגר הקודם"
-    if (EN){
+    if (EN) {
         buttonNewgame[1].textOnButton = "Start a basic game"
         buttonNewgame[2].textOnButton = G.NumOfChalangeFlips + " Flip challenge"
         buttonNewgame[3].textOnButton = G.NumOfChalangeSeconds + " Seconds challenge";
@@ -881,7 +885,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonNewgame[i].buttonObj.number = i;
         buttonNewgame[i].buttonObj.classList.add("button")
         G.winningScreen.Divobject.appendChild(buttonNewgame[i].buttonObj);
-        buttonNewgame[i].ClickerFunc = function() {
+        buttonNewgame[i].ClickerFunc = function () {
             RequestNewGame(event.target.number)
         }
         buttonNewgame[i].buttonObj.addEventListener("click", buttonNewgame[i].ClickerFunc, false)
@@ -902,38 +906,39 @@ function DeleteConsole() {
         NewGame()
     }
     G.consoleIsopen = false;
-    (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): null
+    (G.PlayerStatus.soundIson == true) ? G.popboardSound.play() : null
     G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
 function storeInLocal(saveOrnot, action) {
-    var createEvent  = (actionType, key, value)  => {
-        let ev = new Event ("storage");
+    var createEvent = (actionType, key, value) => {
+        let ev = new Event("storage");
         ev.key = key; ev.value = value
-        ev.actionType = actionType; return window.dispatchEvent(ev)}
+        ev.actionType = actionType; return window.dispatchEvent(ev)
+    }
     let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
     //let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
     switch (action) {
         case 'load':
-        let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
-        if (savedBefore) {return JSON.parse(savedBefore)} else {return false}
-        break;
+            let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
+            if (savedBefore) { return JSON.parse(savedBefore) } else { return false }
+            break;
 
         case 'save':
-        const lastGame = 'lst_';
-        const now = Math.floor(Date.now() / 1000)
-        G.PlayerStatus[lastGame] = now;
-        createEvent ("save",G.saveInLocalStorageKey , JSON.stringify(G.PlayerStatus));
+            const lastGame = 'lst_';
+            const now = Math.floor(Date.now() / 1000)
+            G.PlayerStatus[lastGame] = now;
+            createEvent("save", G.saveInLocalStorageKey, JSON.stringify(G.PlayerStatus));
         case 'silentSave':
-        localStorage.setItem(G.saveInLocalStorageKey,JSON.stringify(G.PlayerStatus));
-        return true
-        break;
+            localStorage.setItem(G.saveInLocalStorageKey, JSON.stringify(G.PlayerStatus));
+            return true
+            break;
     }
 
 
 }
-function test () {
-G.developeMode = true;
-return "develope mode: on"
+function test() {
+    G.developeMode = true;
+    return "develope mode: on"
 }
 function soundToggle() {
 
@@ -947,14 +952,14 @@ function soundToggle() {
     storeInLocal(true, 'silentSave');
 
 }
-function NewGame (){
-    let originalHtml = `<div id="gameConsole"> </div><div id = "wrapper01"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
+function NewGame() {
+    let originalHtml = `<div id="gameConsole"> </div><div id = "boardWrapper"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
     document.getElementById('gameConsole').innerHTML = ""
-    document.getElementById('wrapper01').innerHTML = "<span id='ErrorCheck'>Loading... </span>"
+    document.getElementById('boardWrapper').innerHTML = "<span id='ErrorCheck'>Loading... </span>"
     //document.body.innerHTML = originalHtml;
-    BuildAPP ()
+    BuildAPP()
 
 }
 
 /* main*/
-BuildAPP ()
+BuildAPP()

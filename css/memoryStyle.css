@@ -16,6 +16,7 @@ body {
 	width: 100%;
 	background-position: center top;
 	background-size: 100%;
+	overflow: hidden;
 	 
 }
 .button {
@@ -50,16 +51,18 @@ body {
 	padding: 1vmin 1vmin;
 }
  
-#wrapper01 {
+#boardWrapper {
 	background-color: black;
-	position: fixed;
+	position: absolute;
 	top: 10%;
-	left: 11%;
- 
+	left: 10.5%;
+	 
 	border: ridge black 1px;
 	border-radius: 10px;
 	box-shadow: 5px 5px 5px rgba(0, 30, 0, 0.5);
-	max-width: 90%;
+	min-width: 70%;
+	max-width: 80%;
+	min-height: 70%;
 	max-height: 90%;
 }
  
@@ -70,13 +73,13 @@ body {
  
 }
 .flip-container {
-	width: 145px;
-	height: 110px;
+	width: 12.5vw;
+	height: 17vh;
 	border: solid #4d4d4d 2px;
 	border-radius: 6px;
 	margin: 1px;
 	transform-style: preserve-3d;
-	transition: 0.5s;
+	transition: transform 0.5s;
 	box-shadow: 5px 5px 5px rgba(0, 30, 0, 0.3);
 	z-index: 1;
 }
@@ -152,9 +155,17 @@ body {
 	  transform-origin: left top;
 	  width: 100vh;
 	  overflow-x: hidden;
-	  position: absolute;
+	  position: fixed;
 	  top: 100%;
 	  left: 0;
 	}
+	.flip-container {
+		 height: 17vw;
+		 width: 12.5vh;
  
   }
+  #boardWrapper {
+	  max-width: 85%;
+	  max-height: 70%;
+  }
+}

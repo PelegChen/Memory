@@ -22,11 +22,13 @@ body {
 }
 
 #gameConsole {
-
+	display: flexbox;
+	overflow: auto;
 	position: relative;
 	height: fit-content;
 	width: 85%;
 	margin: auto;
+	vertical-align: middle;
 
 
 	background-color: #875f2e;
@@ -41,17 +43,26 @@ body {
 	text-align: center;
 	 text-shadow: rgb(68, 41, 122) 2px 2px 1px, rgb(32, 19, 58) 3px 3px 1px;
 }
-.headetitles {
-	 
-	height: fit-content;
-	/* the wrapper of the elements */
+.headerElement {
+	/* font-size: 12px; */
+	font-size: 2.5vw;
 }
 .HeaderCount {
 	position: relative;
 	height: fit-content;
-
+	float: left;
 }
- 
+.headertext {
+	margin: auto;
+	padding-left: 20px;
+	position: relative;
+	/* left: 10%; */
+	
+ }
+ .Headerstopper {
+	 float: left; 
+	 margin: 0px 0px 0px 40px; 
+ }
 #boardWrapper {
 	text-align: initial;
 	background-color: rgba(0, 0, 0, 0.822);
@@ -71,11 +82,7 @@ body {
 	max-height: 90%;
 	 
 }
- .headertext {
-	position: relative;
-	left: 10%;
-	font-size: 3vw;
- }
+
 .cardWrappStyle {
 	float: left;
 	perspective: 600px;
@@ -195,4 +202,8 @@ body {
 	  max-width: 85%;
 	  max-height: 70%;
   }
+  .headerElement {
+	/* font-size: 12px; */
+	font-size: 2.5vh;
+}
 }

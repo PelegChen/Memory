@@ -472,6 +472,7 @@ function BuildAPP() {
 
 
         G.bodyObject = document.getElementsByTagName("BODY")[0];
+        G.mainGameConsole = document.getElementById("gameConsole");
         G.bodyObject.style.backgroundColor = "#666666";
         G.bodyObject.style.backgroundImage = "url(" + G.back_image + ")";
         G.bodyObject.style.backgroundBlendMode = "lighten";
@@ -482,10 +483,10 @@ function BuildAPP() {
         G.cog_img.src = "GUIimage/settingCog.png";
         G.sound_img = document.createElement("IMG");
         G.sound_img.src = "GUIimage/soundOn.png";
-        G.HeaderTitle = document.createElement("div");
+        // G.HeaderTitle = document.createElement("div");
         G.HeaderTextND = document.createElement("div");
-        G.HeaderTitle.classList.add("headetitles");
-        G.HeaderTextND.classList.add("headertext");
+
+        G.HeaderTextND.classList.add("headertext", "headerElement");
         G.HeaderTextND.style.float = "left";
         // adds spaces to the text according to the length
         var lnth = G.HeaderText.length || 0
@@ -498,9 +499,9 @@ function BuildAPP() {
         G.HeaderCountObject = document.createElement("div");
         G.HeaderStoperObject = document.createElement("div"); //the stopper
         G.HeaderStoperND = document.createTextNode("00:00");
-        G.HeaderCountObject.style.shadow = "text-shadow: 2px 2px 4px #000;";
-        G.HeaderTitle.appendChild(G.HeaderCountObject);
-        G.HeaderTitle.appendChild(G.HeaderStoperObject);
+        // G.HeaderCountObject.style.shadow = "text-shadow: 2px 2px 4px #000;";
+        G.mainGameConsole.appendChild(G.HeaderCountObject);
+        G.mainGameConsole.appendChild(G.HeaderStoperObject);
         G.HeaderStoperObject.appendChild(G.HeaderStoperND);
         var flipNodeText = 0;
 
@@ -514,17 +515,14 @@ function BuildAPP() {
         G.HeaderCountND.innerHTML = flipNodeText;
 
         G.HeaderCountObject.appendChild(G.HeaderCountND);
-        G.HeaderCountObject.classList.add("HeaderCount");
-        G.HeaderCountObject.style.float = "left";
-        G.HeaderStoperObject.style.float = "left";
-        G.HeaderStoperObject.style.margin = "0px 0px 0px 40px";
-        G.HeaderTitle.appendChild(G.HeaderTextND);
-        document.getElementById("gameConsole").appendChild(G.HeaderTitle);
-        G.HeaderTitle.style.textAlign = "center";
-        //G.HeaderTitle.style.fontWeight = "bold";
-        G.HeaderTitle.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a"
-        G.HeaderTitle.appendChild(G.sound_img);
-        G.HeaderTitle.appendChild(G.cog_img);
+        G.HeaderCountObject.classList.add("HeaderCount", "headerElement");
+        // G.HeaderCountObject.style.float = "left";
+        // G.HeaderStoperObject.style.float = "left";
+        G.HeaderStoperObject.classList.add("Headerstopper", "headerElement");
+        // G.HeaderStoperObject.style.margin = "0px 0px 0px 40px";
+        G.mainGameConsole.appendChild(G.HeaderTextND);
+        G.mainGameConsole.appendChild(G.sound_img);
+        G.mainGameConsole.appendChild(G.cog_img);
         G.cog_img.style.float = "right";
         G.cog_img.style.width = "4%"
         G.cog_img.style.height = "4%"

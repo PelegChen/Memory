@@ -484,7 +484,8 @@ function BuildAPP() {
         G.sound_img.src = "GUIimage/soundOn.png";
         G.HeaderTitle = document.createElement("div");
         G.HeaderTextND = document.createElement("div");
-        G.HeaderTextND.classList.add("headertext")
+        G.HeaderTitle.classList.add("headetitles");
+        G.HeaderTextND.classList.add("headertext");
         G.HeaderTextND.style.float = "left";
         // adds spaces to the text according to the length
         var lnth = G.HeaderText.length || 0
@@ -513,6 +514,7 @@ function BuildAPP() {
         G.HeaderCountND.innerHTML = flipNodeText;
 
         G.HeaderCountObject.appendChild(G.HeaderCountND);
+        G.HeaderCountObject.classList.add("HeaderCount");
         G.HeaderCountObject.style.float = "left";
         G.HeaderStoperObject.style.float = "left";
         G.HeaderStoperObject.style.margin = "0px 0px 0px 40px";

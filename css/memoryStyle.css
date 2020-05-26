@@ -17,37 +17,59 @@ body {
 	background-position: center top;
 	background-size: 100%;
 	overflow: hidden;
+	text-align: center;
 	 
 }
 
 #gameConsole {
+
+	position: relative;
+	height: fit-content;
+	width: 85%;
+	margin: auto;
+
+
 	background-color: #875f2e;
 	background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 56%, #2c2c2c 85%, #2b0c0c 93%, #131313 100%);
-	position: fixed;
-	top: 0.5%;
-	left: 10%;
-	right: 10%;
 	border: solid black 0.4vmin;
 	border-radius: 3vmin;
 	font-family: "noot", Times, serif;
 	color: white;
 	font-size: 5.4vmin;
 	padding: 1vmin 1vmin;
+
+	text-align: center;
+	 text-shadow: rgb(68, 41, 122) 2px 2px 1px, rgb(32, 19, 58) 3px 3px 1px;
+}
+.headetitles {
+	 
+	height: fit-content;
+	/* the wrapper of the elements */
+}
+.HeaderCount {
+	position: relative;
+	height: fit-content;
+
 }
  
 #boardWrapper {
-	background-color: black;
-	position: absolute;
-	top: 10%;
-	left: 10.5%; 
-	 
+	text-align: initial;
+	background-color: rgba(0, 0, 0, 0.822);
+	position: relative;
+	margin: auto auto;
+	/* top: 10%;
+	left: 10.5%;  */
 	border: ridge black 1px;
 	border-radius: 10px;
 	box-shadow: 5px 5px 5px rgba(0, 30, 0, 0.5);
+
+	width: fit-content;
+	height: fit-content;
 	min-width: 70%;
 	max-width: 80%;
 	min-height: 70%;
 	max-height: 90%;
+	 
 }
  .headertext {
 	position: relative;

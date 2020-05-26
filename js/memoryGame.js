@@ -484,6 +484,7 @@ function BuildAPP() {
         G.sound_img.src = "GUIimage/soundOn.png";
         G.HeaderTitle = document.createElement("div");
         G.HeaderTextND = document.createElement("div");
+        G.HeaderTextND.classList.add("headertext")
         G.HeaderTextND.style.float = "left";
         // adds spaces to the text according to the length
         var lnth = G.HeaderText.length || 0

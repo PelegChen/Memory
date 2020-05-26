@@ -487,7 +487,7 @@ function BuildAPP() {
         G.HeaderTextND = document.createElement("div");
 
         G.HeaderTextND.classList.add("headertext", "headerElement");
-        G.HeaderTextND.style.float = "left";
+        // G.HeaderTextND.style.float = "left";
         // adds spaces to the text according to the length
         var lnth = G.HeaderText.length || 0
         var added_spaces = "";
@@ -523,15 +523,11 @@ function BuildAPP() {
         G.mainGameConsole.appendChild(G.HeaderTextND);
         G.mainGameConsole.appendChild(G.sound_img);
         G.mainGameConsole.appendChild(G.cog_img);
-        G.cog_img.style.float = "right";
-        G.cog_img.style.width = "4%"
-        G.cog_img.style.height = "4%"
-        G.cog_img.style.marginRight = "2%"
-        G.cog_img.style.marginTop = "0.5%"
+        G.sound_img.classList.add("headerSound", "headerElement")
+        G.cog_img.classList.add("headerCog", "headerElement")
+
         G.cog_img.addEventListener("click", settingsConsoleButtonPress, false);
-        G.sound_img.style.float = "right";
-        G.sound_img.style.width = "5%"
-        G.sound_img.style.height = "5%"
+
         G.sound_img.addEventListener("click", soundToggle, false);
         //G.sound_img.style.position = "absolute";
         document.getElementById("gameConsole").ondragstart = function () {

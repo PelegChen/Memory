@@ -22,13 +22,19 @@ body {
 }
 
 #gameConsole {
-	display: flexbox;
-	overflow: auto;
+	
+ 
+	text-align: initial;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: space-evenly;
+	 
 	position: relative;
-	height: fit-content;
+	height: 60px;
 	width: 85%;
 	margin: auto;
-	vertical-align: middle;
+ 
+	 
 
 
 	background-color: #875f2e;
@@ -39,29 +45,39 @@ body {
 	color: white;
 	font-size: 5.4vmin;
 	padding: 1vmin 1vmin;
-
-	text-align: center;
 	 text-shadow: rgb(68, 41, 122) 2px 2px 1px, rgb(32, 19, 58) 3px 3px 1px;
 }
 .headerElement {
+	 
+	vertical-align: middle;
+	/* display: inline-flex; */
 	/* font-size: 12px; */
 	font-size: 2.5vw;
 }
 .HeaderCount {
-	position: relative;
-	height: fit-content;
-	float: left;
+	align-self: flex-start;
 }
 .headertext {
-	margin: auto;
-	padding-left: 20px;
-	position: relative;
-	/* left: 10%; */
+	align-self: center;
 	
  }
  .Headerstopper {
-	 float: left; 
+	align-self: flex-start;
 	 margin: 0px 0px 0px 40px; 
+ }
+ .headerSound {
+ 
+	align-self: flex-end;
+	width: 50px;
+	height: 50px;
+ }
+ .headerCog{
+	 
+	align-self: flex-end;
+	width: 50px; 
+	height: 50px; 
+	/* margin-right: 2%; 
+	margin-top: 0.5%; */
  }
 #boardWrapper {
 	text-align: initial;

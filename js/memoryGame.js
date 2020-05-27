@@ -46,12 +46,14 @@ function setGlobal() {
     G.statuS.endingTurn = false;
 
 }
+
 function BuildAPP() {
     function randomColorForCards(cardNumber, rndNum = 0.5) {
         let coloeDeg = rndNum * 388;
         let color = `linear-gradient(to right, hsl(${coloeDeg}, 44%, 68%) 0%, hsl(${coloeDeg}, 24%, 44%) 100%)`;
         return color;
     }
+
     function getRandomFromGameName(string) {
         let total = 0;
         for (let i = 0; i < string.length; i++) {
@@ -60,6 +62,7 @@ function BuildAPP() {
         }
         return (Math.sin(total) / 2) + 0.5;
     }
+
     function buildCards() {
 
         for (i = 1; i < (G.NumOfcard / 2) + 2; i++) {
@@ -132,9 +135,11 @@ function BuildAPP() {
             G.card[i].contentOfcard = strWithoutAB
         }
     }
+
     function setCardsize() {
 
-        var styleEl = document.createElement("style"), styleSheet;
+        var styleEl = document.createElement("style"),
+            styleSheet;
         document.head.appendChild(styleEl);
         styleSheet = styleEl.sheet;
         var wideConst = 8;
@@ -143,8 +148,9 @@ function BuildAPP() {
         var heightfit = Math.round(G.window_height / highConst);
         const clacWidth = wideConst + "vw"
         const clacHeight = highConst + "vh"
-        // styleSheet.insertRule(".flip-container {width:" + clacWidth + "; height: " + heightfit + ";}", 0);
+            // styleSheet.insertRule(".flip-container {width:" + clacWidth + "; height: " + heightfit + ";}", 0);
     }
+
     function getValuesFromConfig() {
 
         function validatValue(theVar, typeOfvar) {
@@ -173,13 +179,15 @@ function BuildAPP() {
         }
         return errorWithValue
     }
+
     function boardBuilder() {
         const randFromName = getRandomFromGameName(G.name_of_game || "123")
+
         function turnCard(cardnum) {
             function wonTurn() {
                 G.wins++
 
-                G.card[G.statuS.card1].cardWone = true;
+                    G.card[G.statuS.card1].cardWone = true;
                 G.card[G.statuS.card2].cardWone = true;
                 G.statuS.card1 = 0;
                 G.statuS.card2 = 0;
@@ -194,6 +202,7 @@ function BuildAPP() {
                     setTimeout(G.woncardSound.play(), 200);
                 }
             }
+
             function endTurn() {
                 //conWrite ("endturnd starts");
                 if (G.statuS.endingTurn == false) { //conWrite ("endturnd canceled");
@@ -207,6 +216,7 @@ function BuildAPP() {
                     //conWrite ("endturnd finished");
                 }
             }
+
             function AddtoFlipCount(cardnumberforaudio) {
                 function playCardAudio(num) {
                     if (G.PlayerStatus.soundIson == false) {
@@ -243,8 +253,7 @@ function BuildAPP() {
             };
 
 
-            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) { }
-            else if (G.statuS.endingTurn == true) {
+            if (G.card[cardnum].cardWone == true || G.statuS.card1 == cardnum || G.statuS.card2 == cardnum) {} else if (G.statuS.endingTurn == true) {
                 var Keep_cardVlaue = cardnum;
                 clearTimeout(endTurn);
                 endTurn();
@@ -315,7 +324,7 @@ function BuildAPP() {
             G.widthOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("width");
             G.heightOfcard = window.getComputedStyle(G.card[1].Cobject, null).getPropertyValue("height");
 
-            G.card[i].press = function () {
+            G.card[i].press = function() {
                 turnCard(event.target.number);
             };
             G.card[i].Cobject.addEventListener("click", G.card[i].press, false);
@@ -328,11 +337,12 @@ function BuildAPP() {
             document.getElementById("boardWrapper").appendChild(G.card[i].Cardwrapper);
         }
 
-        document.getElementById("boardWrapper").ondragstart = function () {
+        document.getElementById("boardWrapper").ondragstart = function() {
             return false;
         };
 
     }
+
     function cutImageUp() {
         function cutedImageSize() {
             var DroneImage = document.createElement("img");
@@ -340,7 +350,7 @@ function BuildAPP() {
             DroneImage.style.position = "fixed";
             DroneImage.style.left = "-20000px";
             document.body.appendChild(DroneImage);
-            DroneImage.onload = function () {
+            DroneImage.onload = function() {
                 G.SplicedImage_height = DroneImage.height;
                 G.SplicedImage_width = DroneImage.width;
             }
@@ -356,6 +366,7 @@ function BuildAPP() {
         ImageObject123.src = G.cutedImage;
         window.onload = drawCanvasParts;
         ImageObject123.onload = drawCanvasParts;
+
         function drawCanvasParts() {
             for (i = 1; i < G.NumOfcard + 1; i++) {
                 var z = i;
@@ -408,6 +419,7 @@ function BuildAPP() {
             };
         }
     }
+
     function cardPictureBuilder() {
         for (i = 1; i < G.NumOfcard + 1; i++) {
 
@@ -445,6 +457,7 @@ function BuildAPP() {
             } // close the if
         }
     }
+
     function HeaderBuilder() {
         function settingsConsoleButtonPress() {
             if (G.consoleIsopen == true) {
@@ -498,10 +511,19 @@ function BuildAPP() {
         G.HeaderTextND.innerHTML = added_spaces + G.HeaderText
         G.HeaderCountObject = document.createElement("div");
         G.HeaderStoperObject = document.createElement("div"); //the stopper
+        G.uiButtonWrap = document.createElement("div");
+        G.uiButtonWrap.classList.add("uibuttonwrap");
+
+        G.countersWrap = document.createElement("div");
+        G.countersWrap.classList.add("countersWrap");
+
         G.HeaderStoperND = document.createTextNode("00:00");
         // G.HeaderCountObject.style.shadow = "text-shadow: 2px 2px 4px #000;";
-        G.mainGameConsole.appendChild(G.HeaderCountObject);
-        G.mainGameConsole.appendChild(G.HeaderStoperObject);
+
+        G.mainGameConsole.appendChild(G.countersWrap);
+        G.countersWrap.appendChild(G.HeaderCountObject);
+        G.countersWrap.appendChild(G.HeaderStoperObject);
+
         G.HeaderStoperObject.appendChild(G.HeaderStoperND);
         var flipNodeText = 0;
 
@@ -521,8 +543,10 @@ function BuildAPP() {
         G.HeaderStoperObject.classList.add("Headerstopper", "headerElement");
         // G.HeaderStoperObject.style.margin = "0px 0px 0px 40px";
         G.mainGameConsole.appendChild(G.HeaderTextND);
-        G.mainGameConsole.appendChild(G.sound_img);
-        G.mainGameConsole.appendChild(G.cog_img);
+        G.mainGameConsole.appendChild(G.uiButtonWrap);
+
+        G.uiButtonWrap.appendChild(G.sound_img);
+        G.uiButtonWrap.appendChild(G.cog_img);
         G.sound_img.classList.add("headerSound", "headerElement")
         G.cog_img.classList.add("headerCog", "headerElement")
 
@@ -530,11 +554,12 @@ function BuildAPP() {
 
         G.sound_img.addEventListener("click", soundToggle, false);
         //G.sound_img.style.position = "absolute";
-        document.getElementById("gameConsole").ondragstart = function () {
+        document.getElementById("gameConsole").ondragstart = function() {
             return false;
         };
 
     }
+
     function stopWatchBuilder() {
         function monospaceHtml(htm) {
             let arr = htm.split("");
@@ -586,7 +611,7 @@ function BuildAPP() {
                 G.ChallangeLost = true;
                 ConsoleBoard(false, true)
             }
-            if (G.seconds >= 0) { } else {
+            if (G.seconds >= 0) {} else {
                 G.seconds = 0;
             };
             G.seconds = Math.floor(TimeClicks / ChangeTimeInterval * 10) - (G.minutes * 60);
@@ -594,14 +619,14 @@ function BuildAPP() {
             var str = TimeClicks + "0";
             G.miliseconds = str.charAt(str.length - 2); // geting only the last Char of the TIME clicks wich is the ones
 
-            if (G.seconds >= 0) { } else {
+            if (G.seconds >= 0) {} else {
                 G.seconds = 0;
             };
             G.minutes = Math.floor(Math.floor(TimeClicks / ChangeTimeInterval * 10) / 60);
         }
 
         if (G.stopWatchInterval) { clearInterval(G.stopWatchInterval) }
-        G.stopWatchInterval = setInterval(function () {
+        G.stopWatchInterval = setInterval(function() {
             secondPrint();
         }, ChangeTimeInterval);
     }
@@ -614,7 +639,7 @@ function BuildAPP() {
     }
     //if (localStorage.StorageSoundIsOn == "false") {G.PlayerStatus.soundIson = false} else {G.PlayerStatus.soundIson = true}
     document.getElementById("ErrorCheck").innerHTML = "";
-    document.onkeydown = function (evt) {
+    document.onkeydown = function(evt) {
         if (G.developeMode == false) { return };
 
         evt = evt || window.event;
@@ -624,8 +649,14 @@ function BuildAPP() {
             isPushWin = (evt.key == 1)
             isPushLose = (evt.key == 2)
         }
-        if (isPushWin) { ConsoleBoard(true); G.PlayerStatus.cheat = true; }
-        if (isPushLose) { ConsoleBoard(false, true); G.PlayerStatus.cheat = true; }
+        if (isPushWin) {
+            ConsoleBoard(true);
+            G.PlayerStatus.cheat = true;
+        }
+        if (isPushLose) {
+            ConsoleBoard(false, true);
+            G.PlayerStatus.cheat = true;
+        }
     };
 
     buildCards()
@@ -645,6 +676,7 @@ function BuildAPP() {
 
 
 }
+
 function ConsoleBoard(woneOrnot, LooseOrnot) {
     function pushHistory() {
         let historyDoc = { L: G.PlayerStatus.Level, F: G.NumOflips, T: G.seconds + (G.minutes * 60) }
@@ -652,6 +684,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         G.PlayerStatus.History.push(historyDoc)
 
     }
+
     function levelUp() {
 
         switch (G.PlayerStatus.Trophy) {
@@ -673,6 +706,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
         storeInLocal(true, 'save')
     }
+
     function RequestNewGame(newGamenumber) {
 
         switch (newGamenumber) {
@@ -713,10 +747,10 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
     }
     const EN = G.isLanguageEnglish || false;
     if (woneOrnot == true) {
-        (G.PlayerStatus.soundIson == true) ? G.wonboardSound.play() : 1
+        (G.PlayerStatus.soundIson == true) ? G.wonboardSound.play(): 1
         levelUp()
     } else {
-        (G.PlayerStatus.soundIson == true) ? G.popboardSound.play() : 1
+        (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): 1
     }
 
 
@@ -724,7 +758,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.consoleIsopen = true;
     G.winningScreen = {}
-    /*  game consol design */
+        /*  game consol design */
 
     G.winningScreen.Divobject = document.createElement("div");
     //   G.winningScreen.Divobject.style.backgroundColor = "#800040";
@@ -767,7 +801,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     // make a for loop for creating a winning text"
     //golobal_data.FinishTextNode.length
-    if (woneOrnot == true) { } else {
+    if (woneOrnot == true) {} else {
         buttonReturnToGame = {
             "number": i,
             "color": "white",
@@ -789,9 +823,9 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonReturnToGame.buttonObj.classList.add("flash-button")
         buttonReturnToGame.buttonObj.classList.add("button")
         G.winningScreen.Divobject.appendChild(buttonReturnToGame.buttonObj);
-        buttonReturnToGame.ClickerFunc = function () {
-            DeleteConsole()
-        } // delete console
+        buttonReturnToGame.ClickerFunc = function() {
+                DeleteConsole()
+            } // delete console
         buttonReturnToGame.buttonObj.addEventListener("click", DeleteConsole, false)
     }
 
@@ -882,7 +916,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         buttonNewgame[i].buttonObj.number = i;
         buttonNewgame[i].buttonObj.classList.add("button")
         G.winningScreen.Divobject.appendChild(buttonNewgame[i].buttonObj);
-        buttonNewgame[i].ClickerFunc = function () {
+        buttonNewgame[i].ClickerFunc = function() {
             RequestNewGame(event.target.number)
         }
         buttonNewgame[i].buttonObj.addEventListener("click", buttonNewgame[i].ClickerFunc, false)
@@ -898,22 +932,26 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
 
 }
+
 function DeleteConsole() {
     if (G.ChallangeLost == true) {
         NewGame()
     }
     G.consoleIsopen = false;
-    (G.PlayerStatus.soundIson == true) ? G.popboardSound.play() : null
+    (G.PlayerStatus.soundIson == true) ? G.popboardSound.play(): null
     G.winningScreen.Divobject.parentNode.removeChild(G.winningScreen.Divobject);
 }
+
 function storeInLocal(saveOrnot, action) {
     var createEvent = (actionType, key, value) => {
         let ev = new Event("storage");
-        ev.key = key; ev.value = value
-        ev.actionType = actionType; return window.dispatchEvent(ev)
+        ev.key = key;
+        ev.value = value
+        ev.actionType = actionType;
+        return window.dispatchEvent(ev)
     }
     let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
-    //let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
+        //let firstLevelObj = {gameTrophy: "A" ,gamelevel:"1"}
     switch (action) {
         case 'load':
             let savedBefore = localStorage.getItem(G.saveInLocalStorageKey)
@@ -933,10 +971,12 @@ function storeInLocal(saveOrnot, action) {
 
 
 }
+
 function test() {
     G.developeMode = true;
     return "develope mode: on"
 }
+
 function soundToggle() {
 
     if (G.PlayerStatus.soundIson === true) {
@@ -949,11 +989,12 @@ function soundToggle() {
     storeInLocal(true, 'silentSave');
 
 }
+
 function NewGame() {
     let originalHtml = `<div id="gameConsole"> </div><div id = "boardWrapper"><span id="ErrorCheck">Loading... </span></div><script src="js/config.js" type="text/javascript"></script> <script src="js/memoryGame.js" type="text/javascript"></script>`;
     document.getElementById('gameConsole').innerHTML = ""
     document.getElementById('boardWrapper').innerHTML = "<span id='ErrorCheck'>Loading... </span>"
-    //document.body.innerHTML = originalHtml;
+        //document.body.innerHTML = originalHtml;
     BuildAPP()
 
 }

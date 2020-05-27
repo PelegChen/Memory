@@ -149,7 +149,7 @@ function BuildAPP() {
         var heightfit = Math.round(G.window_height / highConst);
         const clacWidth = wideConst + "vw"
         const clacHeight = highConst + "vh"
-            // styleSheet.insertRule(".flip-container {width:" + clacWidth + "; height: " + heightfit + ";}", 0);
+
     }
 
     function getValuesFromConfig() {
@@ -173,8 +173,7 @@ function BuildAPP() {
         if (typeof G.seconds_challange !== "undefined") {
             validatValue(G.seconds_challange, "int") ? G.NumOfChalangeSeconds = G.seconds_challange : errorWithValue = true
         }
-        //if (typeof G.mute !== "undefined" && (localStorage.StorageSoundIsOn !== "true" && localStorage.StorageSoundIsOn !== "false")) {
-        //validatValue(G.mute, "boolean") ? G.PlayerStatus.soundIson = !G.mute : errorWithValue = true
+
         if (typeof G.dev_mode !== "undefined") {
             validatValue(G.dev_mode, "boolean") ? G.developeMode = G.dev_mode : errorWithValue = true
         }
@@ -564,19 +563,7 @@ function BuildAPP() {
     function stopWatchBuilder() {
         function monospaceHtml(htm) {
             return htm
-                // console.log(htm)
-            let arr = htm.split("");
-            let addedChar = "</th><th>"
-            let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
-            let finString = prefix;
-            for (i in arr) {
-                finString += arr[i]
-                if (arr[i] === "." || arr[i] === ":" || i < 6) {
-                    continue
-                }
-                finString += addedChar
-            }
-            return finString + "</tr></table>"
+
         }
         G.stopWatchTIME = 0;
         var ChangeTimeInterval = 100 //change time interval every X milisecinds
@@ -640,7 +627,7 @@ function BuildAPP() {
         let title = `<title>משחק הזיכרון</title>`;
         document.title = "Memory Game"
     }
-    //if (localStorage.StorageSoundIsOn == "false") {G.PlayerStatus.soundIson = false} else {G.PlayerStatus.soundIson = true}
+
     document.getElementById("ErrorCheck").innerHTML = "";
     document.onkeydown = function(evt) {
         if (G.developeMode == false) { return };
@@ -746,7 +733,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
         G.winningScreen.extraTextDiv.innerHTML = buttonNewgame[newGamenumber].textIfneedsTofinish ////
 
-        //G.winningScreen.extraTextDiv.innerHTML = "fsdfasdf" //buttonNewgame[newGamenumber].textIfneedsTofinish;
+
     }
     const EN = G.isLanguageEnglish || false;
     if (woneOrnot == true) {
@@ -765,16 +752,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.winningScreen.Divobject = document.createElement("div");
     G.winningScreen.Divobject.classList.add("winnigScreen");
-    // G.winningScreen.Divobject.style.background = "  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)";
-    // G.winningScreen.Divobject.style.position = "fixed";
-    // G.winningScreen.Divobject.style.left = "10%"
-    // G.winningScreen.Divobject.style.bottom = "10%";
-    // G.winningScreen.Divobject.style.height = "70%";
-    // G.winningScreen.Divobject.style.width = "80%";
-    // G.winningScreen.Divobject.style.padding = "-15px"
-    // G.winningScreen.Divobject.style.borderRadius = "50% / 10%";
-    // G.winningScreen.Divobject.style.border = "ridge #3d3d29 6px";
-    // G.winningScreen.Divobject.style.fontSize = "130%";
+
 
     var textFinished = ["", "", ""]
     var NumberOfFinishtexts = 3;
@@ -802,8 +780,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.FinishTextNode = ["", "", ""];
 
-    // make a for loop for creating a winning text"
-    //golobal_data.FinishTextNode.length
+
     if (woneOrnot == true) {} else {
         buttonReturnToGame = {
             "number": i,
@@ -842,37 +819,29 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         span.appendChild(G.FinishTextNode[y]);
 
         var HTMLbreak = document.createElement("br");
-        // span.style.fontSize = "130%";
+
 
 
 
         if (y == 1) {
-            // span.style.fontSize = "150%";
+
         } else if (y == 2) {
             G.winningScreen.Divobject.appendChild(HTMLbreak)
         } else {
-            // span.style.fontSize = "130%"
+
         }
 
         G.winningScreen.Divobject.appendChild(span);
 
         var br_node = document.createElement("BR");
-        // br_node.style.lineHeight = "0";
-        // br_node.style.fontSize = "10%"
+
         G.winningScreen.Divobject.appendChild(br_node);
     }
-    // G.winningScreen.Divobject.style.textAlign = "center";
-    // G.winningScreen.Divobject.style.color = "white";
-    // G.winningScreen.Divobject.style.direction = "rtl";
+
     if (EN) { G.winningScreen.Divobject.style.direction = "ltr"; }
     G.winningScreen.Divobject.style.verticalAlign = "middle"
 
-    //G.winningScreen.Divobject.style.fontWeight = "bold";
-    // G.winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
-    // G.winningScreen.Divobject.style.fontSize = "130%";
-    // G.winningScreen.Divobject.style.fontFamily = "noot";
-    // var droneTextnode = document.createTextNode(":");   G.winningScreen.Divobject.appendChild(droneTextnode);
-    //G.winningScreen.Divobject.appendChild(br_node);
+
 
     document.body.appendChild(G.winningScreen.Divobject);
 

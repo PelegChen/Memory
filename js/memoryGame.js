@@ -45,6 +45,7 @@ function setGlobal() {
     G.statuS.card2 = 0;
     G.statuS.endingTurn = false;
 
+
 }
 
 function BuildAPP() {
@@ -244,8 +245,8 @@ function BuildAPP() {
                 } //loset the game
 
                 //G.HeaderCountObject.innerHTML = flipNodeTexT;
-                flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
-                G.HeaderCountND.innerHTML = flipNodeText;
+                // flipNodeText = "<table style='table-layout:fixed; width:3vmin'><tr><th>" + flipNodeTexT + "</th></tr></table>"
+                G.HeaderCountND.innerHTML = flipNodeTexT;
 
             }
             if (G.consoleIsopen == true) {
@@ -562,6 +563,8 @@ function BuildAPP() {
 
     function stopWatchBuilder() {
         function monospaceHtml(htm) {
+            return htm
+                // console.log(htm)
             let arr = htm.split("");
             let addedChar = "</th><th>"
             let prefix = "<table style='table-layout:fixed; width:32vmin'><tr><th>"
@@ -761,17 +764,17 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         /*  game consol design */
 
     G.winningScreen.Divobject = document.createElement("div");
-    //   G.winningScreen.Divobject.style.backgroundColor = "#800040";
-    G.winningScreen.Divobject.style.background = "  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)";
-    G.winningScreen.Divobject.style.position = "fixed";
-    G.winningScreen.Divobject.style.left = "10%"
-    G.winningScreen.Divobject.style.bottom = "10%";
-    G.winningScreen.Divobject.style.height = "70%";
-    G.winningScreen.Divobject.style.width = "80%";
-    G.winningScreen.Divobject.style.padding = "-15px"
-    G.winningScreen.Divobject.style.borderRadius = "50% / 10%";
-    G.winningScreen.Divobject.style.border = "ridge #3d3d29 6px";
-    G.winningScreen.Divobject.style.fontSize = "130%";
+    G.winningScreen.Divobject.classList.add("winnigScreen");
+    // G.winningScreen.Divobject.style.background = "  linear-gradient(to bottom, rgba(1,59,66,0.95) 0%,rgba(2,71,88,0.95) 3%,rgba(3,92,124,0.95) 8%,rgba(39,63,117,0.95) 29%,rgba(17,59,95,0.94) 67%,rgba(0,56,79,0.94) 96%)";
+    // G.winningScreen.Divobject.style.position = "fixed";
+    // G.winningScreen.Divobject.style.left = "10%"
+    // G.winningScreen.Divobject.style.bottom = "10%";
+    // G.winningScreen.Divobject.style.height = "70%";
+    // G.winningScreen.Divobject.style.width = "80%";
+    // G.winningScreen.Divobject.style.padding = "-15px"
+    // G.winningScreen.Divobject.style.borderRadius = "50% / 10%";
+    // G.winningScreen.Divobject.style.border = "ridge #3d3d29 6px";
+    // G.winningScreen.Divobject.style.fontSize = "130%";
 
     var textFinished = ["", "", ""]
     var NumberOfFinishtexts = 3;
@@ -839,39 +842,39 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
         span.appendChild(G.FinishTextNode[y]);
 
         var HTMLbreak = document.createElement("br");
-        span.style.fontSize = "130%";
+        // span.style.fontSize = "130%";
 
 
 
         if (y == 1) {
-            span.style.fontSize = "150%";
+            // span.style.fontSize = "150%";
         } else if (y == 2) {
             G.winningScreen.Divobject.appendChild(HTMLbreak)
         } else {
-            span.style.fontSize = "130%"
+            // span.style.fontSize = "130%"
         }
 
         G.winningScreen.Divobject.appendChild(span);
 
         var br_node = document.createElement("BR");
-        br_node.style.lineHeight = "0";
-        br_node.style.fontSize = "10%"
+        // br_node.style.lineHeight = "0";
+        // br_node.style.fontSize = "10%"
         G.winningScreen.Divobject.appendChild(br_node);
     }
-    G.winningScreen.Divobject.style.textAlign = "center";
-    G.winningScreen.Divobject.style.color = "white";
-    G.winningScreen.Divobject.style.direction = "rtl";
+    // G.winningScreen.Divobject.style.textAlign = "center";
+    // G.winningScreen.Divobject.style.color = "white";
+    // G.winningScreen.Divobject.style.direction = "rtl";
     if (EN) { G.winningScreen.Divobject.style.direction = "ltr"; }
     G.winningScreen.Divobject.style.verticalAlign = "middle"
 
     //G.winningScreen.Divobject.style.fontWeight = "bold";
-    G.winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
-    G.winningScreen.Divobject.style.fontSize = "130%";
-    G.winningScreen.Divobject.style.fontFamily = "noot";
+    // G.winningScreen.Divobject.style.textShadow = "2px 2px 1px #44297a, 3px 3px 1px #20133a";
+    // G.winningScreen.Divobject.style.fontSize = "130%";
+    // G.winningScreen.Divobject.style.fontFamily = "noot";
     // var droneTextnode = document.createTextNode(":");   G.winningScreen.Divobject.appendChild(droneTextnode);
     //G.winningScreen.Divobject.appendChild(br_node);
 
-    document.getElementById("boardWrapper").appendChild(G.winningScreen.Divobject);
+    document.body.appendChild(G.winningScreen.Divobject);
 
     buttonNewgame = ["", "", ""]
     for (i = 0; i < 4; i++) {
@@ -926,7 +929,7 @@ function ConsoleBoard(woneOrnot, LooseOrnot) {
 
     G.winningScreen.extraTextDiv = document.createElement("div");
     G.winningScreen.Divobject.appendChild(G.winningScreen.extraTextDiv)
-    G.winningScreen.extraTextDiv.style.fontSize = "20px";
+        // G.winningScreen.extraTextDiv.style.fontSize = "20px";
     G.winningScreen.extraTextDiv.style.color = "yellow";
 
 
@@ -1001,3 +1004,4 @@ function NewGame() {
 
 /* main*/
 BuildAPP()
+    // ConsoleBoard(false)

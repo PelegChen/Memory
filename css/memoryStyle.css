@@ -43,8 +43,6 @@ body {
 
 .headerElement {
     vertical-align: middle;
-    /* display: inline-flex; */
-    /* font-size: 12px; */
     font-size: 2.5vw;
 }
 
@@ -54,11 +52,14 @@ body {
 
 .HeaderCount {
     align-self: flex-start;
+    width: 40px;
     margin-left: 10px;
     margin-right: 30px;
 }
 
 .Headerstopper {
+    font-variant-numeric: tabular-nums lining-nums;
+    width: 200px;
     align-self: flex-start;
     margin: 0px 0px 0px 40px;
 }
@@ -74,16 +75,23 @@ body {
 
 .headerSound,
 .headerCog {
-    width: 7vh;
-    height: 7vh;
+    width: 4vw;
+    height: 4vw;
+    /* width:  7vh;
+    height: 7vh; */
     margin-left: 10px;
     margin-right: 10px;
     filter: drop-shadow(white 0px 0px 2px);
 }
 
+.headerSound:hover,
+.headerCog:hover {
+    filter: drop-shadow(white 0px 0px 4px);
+}
+
 .headerCog {
-    width: 7.1vh;
-    height: 7.1vh;
+    width: 4vw;
+    height: 4vw;
 }
 
 #boardWrapper {
@@ -100,7 +108,7 @@ body {
     height: fit-content;
     min-width: 70%;
     max-width: 80%;
-    min-height: 70%;
+    min-height: 72%;
     max-height: 90%;
 }
 
@@ -154,11 +162,11 @@ body {
 }
 
 .flash-button {
+    margin-top: 30px;
     animation-name: flash;
     animation-duration: 1s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    margin: 10px 10px;
     -webkit-animation-name: flash;
     -webkit-animation-duration: 1.3s;
     -webkit-animation-timing-function: linear;
@@ -167,6 +175,27 @@ body {
     -moz-animation-duration: 1s;
     -moz-animation-timing-function: linear;
     -moz-animation-iteration-count: infinite;
+}
+
+.winnigScreen {
+    background: linear-gradient(rgba(1, 59, 66, 0.95) 0%, rgba(2, 71, 88, 0.95) 3%, rgba(3, 92, 124, 0.95) 8%, rgba(39, 63, 117, 0.95) 29%, rgba(17, 59, 95, 0.94) 67%, rgba(0, 56, 79, 0.94) 96%);
+    position: fixed;
+    padding: 20px;
+    left: 10%;
+    top: 12%;
+    height: 50%;
+    max-height: 80%;
+    width: 80%;
+    overflow: hidden;
+    border-radius: 50% / 10%;
+    border: 6px ridge rgb(61, 61, 41);
+    font-size: 110%;
+    text-align: center;
+    color: white;
+    direction: rtl;
+    vertical-align: middle;
+    text-shadow: rgb(68, 41, 122) 2px 2px 1px, rgb(32, 19, 58) 3px 3px 1px;
+    font-family: noot;
 }
 
 @keyframes flash {
@@ -190,13 +219,14 @@ body {
     background-color: #4CAF50;
     /* Green */
     border: 30px;
+    border-radius: 5px;
     color: white;
-    margin: 00px 10px;
+    margin: 5px;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 20px;
+    font-size: inherit;
     font-family: "noot", Times, serif;
     color: white;
 }
@@ -216,6 +246,7 @@ body {
         transform: rotate(-90deg);
         transform-origin: left top;
         width: 100vh;
+        height: 100vw;
         overflow-x: hidden;
         position: fixed;
         top: 100%;
@@ -230,8 +261,8 @@ body {
     }
     #boardWrapper {
         max-width: 85%;
-        min-height: 42%;
-        max-height: 70%;
+        /* min-height: 42%;
+        max-height: 70%; */
     }
     .headerElement {
         /* font-size: 12px; */
@@ -241,5 +272,15 @@ body {
     .headerCog {
         width: 7vw;
         height: 7vw;
+    }
+    .countersWrap {
+        width: 60px;
+    }
+    .winnigScreen {
+        font-size: 50%;
+    }
+    .button {
+        font-size: 14px;
+        padding: 7px 16px;
     }
 }
